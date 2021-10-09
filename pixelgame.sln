@@ -23,18 +23,18 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{43240421-8DF2-46EC-8A76-7DD6572EBDFC}.Debug|x64.ActiveCfg = Release|Win32
-		{43240421-8DF2-46EC-8A76-7DD6572EBDFC}.Debug|x64.Build.0 = Release|Win32
-		{43240421-8DF2-46EC-8A76-7DD6572EBDFC}.Debug|x86.ActiveCfg = Debug|Win32
-		{43240421-8DF2-46EC-8A76-7DD6572EBDFC}.Debug|x86.Build.0 = Debug|Win32
+		{43240421-8DF2-46EC-8A76-7DD6572EBDFC}.Debug|x64.ActiveCfg = Debug|x64
+		{43240421-8DF2-46EC-8A76-7DD6572EBDFC}.Debug|x64.Build.0 = Debug|x64
+		{43240421-8DF2-46EC-8A76-7DD6572EBDFC}.Debug|x86.ActiveCfg = Release|Win32
+		{43240421-8DF2-46EC-8A76-7DD6572EBDFC}.Debug|x86.Build.0 = Release|Win32
 		{43240421-8DF2-46EC-8A76-7DD6572EBDFC}.Release|x64.ActiveCfg = Release|x64
 		{43240421-8DF2-46EC-8A76-7DD6572EBDFC}.Release|x64.Build.0 = Release|x64
 		{43240421-8DF2-46EC-8A76-7DD6572EBDFC}.Release|x86.ActiveCfg = Release|Win32
 		{43240421-8DF2-46EC-8A76-7DD6572EBDFC}.Release|x86.Build.0 = Release|Win32
-		{F44D20BA-57D3-48E2-9A0F-6BCE7E53B5E7}.Debug|x64.ActiveCfg = Release|Win32
-		{F44D20BA-57D3-48E2-9A0F-6BCE7E53B5E7}.Debug|x64.Build.0 = Release|Win32
-		{F44D20BA-57D3-48E2-9A0F-6BCE7E53B5E7}.Debug|x86.ActiveCfg = Debug|Win32
-		{F44D20BA-57D3-48E2-9A0F-6BCE7E53B5E7}.Debug|x86.Build.0 = Debug|Win32
+		{F44D20BA-57D3-48E2-9A0F-6BCE7E53B5E7}.Debug|x64.ActiveCfg = Debug|x64
+		{F44D20BA-57D3-48E2-9A0F-6BCE7E53B5E7}.Debug|x64.Build.0 = Debug|x64
+		{F44D20BA-57D3-48E2-9A0F-6BCE7E53B5E7}.Debug|x86.ActiveCfg = Release|Win32
+		{F44D20BA-57D3-48E2-9A0F-6BCE7E53B5E7}.Debug|x86.Build.0 = Release|Win32
 		{F44D20BA-57D3-48E2-9A0F-6BCE7E53B5E7}.Release|x64.ActiveCfg = Release|x64
 		{F44D20BA-57D3-48E2-9A0F-6BCE7E53B5E7}.Release|x64.Build.0 = Release|x64
 		{F44D20BA-57D3-48E2-9A0F-6BCE7E53B5E7}.Release|x86.ActiveCfg = Release|Win32
@@ -44,6 +44,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {32EF9483-65AA-4800-8872-3A313A23D1F4}
+		SolutionGuid = {0ED298E6-794E-4FA7-A8AF-9EB1CC36B82A}
 	EndGlobalSection
 EndGlobal
