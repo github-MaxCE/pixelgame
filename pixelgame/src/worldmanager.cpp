@@ -1,6 +1,8 @@
 #include "worldmanager.h"
 #include "filemanager.h"
 
+void map::gameobject::Draw(olc::PixelGameEngine *pge)
+{}
 map::gameobject::~gameobject()
 {}
 
@@ -11,6 +13,10 @@ map::ImageTile::ImageTile(int32_t x, int32_t y, bool alpha, olc::Sprite* sprite)
 	this->sprite = sprite;
 	this->alpha  = alpha;
 }
+void map::ImageTile::Draw(olc::PixelGameEngine* pge)
+{
+	pge->DrawSprite(this->pos, this->sprite);
+}
 
 
 map::RectTile::RectTile(int32_t x, int32_t y, olc::vi2d size, olc::Pixel col)
@@ -19,12 +25,20 @@ map::RectTile::RectTile(int32_t x, int32_t y, olc::vi2d size, olc::Pixel col)
 	this->pos.x = x;
 	this->size  = size;
 }
+void map::RectTile::Draw(olc::PixelGameEngine* pge)
+{
+	pge->DrawRect(this->pos, this->size, this->col);
+}
 
 map::FilledRectTile::FilledRectTile(int32_t x, int32_t y, olc::vi2d size, olc::Pixel col)
 {
 	this->pos.y = y;
 	this->pos.x = x;
 	this->size  = size;
+}
+void map::FilledRectTile::Draw(olc::PixelGameEngine* pge)
+{
+	pge->DrawRect(this->pos, this->size, this->col);
 }
 
 void map::Tile(int32_t layer, int32_t x, int32_t y, bool alpha, olc::Sprite* sprite)
@@ -39,10 +53,9 @@ void map::Tile(int32_t layer, olc::vi2d pos, bool alpha, olc::Sprite* sprite)
 
 void map::Tile(int32_t layer, int32_t x, int32_t y, int32_t w, int32_t h, olc::Pixel col, bool filled)
 {
-	std::cout << filled << std::endl;
 	if (filled)
 	{
-		mapelements[layer]->emplace_back(std::make_unique<FilledRectTile>(x, y, olc::vi2d{ w, h }, col));
+		mapelements[layer]->emplace_back(std::make_unique<FilledRectTile>(x, y, olc::vi2d{ w+1, h }, col));
 	}
 	else
 	{

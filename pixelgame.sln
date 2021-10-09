@@ -10,7 +10,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pngeditor", "pixelgamesdk\p
 		{43240421-8DF2-46EC-8A76-7DD6572EBDFC} = {43240421-8DF2-46EC-8A76-7DD6572EBDFC}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4FA2DFFA-1398-41B7-A89E-FA108DD09929}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "maps", "maps", "{4FA2DFFA-1398-41B7-A89E-FA108DD09929}"
 	ProjectSection(SolutionItems) = preProject
 		build\pixelgame\pxg\map\map.xml = build\pixelgame\pxg\map\map.xml
 	EndProjectSection

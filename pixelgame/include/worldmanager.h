@@ -9,22 +9,22 @@ class map
 {
 public:
 	map(std::string mapname);
-public:
-	class gameobject
+
+	public: class gameobject
 	{
 	public:
 		virtual ~gameobject();
-		const char* type = "gameobject";
+		void Draw(olc::PixelGameEngine* pge);
 		int8_t layer;
 		olc::vi2d pos;
 		olc::vi2d size;
 	};
-public:
-	class ImageTile : public gameobject
+
+	public: class ImageTile : public gameobject
 	{
 	public:
 		ImageTile(int32_t x = 0, int32_t y = 0, bool alpha = false, olc::Sprite* sprite = nullptr);
-		const char* type = "ImageTile";
+		void Draw(olc::PixelGameEngine* pge);
 		olc::Sprite* sprite;
 		bool alpha;
 	};
@@ -33,7 +33,7 @@ public:
 	{
 	public:
 		RectTile(int32_t x = 0, int32_t y = 0, olc::vi2d size = { 0, 0 }, olc::Pixel col = olc::BLACK);
-		const char* type = "RectTile";
+		void Draw(olc::PixelGameEngine* pge);
 		olc::Pixel col;
 	};
 
@@ -41,7 +41,7 @@ public:
 	{
 	public:
 		FilledRectTile(int32_t x = 0, int32_t y = 0, olc::vi2d size = { 0, 0 }, olc::Pixel col = olc::BLACK);
-		const char* type = "FilledRectTile";
+		void Draw(olc::PixelGameEngine *pge);
 		olc::Pixel col;
 	};
 
