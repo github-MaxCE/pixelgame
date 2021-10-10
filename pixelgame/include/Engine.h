@@ -5,7 +5,6 @@
 #include "rapidxml_utils.h"
 #include "rapidxml_print.h"
 #include "olcPGEX_FrostUI.h"
-#include "olcPGEX_RayCast2D.h"
 extern "C"
 {
 	#include "stb_image_write.h"

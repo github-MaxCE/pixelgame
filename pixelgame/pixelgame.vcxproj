@@ -163,7 +163,6 @@
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\filemanager.h" />
     <ClInclude Include="include\olcPGEX_FrostUI.h" />
-    <ClInclude Include="include\olcPGEX_RayCast2D.h" />
     <ClInclude Include="include\olcPixelGameEngine.h" />
     <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\rapidxml.h" />
