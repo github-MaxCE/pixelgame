@@ -3,15 +3,15 @@
 #include "Engine.h"
 #include "Player.h"
 
-class pixelgame : virtual public olc::PixelGameEngine
+class pixelgame : public olc::PixelGameEngine
 {
 	public: pixelgame()
 	{
 		sAppName = "pixelgame";
 	}
 
-	  Player player;
-	  map* mmap = new map("map.xml");
+	  map *mmap = new map("map.xml");
+	  Player *player = new Player(mmap);
 
 		  // Called once at the start
 	public: bool OnUserCreate() override
@@ -26,19 +26,18 @@ class pixelgame : virtual public olc::PixelGameEngine
 		fixedupdate += dElapsedTime;
 		if (fixedupdate >= 0.0166)
 		{
-			player.FixedUpdate(fixedupdate, this, mmap);
+			player->FixedUpdate(fixedupdate, mmap);
 			fixedupdate = 0;
 		}
-		player.Update(dElapsedTime, this);
+		player->Update(dElapsedTime, this);
 		Clear(olc::BLACK);
 		for (auto i : mmap->mapelements)
 		{
-			for (auto& x : *i)
+			for (auto &x : *i)
 			{
 				x->Draw(this);
 			}
 		}
-		DrawRect(player.pos, player.size);
 		return true;
 	}
 

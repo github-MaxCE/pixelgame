@@ -36,36 +36,35 @@ map::FilledRectTile::FilledRectTile(int32_t x, int32_t y, olc::vi2d size, olc::P
 	this->pos.x = x;
 	this->size  = size;
 }
+
 void map::FilledRectTile::Draw(olc::PixelGameEngine* pge)
 {
-	pge->DrawRect(this->pos, this->size, this->col);
+	pge->FillRect(this->pos, this->size, this->col);
 }
 
-void map::Tile(int32_t layer, int32_t x, int32_t y, bool alpha, olc::Sprite* sprite)
+
+
+map::ImageTile *map::CreateImageRect(int32_t layer, int32_t x, int32_t y, bool alpha, olc::Sprite* sprite)
 {
-	mapelements[layer]->emplace_back(std::make_unique<ImageTile>(x, y, alpha, sprite));
+	ImageTile* val = new ImageTile(x, y, alpha, sprite);
+	mapelements[layer]->emplace_back(val);
+	return val;
+
 }
 
-void map::Tile(int32_t layer, olc::vi2d pos, bool alpha, olc::Sprite* sprite)
+map::RectTile *map::CreateRect(int32_t layer, int32_t x, int32_t y, int32_t w, int32_t h, olc::Pixel col)
 {
-	Tile(layer, pos.x, pos.y, alpha, sprite);
+	RectTile* val = new RectTile(x, y, olc::vi2d{ w, h }, col);
+	mapelements[layer]->emplace_back(val);
+	return val;
 }
 
-void map::Tile(int32_t layer, int32_t x, int32_t y, int32_t w, int32_t h, olc::Pixel col, bool filled)
+map::FilledRectTile *map::CreateFilledRect(int32_t layer, int32_t x, int32_t y, int32_t w, int32_t h, olc::Pixel col)
 {
-	if (filled)
-	{
-		mapelements[layer]->emplace_back(std::make_unique<FilledRectTile>(x, y, olc::vi2d{ w+1, h }, col));
-	}
-	else
-	{
-		mapelements[layer]->emplace_back(std::make_unique<RectTile>(x, y, olc::vi2d{ w, h }, col));
-	}
-}
+	FilledRectTile* val = new FilledRectTile(x, y, olc::vi2d{ w, h }, col);
+	mapelements[layer]->emplace_back(val);
+	return val;
 
-void map::Tile(int32_t layer, olc::vi2d pos, int32_t w, int32_t h, olc::Pixel col, bool filled)
-{
-	Tile(layer, pos.x, pos. y, w, h, col, filled);
 }
 
 map::map(std::string mapname)
@@ -85,24 +84,35 @@ map::map(std::string mapname)
 		switch(str2int(node->name(), 1))
 		{
 			case str2int("image", 1):
-				Tile(/*l*/atoi(node->first_attribute("l")->value()),
-					/*x*/atoi(node->first_attribute("x")->value()),
-					/*y*/atoi(node->first_attribute("y")->value()),
-					/*alpha*/node->first_attribute("transparency") == nullptr ? false : atoi(node->first_attribute("transparency")->value()) == 1,
-					/*image*/new olc::Sprite(matpath() + node->first_attribute("image")->value())
+				CreateImageRect(/*l*/atoi(node->first_attribute("l")->value()),
+								/*x*/atoi(node->first_attribute("x")->value()),
+								/*y*/atoi(node->first_attribute("y")->value()),
+								/*alpha*/node->first_attribute("transparency") == 0 ? false : atoi(node->first_attribute("transparency")->value()),
+								/*image*/new olc::Sprite(matpath() + node->first_attribute("image")->value())
 					);
 				break;
 			case str2int("object", 1):
-				Tile(/*l*/atoi(node->first_attribute("l")->value()),
-					/*x*/atoi(node->first_attribute("x")->value()),
-					/*y*/atoi(node->first_attribute("y")->value()),
-					/*w*/atoi(node->first_attribute("w")->value()),
-					/*h*/atoi(node->first_attribute("h")->value()),
-					/*col*/olc::Pixel(/*r*/atoi(node->first_attribute("r")->value()),
-									/*g*/atoi(node->first_attribute("g")->value()),
-									/*b*/atoi(node->first_attribute("b")->value())
-									),
-					/*filled*/atoi(node->first_attribute("filled")->value())
+				if(node->first_attribute("filled") == 0 ? false : atoi(node->first_attribute("filled")->value()))
+					CreateFilledRect(/*l*/atoi(node->first_attribute("l")->value()),
+									 /*x*/atoi(node->first_attribute("x")->value()),
+									 /*y*/atoi(node->first_attribute("y")->value()),
+									 /*w*/atoi(node->first_attribute("w")->value()),
+									 /*h*/atoi(node->first_attribute("h")->value()),
+									 /*col*/olc::Pixel(/*r*/atoi(node->first_attribute("r")->value()),
+									 				   /*g*/atoi(node->first_attribute("g")->value()),
+									 				   /*b*/atoi(node->first_attribute("b")->value())
+											)
+						);
+				else
+					CreateFilledRect(/*l*/atoi(node->first_attribute("l")->value()),
+									 /*x*/atoi(node->first_attribute("x")->value()),
+									 /*y*/atoi(node->first_attribute("y")->value()),
+									 /*w*/atoi(node->first_attribute("w")->value()),
+									 /*h*/atoi(node->first_attribute("h")->value()),
+									 /*col*/olc::Pixel(/*r*/atoi(node->first_attribute("r")->value()),
+													   /*g*/atoi(node->first_attribute("g")->value()),
+									 				   /*b*/atoi(node->first_attribute("b")->value())
+											)
 					);
 				break;
 		}

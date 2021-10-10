@@ -1,9 +1,9 @@
 #include "Player.h"
 
-Player::Player()
+Player::Player(map* map)
 {
-	Player::pos.x = 5;
-	Player::pos.y = 5;
+	map::RectTile* val = new map::RectTile(5, 5, olc::vi2d{ 20, 30 }, olc::CYAN);
+	map->mapelements[3]->emplace_front(val);
 }
 
 Player::~Player()
@@ -21,6 +21,7 @@ bool inRange(int low, int high, int x)
 	return ((unsigned)(x-low) <= (high-low));
 }
 
+
 //FixedUpdate() called 60 times a second, good for physics
 //code for calling it regardless of fps
 //	double fixedupdate = 0;
@@ -32,7 +33,6 @@ bool inRange(int low, int high, int x)
 //			player.Update(fixedupdate, this);
 //			fixedupdate = 0;
 //		}
-
 bool PointInsideRect(const olc::vi2d &point, const olc::vi2d &rectPos, const olc::vi2d &rectSize)
 {
 	return (point.x >= rectPos.x) &&
@@ -41,40 +41,40 @@ bool PointInsideRect(const olc::vi2d &point, const olc::vi2d &rectPos, const olc
 		   (point.y <= rectPos.y + rectSize.y);
 }
 
-void Player::FixedUpdate(double dElapsedTime, olc::PixelGameEngine *pge, map *mmap)
+void Player::FixedUpdate(double dElapsedTime, map *map)
 {
 	isGrounded = false;
 	canWalkr = true;
 	canWalkl = true;
 
-	top0 = {pos.x, pos.y-1};
-	top1 = {pos.x + size.x, pos.y-1};
+	top0 = {map->mapelements[3]->front()->pos.x, map->mapelements[3]->front()->pos.y-1};
+	top1 = {map->mapelements[3]->front()->pos.x + map->mapelements[3]->front()->size.x, map->mapelements[3]->front()->pos.y-1};
 
-	bottom0 = {pos.x, pos.y + size.y+1};
-	bottom1 = {pos.x + size.x, pos.y + size.y+1};
+	bottom0 = {map->mapelements[3]->front()->pos.x, map->mapelements[3]->front()->pos.y + map->mapelements[3]->front()->size.y+1};
+	bottom1 = {map->mapelements[3]->front()->pos.x + map->mapelements[3]->front()->size.x, map->mapelements[3]->front()->pos.y + map->mapelements[3]->front()->size.y+1};
 
-	edgel0 = {pos.x-1, pos.y + size.y};
-	edgel1 = {pos.x-1, pos.y + size.y/2};
-	edgel2 = {pos.x-1, pos.y};
-	edger0 = {pos.x + size.x+1, pos.y + size.y};
-	edger1 = {pos.x + size.x+1, pos.y + size.y/2};
-	edger2 = {pos.x + size.x+1, pos.y};
+	edgel0 = {map->mapelements[3]->front()->pos.x-1, map->mapelements[3]->front()->pos.y + map->mapelements[3]->front()->size.y};
+	edgel1 = {map->mapelements[3]->front()->pos.x-1, map->mapelements[3]->front()->pos.y + map->mapelements[3]->front()->size.y/2};
+	edgel2 = {map->mapelements[3]->front()->pos.x-1, map->mapelements[3]->front()->pos.y};
+	edger0 = {map->mapelements[3]->front()->pos.x + map->mapelements[3]->front()->size.x+1, map->mapelements[3]->front()->pos.y + map->mapelements[3]->front()->size.y};
+	edger1 = {map->mapelements[3]->front()->pos.x + map->mapelements[3]->front()->size.x+1, map->mapelements[3]->front()->pos.y + map->mapelements[3]->front()->size.y/2};
+	edger2 = {map->mapelements[3]->front()->pos.x + map->mapelements[3]->front()->size.x+1, map->mapelements[3]->front()->pos.y};
 
 	vel.y += g;
 	vel.clamp(-speed, speed, -jump, g);
 	pos += vel;
 	vel = {0, vel.y};
-	for(auto &i : mmap->layer1)
+	for(auto &i : map->layer1)
 	{
-		if(inRange(pos.x-200, pos.x+200, i->pos.x) ||
-		   inRange(pos.y-400, pos.y+400, i->pos.y))
+		if(inRange(map->mapelements[3]->front()->pos.x-200, map->mapelements[3]->front()->pos.x+200, i->pos.x) ||
+		   inRange(map->mapelements[3]->front()->pos.y-400, map->mapelements[3]->front()->pos.y+400, i->pos.y))
 		{
 			if((inRange(i->pos.x, i->pos.x+i->size.x, top0.x) ||
 				inRange(i->pos.x, i->pos.x+i->size.x, top1.x)) &&
 
 				inRange(i->pos.y + i->size.y , INT32_MAX, top1.y))
 			{
-				pos.yclamp(i->pos.y + i->size.y+1, INT32_MAX);
+				map->mapelements[3]->front()->pos.yclamp(i->pos.y + i->size.y+1, INT32_MAX);
 				vel.y = g;
 			}
 
@@ -88,7 +88,7 @@ void Player::FixedUpdate(double dElapsedTime, olc::PixelGameEngine *pge, map *mm
 				{
 					isGrounded = true;
 				}
-				pos.yclamp(INT32_MIN, i->pos.y-size.y-1);
+				map->mapelements[3]->front()->pos.yclamp(INT32_MIN, i->pos.y - map->mapelements[3]->front()->size.y-1);
 			}
 			if(inRange(i->pos.y, i->pos.y + i->size.y, edger0.y) ||
 			   inRange(i->pos.y, i->pos.y + i->size.y, edger1.y) ||
@@ -97,13 +97,13 @@ void Player::FixedUpdate(double dElapsedTime, olc::PixelGameEngine *pge, map *mm
 				if(PointInsideRect(edgel0, i->pos, i->size) || PointInsideRect(edgel1, i->pos, i->size) || PointInsideRect(edgel2, i->pos, i->size))
 				{
 					canWalkl = false;
-					pos.xclamp(i->pos.x + i->size.x + 1, INT32_MAX);
+					map->mapelements[3]->front()->pos.xclamp(i->pos.x + i->size.x + 1, INT32_MAX);
 				}
 				
 				if(PointInsideRect(edger0, i->pos, i->size) || PointInsideRect(edger1, i->pos, i->size) || PointInsideRect(edger2, i->pos, i->size))
 				{
 					canWalkr = false;
-					pos.xclamp(INT32_MIN, i->pos.x - size.x - 1);
+					map->mapelements[3]->front()->pos.xclamp(INT32_MIN, i->pos.x - map->mapelements[3]->front()->size.x - 1);
 				}
 			}
 		}

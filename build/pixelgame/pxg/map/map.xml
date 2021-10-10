@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map>
-	<object l="1" x="0" y="138" w="399" h="20" r="000" g="255" b="255" filled="1"/>
-	<object l="1" x="140" y="56" w="40" h="20" r="000" g="255" b="255" filled="1"/>
-  <image l="0" x="10" y="10" transparency="0" image="background/background.png"/>
+	<object l="1" x="0" y="138" w="399" h="20" r="000" g="255" b="255" filled="0"/>
+	<object l="1" x="140" y="56" w="40" h="20" r="000" g="255" b="255" filled="0"/>
+  <image l="0" x="0" y="0" transparency="0" image="background/background.png"/>
 </map>

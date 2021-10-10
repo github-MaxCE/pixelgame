@@ -4,16 +4,15 @@
 class Player
 {
 public:
-	Player();
+	Player(map* map);
 	virtual ~Player();
 	bool isGrounded;
-	bool jumping;
 	bool canWalkl;
 	bool canWalkr;
 	float g = 8.0f;
 	float speed = 5.0f;
 	float jump = 50.0f;
-	void FixedUpdate(double dElapsedTime, olc::PixelGameEngine *pge, map *mmap);
+	void FixedUpdate(double dElapsedTime, map *mmap);
 	void Update(double dElapsedTime, olc::PixelGameEngine *pge);
 	olc::vi2d top0;
 	olc::vi2d top1;
@@ -27,5 +26,4 @@ public:
 	olc::vi2d edger2;
 	olc::vi2d pos;
 	olc::vi2d vel;
-	olc::vi2d size{20, 30};
 };
