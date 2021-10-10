@@ -540,7 +540,7 @@ namespace olc
 		Pixel& operator -=(const Pixel& p);
 		friend std::ostream& operator << (std::ostream& cout, const Pixel& p)
 		{
-			return cout << "{r: " << unsigned(p.r) << ",g: " << unsigned(p.g) << ",b: " << unsigned(p.b) << ",a: " << unsigned(p.a) << "}";
+			return cout << "{r: " << unsigned(p.r) << ", g:" << unsigned(p.g) << ", b:" << unsigned(p.b) << ", a:" << unsigned(p.a) << "}";
 		}
 		Pixel  inv() const;
 	};

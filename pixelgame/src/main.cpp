@@ -9,11 +9,11 @@ class pixelgame : public olc::PixelGameEngine
 	{
 		sAppName = "pixelgame";
 	}
+	
+	map *mmap = new map("map.xml");
+	Player *player = new Player(mmap);
 
-	  map *mmap = new map("map.xml");
-	  Player *player = new Player(mmap);
-
-		  // Called once at the start
+	// Called once at the start
 	public: bool OnUserCreate() override
 	{
 		return true;
@@ -31,9 +31,9 @@ class pixelgame : public olc::PixelGameEngine
 		}
 		player->Update(dElapsedTime, this);
 		Clear(olc::BLACK);
-		for (auto i : mmap->mapelements)
+		for (auto const &i : mmap->mapelements)
 		{
-			for (auto &x : *i)
+			for (auto const &x : *i)
 			{
 				x->Draw(this);
 			}
@@ -43,8 +43,12 @@ class pixelgame : public olc::PixelGameEngine
 
 	public: bool OnUserDestroy() override
 	{
-		for (auto const& i : mmap->mapelements)
+		for (auto const &i : mmap->mapelements)
 		{
+			for (auto const &x : *i)
+			{
+				delete x;
+			}
 			i->clear();
 		}
 		return true;
@@ -56,5 +60,6 @@ int main()
 	pixelgame Game;
 	if (Game.Construct(400, 180, 2, 2, false, true))
 		Game.Start();
+
 	return 0;
 }

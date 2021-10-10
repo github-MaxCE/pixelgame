@@ -18,6 +18,7 @@ public:
 		int8_t layer;
 		olc::vi2d pos;
 		olc::vi2d size;
+		olc::Pixel col;
 	};
 
 	public: class ImageTile : public gameobject
@@ -34,7 +35,6 @@ public:
 	public:
 		RectTile(int32_t x = 0, int32_t y = 0, olc::vi2d size = { 0, 0 }, olc::Pixel col = olc::BLACK);
 		virtual void Draw(olc::PixelGameEngine* pge);
-		olc::Pixel col;
 	};
 
 	public: class FilledRectTile : public RectTile

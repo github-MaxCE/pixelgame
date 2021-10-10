@@ -2,19 +2,16 @@
 
 Player::Player(map* map)
 {
-	map::RectTile* val = new map::RectTile(5, 5, olc::vi2d{ 20, 30 }, olc::CYAN);
-	map->mapelements[3]->emplace_front(val);
+	player = new map::RectTile(5, 5, olc::vi2d{ 20, 30 }, olc::CYAN);
+	map->mapelements[3]->push_front(player);
+	player = map->mapelements[3]->front();
+	isGrounded = false;
+	canWalkr = true;
+	canWalkl = true;
 }
 
 Player::~Player()
 {}
-
-enum playerstate
-{
-	WALKING,
-	JUMPING,
-	FALLING
-};
 
 bool inRange(int low, int high, int x)
 {
@@ -47,34 +44,34 @@ void Player::FixedUpdate(double dElapsedTime, map *map)
 	canWalkr = true;
 	canWalkl = true;
 
-	top0 = {map->mapelements[3]->front()->pos.x, map->mapelements[3]->front()->pos.y-1};
-	top1 = {map->mapelements[3]->front()->pos.x + map->mapelements[3]->front()->size.x, map->mapelements[3]->front()->pos.y-1};
+	top0 = {player->pos.x, player->pos.y-1};
+	top1 = {player->pos.x + player->size.x, player->pos.y-1};
 
-	bottom0 = {map->mapelements[3]->front()->pos.x, map->mapelements[3]->front()->pos.y + map->mapelements[3]->front()->size.y+1};
-	bottom1 = {map->mapelements[3]->front()->pos.x + map->mapelements[3]->front()->size.x, map->mapelements[3]->front()->pos.y + map->mapelements[3]->front()->size.y+1};
+	bottom0 = {player->pos.x, player->pos.y + player->size.y+1};
+	bottom1 = {player->pos.x + player->size.x, player->pos.y + player->size.y+1};
 
-	edgel0 = {map->mapelements[3]->front()->pos.x-1, map->mapelements[3]->front()->pos.y + map->mapelements[3]->front()->size.y};
-	edgel1 = {map->mapelements[3]->front()->pos.x-1, map->mapelements[3]->front()->pos.y + map->mapelements[3]->front()->size.y/2};
-	edgel2 = {map->mapelements[3]->front()->pos.x-1, map->mapelements[3]->front()->pos.y};
-	edger0 = {map->mapelements[3]->front()->pos.x + map->mapelements[3]->front()->size.x+1, map->mapelements[3]->front()->pos.y + map->mapelements[3]->front()->size.y};
-	edger1 = {map->mapelements[3]->front()->pos.x + map->mapelements[3]->front()->size.x+1, map->mapelements[3]->front()->pos.y + map->mapelements[3]->front()->size.y/2};
-	edger2 = {map->mapelements[3]->front()->pos.x + map->mapelements[3]->front()->size.x+1, map->mapelements[3]->front()->pos.y};
+	edgel0 = {player->pos.x-1, player->pos.y + player->size.y};
+	edgel1 = {player->pos.x-1, player->pos.y + player->size.y/2};
+	edgel2 = {player->pos.x-1, player->pos.y};
+	edger0 = {player->pos.x + player->size.x+1, player->pos.y + player->size.y};
+	edger1 = {player->pos.x + player->size.x+1, player->pos.y + player->size.y/2};
+	edger2 = {player->pos.x + player->size.x+1, player->pos.y};
 
 	vel.y += g;
 	vel.clamp(-speed, speed, -jump, g);
-	pos += vel;
+	player->pos += vel;
 	vel = {0, vel.y};
-	for(auto &i : map->layer1)
+	for (auto const& i : map->layer1)
 	{
-		if(inRange(map->mapelements[3]->front()->pos.x-200, map->mapelements[3]->front()->pos.x+200, i->pos.x) ||
-		   inRange(map->mapelements[3]->front()->pos.y-400, map->mapelements[3]->front()->pos.y+400, i->pos.y))
+		if(inRange(player->pos.x-200, player->pos.x+200, i->pos.x) ||
+		   inRange(player->pos.y-400, player->pos.y+400, i->pos.y))
 		{
 			if((inRange(i->pos.x, i->pos.x+i->size.x, top0.x) ||
 				inRange(i->pos.x, i->pos.x+i->size.x, top1.x)) &&
 
 				inRange(i->pos.y + i->size.y , INT32_MAX, top1.y))
 			{
-				map->mapelements[3]->front()->pos.yclamp(i->pos.y + i->size.y+1, INT32_MAX);
+				player->pos.yclamp(i->pos.y + i->size.y+1, INT32_MAX);
 				vel.y = g;
 			}
 
@@ -88,7 +85,7 @@ void Player::FixedUpdate(double dElapsedTime, map *map)
 				{
 					isGrounded = true;
 				}
-				map->mapelements[3]->front()->pos.yclamp(INT32_MIN, i->pos.y - map->mapelements[3]->front()->size.y-1);
+				player->pos.yclamp(INT32_MIN, i->pos.y - player->size.y-1);
 			}
 			if(inRange(i->pos.y, i->pos.y + i->size.y, edger0.y) ||
 			   inRange(i->pos.y, i->pos.y + i->size.y, edger1.y) ||
@@ -97,13 +94,13 @@ void Player::FixedUpdate(double dElapsedTime, map *map)
 				if(PointInsideRect(edgel0, i->pos, i->size) || PointInsideRect(edgel1, i->pos, i->size) || PointInsideRect(edgel2, i->pos, i->size))
 				{
 					canWalkl = false;
-					map->mapelements[3]->front()->pos.xclamp(i->pos.x + i->size.x + 1, INT32_MAX);
+					player->pos.xclamp(i->pos.x + i->size.x + 1, INT32_MAX);
 				}
 				
 				if(PointInsideRect(edger0, i->pos, i->size) || PointInsideRect(edger1, i->pos, i->size) || PointInsideRect(edger2, i->pos, i->size))
 				{
 					canWalkr = false;
-					map->mapelements[3]->front()->pos.xclamp(INT32_MIN, i->pos.x - map->mapelements[3]->front()->size.x - 1);
+					player->pos.xclamp(INT32_MIN, i->pos.x - player->size.x - 1);
 				}
 			}
 		}
@@ -121,5 +118,5 @@ void Player::Update(double dElapsedTime, olc::PixelGameEngine *pge)
 		vel.y -= jump;
 	//so i can change the position of the player for collision purposes
 	if(pge->GetMouse(olc::Mouse::LEFT).bPressed)
-		pos = pge->GetMousePos();
+		player->pos = pge->GetMousePos();
 }

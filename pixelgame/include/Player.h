@@ -6,6 +6,7 @@ class Player
 public:
 	Player(map* map);
 	virtual ~Player();
+	map::gameobject *player;
 	bool isGrounded;
 	bool canWalkl;
 	bool canWalkr;
@@ -24,6 +25,5 @@ public:
 	olc::vi2d edger0;
 	olc::vi2d edger1;
 	olc::vi2d edger2;
-	olc::vi2d pos;
 	olc::vi2d vel;
 };
