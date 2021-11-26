@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Gameobject.cpp" />
     <ClCompile Include="src\main.cpp">
       <DeploymentContent>false</DeploymentContent>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\include\</AdditionalIncludeDirectories>
@@ -160,6 +161,7 @@
     <ClCompile Include="src\worldmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Gameobject.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\filemanager.h" />
     <ClInclude Include="include\olcPGEX_FrostUI.h" />

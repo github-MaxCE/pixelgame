@@ -1,13 +1,24 @@
 #include "Player.h"
 
-Player::Player(map* map)
+Player::Player()
 {
-	player = new map::RectTile(5, 5, olc::vi2d{ 20, 30 }, olc::CYAN);
-	map->mapelements[3]->push_front(player);
-	player = map->mapelements[3]->front();
-	isGrounded = false;
-	canWalkr = true;
-	canWalkl = true;
+	player = new Rectobj(3, olc::vi2d(5, 5), olc::vi2d(20, 30), olc::CYAN, "player");
+	this->isGrounded = false;
+	this->canWalkr = true;
+	this->canWalkl = true;
+	this->g = 8.0f;
+	this->speed = 5.0f;
+	this->jump = 50.0f;
+	this->top0 = { 0, 0 };
+	this->top1 = { 0, 0 };
+	this->bottom0 = { 0, 0 };
+	this->bottom1 = { 0, 0 };
+	this->edgel0 = { 0, 0 };
+	this->edgel1 = { 0, 0 };
+	this->edgel2 = { 0, 0 };
+	this->edger0 = { 0, 0 };
+	this->edger1 = { 0, 0 };
+	this->edger2 = { 0, 0 };
 }
 
 Player::~Player()
@@ -18,7 +29,13 @@ bool inRange(int low, int high, int x)
 	return ((unsigned)(x-low) <= (high-low));
 }
 
-
+bool PointInsideRect(const olc::vi2d &point, const olc::vi2d &rectPos, const olc::vi2d &rectSize)
+{
+	return (point.x >= rectPos.x) &&
+		   (point.y >= rectPos.y) &&
+		   (point.x <= rectPos.x + rectSize.x) &&
+		   (point.y <= rectPos.y + rectSize.y);
+}
 //FixedUpdate() called 60 times a second, good for physics
 //code for calling it regardless of fps
 //	double fixedupdate = 0;
@@ -30,15 +47,8 @@ bool inRange(int low, int high, int x)
 //			player.Update(fixedupdate, this);
 //			fixedupdate = 0;
 //		}
-bool PointInsideRect(const olc::vi2d &point, const olc::vi2d &rectPos, const olc::vi2d &rectSize)
-{
-	return (point.x >= rectPos.x) &&
-		   (point.y >= rectPos.y) &&
-		   (point.x <= rectPos.x + rectSize.x) &&
-		   (point.y <= rectPos.y + rectSize.y);
-}
 
-void Player::FixedUpdate(double dElapsedTime, map *map)
+void Player::FixedUpdate(double dElapsedTime)
 {
 	isGrounded = false;
 	canWalkr = true;
@@ -61,7 +71,7 @@ void Player::FixedUpdate(double dElapsedTime, map *map)
 	vel.clamp(-speed, speed, -jump, g);
 	player->pos += vel;
 	vel = {0, vel.y};
-	for (auto const& i : map->layer1)
+	for (auto const& i : Gameobjects[1])
 	{
 		if(inRange(player->pos.x-200, player->pos.x+200, i->pos.x) ||
 		   inRange(player->pos.y-400, player->pos.y+400, i->pos.y))

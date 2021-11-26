@@ -1,8 +1,11 @@
 #define OLC_PGE_APPLICATION
 #define OLC_PGEX_FUI
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "Engine.h"
 #include <filesystem>
+#include "olcPixelGameEngine.h"
+#include "olcPGEX_FrostUI.h"
+#include "stb_image_write.h"
+#include "filemanager.h"
 
 bool PointInsideRect(const olc::vi2d& point, const olc::vi2d& rectPos, const olc::vi2d& rectSize)
 {
@@ -192,6 +195,7 @@ class SpriteEditor : public olc::PixelGameEngine
 		DrawString(267, 3, " - ");
 		DrawString(291, 3, "F4 new", ui.find_window("newsprite") ? (ui.find_window("newsprite")->get_closed_state() ? olc::WHITE : olc::VERY_DARK_GREY) : olc::WHITE);
 		std::cout.clear();
+
 		return true;
 	}
 

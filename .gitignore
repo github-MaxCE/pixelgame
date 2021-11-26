@@ -366,3 +366,5 @@ FodyWeavers.xsd
 .gitattributes
 
 *.exe
+
+!build/pixelgame/bin

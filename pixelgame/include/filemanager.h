@@ -1,11 +1,10 @@
 #pragma once
-#include <string>
 
 #if defined _WIN32
-	#include <Windows.h>
+#include <Windows.h>
 #elif defined __linux__
-	#include <linux/limits.h>
-	#include <unistd.h>
+#include <linux/limits.h>
+#include <unistd.h>
 #endif
 
 inline std::string apppath()

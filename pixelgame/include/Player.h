@@ -1,20 +1,19 @@
 #pragma once
-#include "Engine.h"
+#include "olcPixelGameEngine.h"
+#include "worldmanager.h"
 
 class Player
 {
 public:
-	Player(map* map);
+	Rectobj* player;
+	Player();
 	virtual ~Player();
-	map::gameobject *player;
 	bool isGrounded;
 	bool canWalkl;
 	bool canWalkr;
-	float g = 8.0f;
-	float speed = 5.0f;
-	float jump = 50.0f;
-	void FixedUpdate(double dElapsedTime, map *mmap);
-	void Update(double dElapsedTime, olc::PixelGameEngine *pge);
+	float g;
+	float speed;
+	float jump;
 	olc::vi2d top0;
 	olc::vi2d top1;
 	olc::vi2d bottom0;
@@ -26,4 +25,6 @@ public:
 	olc::vi2d edger1;
 	olc::vi2d edger2;
 	olc::vi2d vel;
+	void FixedUpdate(double dElapsedTime);
+	void Update(double dElapsedTime, olc::PixelGameEngine *pge);
 };
