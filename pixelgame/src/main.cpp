@@ -1,9 +1,10 @@
 #define OLC_PGE_APPLICATION
-#define OLC_PGEX_FUI
-#include "worldmanager.h"
 #include "olcPixelGameEngine.h"
-#include "Player.h"
 #include "Gameobject.h"
+#include "worldmanager.h"
+#include "Player.h"
+#define OLC_PGE_GRAPHICS2D
+#include "olcPGEX_Graphics2D.h"
 
 class pixelgame : public olc::PixelGameEngine
 {
@@ -12,6 +13,7 @@ class pixelgame : public olc::PixelGameEngine
         sAppName = "pixelgame";
     }
     Player *player = new Player();
+
 
     // Called once at the start
     public: bool OnUserCreate() override
@@ -46,12 +48,12 @@ class pixelgame : public olc::PixelGameEngine
     {
         return true;
     }
-}* pge = new pixelgame;
+} pge = pixelgame();
 
 int main()
 {
-    if (pge->Construct(400, 180, 2, 2, false, true))
-        pge->Start();
+    if (pge.Construct(400, 180, 2, 2, false, true))
+        pge.Start();
 
     return 0;
 }

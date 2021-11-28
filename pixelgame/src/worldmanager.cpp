@@ -10,56 +10,46 @@ void loadmap(std::string mapname)
     rapidxml::xml_node<> *root = doc->first_node("map");
     for(rapidxml::xml_node<> * node = root->first_node(); node; node = node->next_sibling())
     {
-        if (node->name() == "image")
+        if (strcmp(node->name(), "image") == 0)
         {
-            new Spriteobj(atoi(node->first_attribute("l")->value()),
+            int l = atoi(node->first_attribute("l")->value());
 
-                olc::vi2d(atoi(node->first_attribute("x")->value()),
-                    atoi(node->first_attribute("y")->value())),
+            olc::vi2d pos = olc::vi2d(atoi(node->first_attribute("x")->value()),
+                                      atoi(node->first_attribute("y")->value()));
 
-                olc::vi2d(atoi(node->first_attribute("w")->value()),
-                    atoi(node->first_attribute("h")->value())),
+            olc::vi2d size = olc::vi2d(atoi(node->first_attribute("w")->value()),
+                                      atoi(node->first_attribute("h")->value()));
 
-                node->first_attribute("transparency") == 0 ? false : atoi(node->first_attribute("transparency")->value()) == 1,
+            bool alpha = (node->first_attribute("transparency") == 0) ? false : atoi(node->first_attribute("transparency")->value());
 
-                new olc::Sprite(matpath() + node->first_attribute("image")->value()),
+            olc::Sprite* sprite = new olc::Sprite(matpath() + node->first_attribute("image")->value());
 
-                node->first_attribute("name")->value());
+            std::string name = node->first_attribute("name")->value();
+
+            new Spriteobj(l, pos, size, alpha, sprite, name);
         }
-        else if (node->name() == "object")
+        else if (strcmp(node->name(), "object") == 0)
         {
-            if ((node->first_attribute("filled") == 0)? false : atoi(node->first_attribute("filled")->value()))
-            {
-                new FilledRectobj(atoi(node->first_attribute("l")->value()),
+            bool filled = (node->first_attribute("filled") == 0) ? false : atoi(node->first_attribute("filled")->value());
 
-                    olc::vi2d(atoi(node->first_attribute("x")->value()),
-                        atoi(node->first_attribute("y")->value())),
+            int l = atoi(node->first_attribute("l")->value());
 
-                    olc::vi2d(atoi(node->first_attribute("w")->value()),
-                        atoi(node->first_attribute("h")->value())),
+            olc::vi2d pos = olc::vi2d(atoi(node->first_attribute("x")->value()),
+                                      atoi(node->first_attribute("y")->value()));
 
-                    olc::Pixel(atoi(node->first_attribute("r")->value()),
-                        atoi(node->first_attribute("g")->value()),
-                        atoi(node->first_attribute("b")->value())),
+            olc::vi2d size = olc::vi2d(atoi(node->first_attribute("w")->value()),
+                                       atoi(node->first_attribute("h")->value()));
 
-                    node->first_attribute("name")->value());
-            }
+            olc::Pixel col = olc::Pixel(atoi(node->first_attribute("r")->value()),
+                                        atoi(node->first_attribute("g")->value()),
+                                        atoi(node->first_attribute("b")->value()));
+
+            std::string name = node->first_attribute("name")->value();
+
+            if (filled)
+                new FilledRectobj(l, pos, size, col, name);
             else
-            {
-                new Rectobj(atoi(node->first_attribute("l")->value()),
-
-                    olc::vi2d(atoi(node->first_attribute("x")->value()),
-                        atoi(node->first_attribute("y")->value())),
-
-                    olc::vi2d(atoi(node->first_attribute("w")->value()),
-                        atoi(node->first_attribute("h")->value())),
-
-                    olc::Pixel(atoi(node->first_attribute("r")->value()),
-                        atoi(node->first_attribute("g")->value()),
-                        atoi(node->first_attribute("b")->value())),
-
-                    node->first_attribute("name")->value());
-            }
+                new Rectobj(l, pos, size, col, name);
         }
     }
     delete doc, xmlFile, root;

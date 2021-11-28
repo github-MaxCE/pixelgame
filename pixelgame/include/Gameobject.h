@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include "olcPixelGameEngine.h"
+#include "olcPGEX_Graphics2D.h"
 
 class Gameobject
 {
@@ -15,6 +16,7 @@ public:
 	void AddChild(Gameobject* child);
 	Gameobject* FindChild(std::string name);
 	virtual void Render(olc::PixelGameEngine* pge) {}
+	static void INIT(Gameobject* obj, int layer, olc::vi2d pos, olc::vi2d size, std::string name);
 };
 
 class Rectobj : public Gameobject
@@ -40,7 +42,6 @@ class Spriteobj : public Gameobject
 public:
 	olc::Sprite* sprite;
 	bool alpha;
-	std::string shit;
 	Spriteobj(int layer, olc::vi2d pos, olc::vi2d size, bool alpha, olc::Sprite* sprite, std::string name);
 	~Spriteobj();
 	virtual void Render(olc::PixelGameEngine* pge);

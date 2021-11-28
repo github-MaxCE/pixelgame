@@ -18,24 +18,10 @@ std::list<Gameobject*> Gameobjects[4]
     }
 
     /*          Rectobj         */
-    Rectobj::Rectobj(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name)
+    Rectobj::Rectobj(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name) 
     {
-        std::string copy = name;
-        int i = 0;
-        while (FindGameObject(copy))
-        {
-            copy = name;
-            i++;
-            if (i != 0)
-            {
-                copy += (" (", i, ")");
-            }
-        }
-        this->pos = pos;
-        this->size = size;
+        this->INIT(this, layer, pos, size, name);
         this->color = col;
-        this->name = copy;
-        Gameobjects[layer].emplace_back(this);
     }
 
     Rectobj::~Rectobj()
@@ -46,22 +32,8 @@ std::list<Gameobject*> Gameobjects[4]
     /*          FilledRectobj         */
     FilledRectobj::FilledRectobj(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name)
     {
-        std::string copy = name;
-        int i = 0;
-        while (FindGameObject(copy))
-        {
-            copy = name;
-            i++;
-            if (i != 0)
-            {
-                copy += (" (", i, ")");
-            }
-        }
-        this->pos = pos;
-        this->size = size;
+        this->INIT(this, layer, pos, size, name);
         this->color = col;
-        this->name = copy;
-        Gameobjects[layer].emplace_back(this);
     }
 
     FilledRectobj::~FilledRectobj()
@@ -72,23 +44,9 @@ std::list<Gameobject*> Gameobjects[4]
     /*          Spriteobj         */
     Spriteobj::Spriteobj(int layer, olc::vi2d pos, olc::vi2d size, bool alpha, olc::Sprite* sprite, std::string name)
     {
-        std::string copy = name;
-        int i = 0;
-        while (FindGameObject(copy))
-        {
-            copy = name;
-            i++;
-            if (i != 0)
-            {
-                copy += (" (", i, ")");
-            }
-        }
-        this->size = size;
-        this->pos = pos;
+        this->INIT(this, layer, pos, size, name);
         this->alpha = alpha;
         this->sprite = sprite;
-        this->name = copy;
-        Gameobjects[layer].emplace_back(this);
     }
 
     Spriteobj::~Spriteobj()
@@ -109,7 +67,19 @@ void FilledRectobj::Render(olc::PixelGameEngine* pge)
 
 void Spriteobj::Render(olc::PixelGameEngine* pge)
 {
-    pge->DrawSprite(this->pos, this->sprite);
+    // Draw Sprite using extension, first create a transformation stack
+    olc::GFX2D::Transform2D t1;
+
+    // Scale the sprite
+    t1.Scale(sprite->width / size.x, sprite->height / size.y);
+    // Translate to 0,100
+    t1.Translate(pos.x, pos.y);
+
+    if(alpha) pge->SetPixelMode(olc::Pixel::ALPHA);
+    // Use extension to draw sprite with transform applied
+    olc::GFX2D::DrawSprite(sprite, t1);
+
+    pge->SetPixelMode(olc::Pixel::NORMAL);
 }
 
 void Gameobject::AddChild(Gameobject *child)
@@ -155,3 +125,22 @@ void DeleteAllGameobjects()
         i.clear();
     }
 }
+
+void Gameobject::INIT(Gameobject* obj, int layer, olc::vi2d pos, olc::vi2d size, std::string name)
+{
+    std::string copy = name;
+    int i = 0;
+    while (FindGameObject(copy) != nullptr)
+    {
+        copy = name;
+        i++;
+        if (i != 0)
+        {
+            copy += (" (", i, ")");
+        }
+    }
+    obj->pos = pos;
+    obj->size = size;
+    obj->name = copy;
+    Gameobjects[layer].emplace_back(obj);
+};

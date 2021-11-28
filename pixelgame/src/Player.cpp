@@ -54,19 +54,6 @@ void Player::FixedUpdate(double dElapsedTime)
 	canWalkr = true;
 	canWalkl = true;
 
-	top0 = {player->pos.x, player->pos.y-1};
-	top1 = {player->pos.x + player->size.x, player->pos.y-1};
-
-	bottom0 = {player->pos.x, player->pos.y + player->size.y+1};
-	bottom1 = {player->pos.x + player->size.x, player->pos.y + player->size.y+1};
-
-	edgel0 = {player->pos.x-1, player->pos.y + player->size.y};
-	edgel1 = {player->pos.x-1, player->pos.y + player->size.y/2};
-	edgel2 = {player->pos.x-1, player->pos.y};
-	edger0 = {player->pos.x + player->size.x+1, player->pos.y + player->size.y};
-	edger1 = {player->pos.x + player->size.x+1, player->pos.y + player->size.y/2};
-	edger2 = {player->pos.x + player->size.x+1, player->pos.y};
-
 	vel.y += g;
 	vel.clamp(-speed, speed, -jump, g);
 	player->pos += vel;
@@ -120,6 +107,19 @@ void Player::FixedUpdate(double dElapsedTime)
 //Update() called every frame, good for input
 void Player::Update(double dElapsedTime, olc::PixelGameEngine *pge)
 {
+	top0 = { player->pos.x, player->pos.y - 1 };
+	top1 = { player->pos.x + player->size.x, player->pos.y - 1 };
+
+	bottom0 = { player->pos.x, player->pos.y + player->size.y + 1 };
+	bottom1 = { player->pos.x + player->size.x, player->pos.y + player->size.y + 1 };
+
+	edgel0 = { player->pos.x - 1, player->pos.y + player->size.y };
+	edgel1 = { player->pos.x - 1, player->pos.y + player->size.y / 2 };
+	edgel2 = { player->pos.x - 1, player->pos.y };
+	edger0 = { player->pos.x + player->size.x + 1, player->pos.y + player->size.y };
+	edger1 = { player->pos.x + player->size.x + 1, player->pos.y + player->size.y / 2 };
+	edger2 = { player->pos.x + player->size.x + 1, player->pos.y };
+
 	if(pge->GetKey(olc::Q).bHeld && canWalkl)
 		vel.x -= speed;
 	if(pge->GetKey(olc::D).bHeld && canWalkr)
