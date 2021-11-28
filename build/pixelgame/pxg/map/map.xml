@@ -2,5 +2,5 @@
 <map>
 	<object l="1" x="0" y="120" w="399" h="20" r="000" g="255" b="255" filled="0" name="ground"/>
 	<object l="1" x="140" y="80" w="40" h="20" r="000" g="255" b="255" filled="0" name="floatplatform"/>
-  <image l="0" x="0" y="0" w="0" h="0" transparency="0" image="background/background.png" name="background"/>
+  <image l="0" x="0" y="0" w="400" h="180" transparency="0" image="background/background.png" name="background"/>
 </map>

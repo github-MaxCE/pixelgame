@@ -68,10 +68,16 @@ void FilledRectobj::Render(olc::PixelGameEngine* pge)
 
 void Spriteobj::Render(olc::PixelGameEngine* pge)
 {
+    // Draw Sprite using extension, first create a transformation stack
     olc::GFX2D::Transform2D t;
 
+    // Scale the sprite
+    t.Scale(float(size.x) / float(sprite->width), float(size.y) / float(sprite->height));
+    // Translate to 0,100
+    t.Translate(pos.x, pos.y);
+
     if (alpha) pge->SetPixelMode(olc::Pixel::ALPHA);
-    
+    // Use extension to draw sprite with transform applied
     gfx2d->DrawSprite(sprite, t);
 
     pge->SetPixelMode(olc::Pixel::NORMAL);
