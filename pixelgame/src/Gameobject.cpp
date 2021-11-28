@@ -42,11 +42,12 @@ std::list<Gameobject*> Gameobjects[4]
     }
 
     /*          Spriteobj         */
-    Spriteobj::Spriteobj(int layer, olc::vi2d pos, olc::vi2d size, bool alpha, olc::Sprite* sprite, std::string name)
+    Spriteobj::Spriteobj(int layer, olc::vi2d pos, olc::vi2d size, bool alpha, olc::Sprite* sprite, std::string name, olc::GFX2D* gfx2d)
     {
         this->INIT(this, layer, pos, size, name);
         this->alpha = alpha;
         this->sprite = sprite;
+        this->gfx2d = gfx2d;
     }
 
     Spriteobj::~Spriteobj()
@@ -67,17 +68,11 @@ void FilledRectobj::Render(olc::PixelGameEngine* pge)
 
 void Spriteobj::Render(olc::PixelGameEngine* pge)
 {
-    // Draw Sprite using extension, first create a transformation stack
-    olc::GFX2D::Transform2D t1;
+    olc::GFX2D::Transform2D t;
 
-    // Scale the sprite
-    t1.Scale(sprite->width / size.x, sprite->height / size.y);
-    // Translate to 0,100
-    t1.Translate(pos.x, pos.y);
-
-    if(alpha) pge->SetPixelMode(olc::Pixel::ALPHA);
-    // Use extension to draw sprite with transform applied
-    olc::GFX2D::DrawSprite(sprite, t1);
+    if (alpha) pge->SetPixelMode(olc::Pixel::ALPHA);
+    
+    gfx2d->DrawSprite(sprite, t);
 
     pge->SetPixelMode(olc::Pixel::NORMAL);
 }

@@ -5,5 +5,6 @@
 #include "rapidxml.h"
 #include "rapidxml_utils.h"
 #include "Gameobject.h"
+#include "olcPGEX_Graphics2D.h"
 
-void loadmap(std::string mapname);
+void loadmap(std::string mapname, olc::GFX2D *gfx2d);

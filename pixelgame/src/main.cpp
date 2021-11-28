@@ -1,10 +1,10 @@
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
+#define OLC_PGE_GRAPHICS2D
+#include "olcPGEX_Graphics2D.h"
 #include "Gameobject.h"
 #include "worldmanager.h"
 #include "Player.h"
-#define OLC_PGE_GRAPHICS2D
-#include "olcPGEX_Graphics2D.h"
 
 class pixelgame : public olc::PixelGameEngine
 {
@@ -13,12 +13,12 @@ class pixelgame : public olc::PixelGameEngine
         sAppName = "pixelgame";
     }
     Player *player = new Player();
-
+    olc::GFX2D gfx2d;
 
     // Called once at the start
     public: bool OnUserCreate() override
     {
-        loadmap("map.xml");
+        loadmap("map.xml", &gfx2d);
         return true;
     }
 

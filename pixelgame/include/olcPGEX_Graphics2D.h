@@ -67,8 +67,6 @@
 	|C0R2 C1R2 C2R2|   |1.0|   | - |
 */
 
-
-
 #ifndef OLC_PGEX_GFX2D
 #define OLC_PGEX_GFX2D
 

@@ -1,6 +1,6 @@
 #include "worldmanager.h"
 
-void loadmap(std::string mapname)
+void loadmap(std::string mapname, olc::GFX2D* gfx2d)
 {
     DeleteAllGameobjects();
     auto tmp = mappath() + mapname;
@@ -26,7 +26,7 @@ void loadmap(std::string mapname)
 
             std::string name = node->first_attribute("name")->value();
 
-            new Spriteobj(l, pos, size, alpha, sprite, name);
+            new Spriteobj(l, pos, size, alpha, sprite, name, gfx2d);
         }
         else if (strcmp(node->name(), "object") == 0)
         {

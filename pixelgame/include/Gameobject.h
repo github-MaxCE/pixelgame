@@ -42,7 +42,8 @@ class Spriteobj : public Gameobject
 public:
 	olc::Sprite* sprite;
 	bool alpha;
-	Spriteobj(int layer, olc::vi2d pos, olc::vi2d size, bool alpha, olc::Sprite* sprite, std::string name);
+	olc::GFX2D* gfx2d;
+	Spriteobj(int layer, olc::vi2d pos, olc::vi2d size, bool alpha, olc::Sprite* sprite, std::string name, olc::GFX2D* gfx2d);
 	~Spriteobj();
 	virtual void Render(olc::PixelGameEngine* pge);
 };
