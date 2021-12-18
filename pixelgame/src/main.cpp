@@ -18,7 +18,18 @@ class pixelgame : public olc::PixelGameEngine
     // Called once at the start
     public: bool OnUserCreate() override
     {
-        loadmap("map.xml", &gfx2d);
+        loadmap("map.xml", gfx2d);
+
+        ::worldsize = olc::vi2d(0, 0);
+        for (auto x : Gameobjects[1])
+        {
+            if (x->pos.x + x->size.x > ::worldsize.x) {
+                ::worldsize.x = x->pos.x + x->size.x;
+            }
+            if (x->pos.y + x->size.y > worldsize.y) {
+               ::worldsize.y = x->pos.y + x->size.y;
+            }
+        }
         return true;
     }
 
@@ -26,34 +37,30 @@ class pixelgame : public olc::PixelGameEngine
     // called once per frame
     public: bool OnUserUpdate(double dElapsedTime) override
     {
+        Clear(olc::BLACK);
+
         fixedupdate += dElapsedTime;
         if (fixedupdate >= 0.0166)
         {
-            player->FixedUpdate(fixedupdate);
+            player->FixedUpdate(fixedupdate, this);
             fixedupdate = 0;
         }
         player->Update(dElapsedTime, this);
-        Clear(olc::BLACK);
-        for (auto const &i : Gameobjects)
-        {
-            for (auto const &x : i)
-            {
-                x->Render(this);
-            }
-        }
 
+        DrawRect(worldsize + worldoffset, olc::vi2d(5, 5), olc::DARK_MAGENTA);
         return true;
     }
     public: bool OnUserDestroy() override
     {
         return true;
     }
-} pge = pixelgame();
-
+};
 int main()
 {
+    pixelgame pge;
     if (pge.Construct(400, 180, 2, 2, false, true))
         pge.Start();
 
     return 0;
 }
+
