@@ -18,8 +18,10 @@ class pixelgame : public olc::PixelGameEngine
     // Called once at the start
     public: bool OnUserCreate() override
     {
-        loadmap("map.xml", gfx2d);
         worldsize = olc::vi2d(0, 0);
+
+        loadmap("map.xml", gfx2d);
+
         for (auto x : Gameobjects[1])
         {
             if (x->pos.x + x->size.x > worldsize.x) {

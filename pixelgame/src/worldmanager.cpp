@@ -50,7 +50,7 @@ void loadmap(std::string mapname, olc::GFX2D gfx2d)
             if (filled)
                 new FilledRectobj(l, pos, size, col, name, offset, alpha);
             else
-                new Rectobj(l, pos, size, col, name, offset, alpha);
+                new Rectobj(l, pos, size, col, name, offset, alpha, true);
         }
     }
     delete doc, xmlFile, root;

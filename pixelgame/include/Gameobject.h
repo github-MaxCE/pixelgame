@@ -15,7 +15,7 @@ public:
     std::list<Rectobj*> Childs;
     bool offset;
     bool alpha;
-    Rectobj(int _layer, olc::vi2d _pos, olc::vi2d _size, olc::Pixel _col, std::string _name, bool _offset, bool _alpha);
+    Rectobj(int _layer, olc::vi2d _pos, olc::vi2d _size, olc::Pixel _col, std::string _name, bool _offset, bool _alpha, bool a = false);
     virtual ~Rectobj();
     void AddChild(Rectobj* child);
     Rectobj* FindChild(std::string name);

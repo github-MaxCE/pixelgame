@@ -2,7 +2,7 @@
 
 Player::Player()
 {
-    player = new Rectobj(3, olc::vi2d(15, 10), olc::vi2d(20, 30), olc::CYAN, "player", false, false);
+    player = new Rectobj(3, olc::vi2d(15, 10), olc::vi2d(20, 30), olc::CYAN, "player", false, false, true);
     camera = new Camera(this);
     this->isGrounded = false;
     this->canWalkr = true;
