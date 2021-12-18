@@ -99,8 +99,6 @@ void Player::FixedUpdate(double dElapsedTime, olc::PixelGameEngine* pge)
 //Update() called every frame, good for input
 void Player::Update(double dElapsedTime, olc::PixelGameEngine *pge)
 {
-    camera->Update(dElapsedTime, pge);
-
     top0    = olc::vi2d (  player->pos.x                         , player->pos.y - 1                   );
     top1    = olc::vi2d (  player->pos.x + player->size.x / 2    , player->pos.y - 1                   );
     top2    = olc::vi2d (  player->pos.x + player->size.x        , player->pos.y - 1                   );

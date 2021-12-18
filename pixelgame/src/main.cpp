@@ -19,15 +19,14 @@ class pixelgame : public olc::PixelGameEngine
     public: bool OnUserCreate() override
     {
         loadmap("map.xml", gfx2d);
-
-        ::worldsize = olc::vi2d(0, 0);
+        worldsize = olc::vi2d(0, 0);
         for (auto x : Gameobjects[1])
         {
-            if (x->pos.x + x->size.x > ::worldsize.x) {
-                ::worldsize.x = x->pos.x + x->size.x;
+            if (x->pos.x + x->size.x > worldsize.x) {
+                worldsize.x = x->pos.x + x->size.x;
             }
             if (x->pos.y + x->size.y > worldsize.y) {
-               ::worldsize.y = x->pos.y + x->size.y;
+               worldsize.y = x->pos.y + x->size.y;
             }
         }
         return true;
@@ -46,6 +45,7 @@ class pixelgame : public olc::PixelGameEngine
             fixedupdate = 0;
         }
         player->Update(dElapsedTime, this);
+        player->camera->Update(dElapsedTime, this);
 
         DrawRect(worldsize + worldoffset, olc::vi2d(5, 5), olc::DARK_MAGENTA);
         return true;
