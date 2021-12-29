@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\Gameobject.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Player.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\worldmanager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lapi.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lauxlib.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lbaselib.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lcode.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lcorolib.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lctype.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\ldblib.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\ldebug.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\ldo.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\ldump.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lfunc.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lgc.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\linit.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\liolib.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\llex.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lmathlib.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lmem.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\loadlib.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lobject.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lopcodes.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\loslib.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lparser.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lstate.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lstring.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lstrlib.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\ltable.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\ltablib.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\ltm.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lundump.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lutf8lib.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lvm.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lua\lzio.cpp">
+      <Filter>include\lua</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\lua\lapi.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lauxlib.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lcode.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lctype.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\ldebug.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\ldo.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lfunc.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lgc.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\ljumptab.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\llex.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\llimits.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lmem.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lobject.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lopcodes.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lopnames.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lparser.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lprefix.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lstate.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lstring.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\ltable.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\ltm.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lua.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\luaconf.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lualib.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lundump.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lvm.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lua\lzio.h">
+      <Filter>include\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="include\filemanager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Gameobject.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\olcPGEX_FrostUI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\olcPGEX_Graphics2D.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\olcPixelGameEngine.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Player.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidxml.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidxml_print.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rapidxml_utils.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stb_image_write.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\worldmanager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Entity.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{a468ad27-16db-487f-b2cd-975c4b7bb0a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{328f543a-95e7-4d61-8d2c-511afed8077b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lua">
+      <UniqueIdentifier>{74b5a156-fd94-4d4f-b37c-d3ffbdb82b58}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

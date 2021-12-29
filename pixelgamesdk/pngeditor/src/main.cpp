@@ -7,12 +7,13 @@
 #include "stb_image_write.h"
 #include "filemanager.h"
 
-bool PointInsideRect(const olc::vi2d& point, const olc::vi2d& rectPos, const olc::vi2d& rectSize)
+template<class T>
+bool PointInsideRect(const olc::v2d_generic<T>& point, const olc::v2d_generic<T>& rectPos, const olc::v2d_generic<T>& rectSize)
 {
-	return (point.x >= rectPos.x) &&
-		(point.y >= rectPos.y) &&
-		(point.x < rectPos.x + rectSize.x) &&
-		(point.y < rectPos.y + rectSize.y);
+    return (point.x >= rectPos.x) &&
+           (point.y >= rectPos.y) &&
+           (point.x <= rectPos.x + rectSize.x) &&
+           (point.y <= rectPos.y + rectSize.y);
 }
 
 class SpriteEditor : public olc::PixelGameEngine

@@ -1,26 +1,29 @@
 #pragma once
 #include "olcPixelGameEngine.h"
 #include "worldmanager.h"
+#include "Gameobject.h"
 
 class Player;
 
 class Camera
 {
 public:
-	Camera(Player* player);
+	Camera(Player* player, olc::PixelGameEngine* pge);
+	olc::PixelGameEngine* pge;
 	olc::vi2d pos;
 	olc::vi2d vel;
 	Player* player;
-	void Update(double dElapsedTime, olc::PixelGameEngine* pge);
+	void Update(double dElapsedTime);
 };
 
 class Player
 {
 public:
-	Player();
+	Player(olc::PixelGameEngine* pge);
 	virtual ~Player();
+	olc::PixelGameEngine* pge;
 	Camera* camera;
-	Rectobj* player;
+	GameObject* player;
 	bool isGrounded;
 	bool canWalkl;
 	bool canWalkr;
@@ -40,10 +43,15 @@ public:
 	olc::vi2d edger1;
 	olc::vi2d edger2;
 	olc::vi2d vel;
-	void FixedUpdate(double dElapsedTime, olc::PixelGameEngine* pge);
-	void Update(double dElapsedTime, olc::PixelGameEngine *pge);
+	void FixedUpdate(double dElapsedTime);
+	void Update(double dElapsedTime);
 };
 
 
 extern bool inRange(int low, int high, int x);
-extern bool PointInsideRect(const olc::vi2d& point, const olc::vi2d& rectPos, const olc::vi2d& rectSize);
+
+template<class T = int32_t>
+extern bool RectInsideRect(const olc::v2d_generic<T>& rect1Pos, const olc::v2d_generic<T>& rect1Size, const olc::v2d_generic<T>& rect2Pos, const olc::v2d_generic<T>& rect2Size);
+
+template<class T = int32_t>
+extern bool PointInsideRect(const olc::v2d_generic<T>& point, const olc::v2d_generic<T>& rectPos, const olc::v2d_generic<T>& rectSize);

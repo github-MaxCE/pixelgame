@@ -110,7 +110,7 @@
       <PreprocessorDefinitions>PUBLIC=public:;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>.\include\</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -154,6 +154,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\lua\lapi.cpp" />
+    <ClCompile Include="include\lua\lauxlib.cpp" />
+    <ClCompile Include="include\lua\lbaselib.cpp" />
+    <ClCompile Include="include\lua\lcode.cpp" />
+    <ClCompile Include="include\lua\lcorolib.cpp" />
+    <ClCompile Include="include\lua\lctype.cpp" />
+    <ClCompile Include="include\lua\ldblib.cpp" />
+    <ClCompile Include="include\lua\ldebug.cpp" />
+    <ClCompile Include="include\lua\ldo.cpp" />
+    <ClCompile Include="include\lua\ldump.cpp" />
+    <ClCompile Include="include\lua\lfunc.cpp" />
+    <ClCompile Include="include\lua\lgc.cpp" />
+    <ClCompile Include="include\lua\linit.cpp" />
+    <ClCompile Include="include\lua\liolib.cpp" />
+    <ClCompile Include="include\lua\llex.cpp" />
+    <ClCompile Include="include\lua\lmathlib.cpp" />
+    <ClCompile Include="include\lua\lmem.cpp" />
+    <ClCompile Include="include\lua\loadlib.cpp" />
+    <ClCompile Include="include\lua\lobject.cpp" />
+    <ClCompile Include="include\lua\lopcodes.cpp" />
+    <ClCompile Include="include\lua\loslib.cpp" />
+    <ClCompile Include="include\lua\lparser.cpp" />
+    <ClCompile Include="include\lua\lstate.cpp" />
+    <ClCompile Include="include\lua\lstring.cpp" />
+    <ClCompile Include="include\lua\lstrlib.cpp" />
+    <ClCompile Include="include\lua\ltable.cpp" />
+    <ClCompile Include="include\lua\ltablib.cpp" />
+    <ClCompile Include="include\lua\ltm.cpp" />
+    <ClCompile Include="include\lua\lundump.cpp" />
+    <ClCompile Include="include\lua\lutf8lib.cpp" />
+    <ClCompile Include="include\lua\lvm.cpp" />
+    <ClCompile Include="include\lua\lzio.cpp" />
     <ClCompile Include="src\Gameobject.cpp" />
     <ClCompile Include="src\main.cpp">
       <DeploymentContent>false</DeploymentContent>
@@ -167,9 +199,36 @@
     <ClCompile Include="src\worldmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Entity.h" />
     <ClInclude Include="include\Gameobject.h" />
-    <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\filemanager.h" />
+    <ClInclude Include="include\lua\lapi.h" />
+    <ClInclude Include="include\lua\lauxlib.h" />
+    <ClInclude Include="include\lua\lcode.h" />
+    <ClInclude Include="include\lua\lctype.h" />
+    <ClInclude Include="include\lua\ldebug.h" />
+    <ClInclude Include="include\lua\ldo.h" />
+    <ClInclude Include="include\lua\lfunc.h" />
+    <ClInclude Include="include\lua\lgc.h" />
+    <ClInclude Include="include\lua\ljumptab.h" />
+    <ClInclude Include="include\lua\llex.h" />
+    <ClInclude Include="include\lua\llimits.h" />
+    <ClInclude Include="include\lua\lmem.h" />
+    <ClInclude Include="include\lua\lobject.h" />
+    <ClInclude Include="include\lua\lopcodes.h" />
+    <ClInclude Include="include\lua\lopnames.h" />
+    <ClInclude Include="include\lua\lparser.h" />
+    <ClInclude Include="include\lua\lprefix.h" />
+    <ClInclude Include="include\lua\lstate.h" />
+    <ClInclude Include="include\lua\lstring.h" />
+    <ClInclude Include="include\lua\ltable.h" />
+    <ClInclude Include="include\lua\ltm.h" />
+    <ClInclude Include="include\lua\lua.h" />
+    <ClInclude Include="include\lua\luaconf.h" />
+    <ClInclude Include="include\lua\lualib.h" />
+    <ClInclude Include="include\lua\lundump.h" />
+    <ClInclude Include="include\lua\lvm.h" />
+    <ClInclude Include="include\lua\lzio.h" />
     <ClInclude Include="include\olcPGEX_FrostUI.h" />
     <ClInclude Include="include\olcPGEX_Graphics2D.h" />
     <ClInclude Include="include\olcPixelGameEngine.h" />

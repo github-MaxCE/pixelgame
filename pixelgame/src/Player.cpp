@@ -1,16 +1,16 @@
 #include "Player.h"
 
-Player::Player()
-{
-    player = new Rectobj(3, olc::vi2d(15, 10), olc::vi2d(20, 30), olc::CYAN, "player", false, false, true);
-    camera = new Camera(this);
-    this->isGrounded = false;
-    this->canWalkr = true;
-    this->canWalkl = true;
-    this->g = 8.0f;
-    this->speed = 5.0f;
-    this->jump = 50.0f;
-}
+Player::Player(olc::PixelGameEngine* pge) :
+    player(new GameObject(3, olc::vi2d(15, 10), olc::vi2d(20, 30), olc::CYAN, "player", false, false, pge)),
+    camera(new Camera(this, pge)),
+    isGrounded(false),
+    canWalkr(true),
+    canWalkl(true),
+    g(8.0f),
+    speed(5.0f),
+    jump(50.0f),
+    pge(pge)
+{}
 
 Player::~Player()
 {}
@@ -20,26 +20,44 @@ bool inRange(int low, int high, int x)
     return ((unsigned)(x-low) <= (high-low));
 }
 
-bool PointInsideRect(const olc::vi2d &point, const olc::vi2d &rectPos, const olc::vi2d &rectSize)
+template<typename T>
+bool PointInsideRect(const olc::v2d_generic<T>& point, const olc::v2d_generic<T>& rectPos, const olc::v2d_generic<T>& rectSize)
 {
     return (point.x >= rectPos.x) &&
            (point.y >= rectPos.y) &&
            (point.x <= rectPos.x + rectSize.x) &&
            (point.y <= rectPos.y + rectSize.y);
 }
-//FixedUpdate() called 60 times a second, good for physics
-//code for calling it regardless of fps
-//	double fixedupdate = 0;
-//	public: bool OnUserUpdate(double dElapsedTime) override
-//	{
-//		fixedupdate += dElapsedTime;
-//		if(fixedupdate >= 0.0166)
-//		{
-//			player.Update(fixedupdate, this);
-//			fixedupdate = 0;
-//		}
 
-void Player::FixedUpdate(double dElapsedTime, olc::PixelGameEngine* pge)
+template<typename T>
+bool RectInsideRect(const olc::v2d_generic<T>& rect1Pos, const olc::v2d_generic<T>& rect1Size, const olc::v2d_generic<T>& rect2Pos, const olc::v2d_generic<T>& rect2Size)
+{
+    // To check if either rectangle is actually a line
+    // For example :  l1 ={-1,0}  r1={1,1}  l2={0,-1}
+    // r2={0,1}
+
+    olc::v2d_generic<T> r1 = rect1Pos + rect1Size;
+    olc::v2d_generic<T> r2 = rect2Pos + rect2Size;
+
+    // If one rectangle is on left side of other
+    if (r1.y <= rect2Pos.y || r2.y <= rect1Pos.y) return false;
+
+    // If one rectangle is above other
+    if (r1.y >= rect2Pos.y || r2.y >= rect1Pos.y) return false;
+
+    return true;
+}
+
+/// <summary>
+/// Player::FixedUpdate() : called 60 times a second, good for physics
+/// </summary>
+/// <param name="dElapsedTime">
+/// : the time in seconds between the last and current frame
+/// </param>
+/// <param name="pge">
+/// : pointer to the main game class to access pge functions
+/// </param>
+void Player::FixedUpdate(double dElapsedTime)
 {
     isGrounded = false;
     canWalkr = true;
@@ -97,7 +115,7 @@ void Player::FixedUpdate(double dElapsedTime, olc::PixelGameEngine* pge)
 }
 
 //Update() called every frame, good for input
-void Player::Update(double dElapsedTime, olc::PixelGameEngine *pge)
+void Player::Update(double dElapsedTime)
 {
     top0    = olc::vi2d (  player->pos.x                         , player->pos.y - 1                   );
     top1    = olc::vi2d (  player->pos.x + player->size.x / 2    , player->pos.y - 1                   );
@@ -125,13 +143,13 @@ void Player::Update(double dElapsedTime, olc::PixelGameEngine *pge)
         player->pos = pge->GetMousePos();
 }
 
-Camera::Camera(Player* player)
-{
-    this->pos = olc::vi2d(0, 0);
-    this->player = player;
-}
+Camera::Camera(Player* player, olc::PixelGameEngine* pge) :
+    player(player),
+    pge(pge),
+    pos(0, 0)
+{}
 
-void Camera::Update(double dElapsedTime, olc::PixelGameEngine* pge)
+void Camera::Update(double dElapsedTime)
 {
     player->player->pos.xclamp(0, pge->ScreenWidth()-player->player->size.x-1);
     vel.clamp(-player->speed, player->speed, -player->jump, player->g);
@@ -151,11 +169,7 @@ void Camera::Update(double dElapsedTime, olc::PixelGameEngine* pge)
     {
         for (auto const& x : i)
         {
-            //if (inRange(player->top1.x - 200, player->bottom1.x + 200, x->pos.x + worldoffset.x) ||
-            //    inRange(player->edgel1.y - 200, player->edgel1.y + 200, x->pos.y + worldoffset.y))
-            //{
-                x->Render(pge);
-            //}
+            x->Render();
         }
     }
 }

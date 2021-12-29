@@ -26,18 +26,10 @@ inline std::string apppath()
 }
 inline std::string mappath()
 {
-#if defined _WIN32
-	return apppath() + "\\pxg\\map\\";
-#elif defined __linux__
 	return apppath() + "/pxg/map/";
-#endif
 }
 
 inline std::string matpath()
 {
-#if defined _WIN32
-	return apppath() + "\\pxg\\material\\";
-#elif defined __linux__
 	return apppath() + "/pxg/material/";
-#endif
 }

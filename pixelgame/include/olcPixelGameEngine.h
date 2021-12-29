@@ -652,6 +652,7 @@ namespace olc
 		operator v2d_generic<int32_t>() const { return { static_cast<int32_t>(this->x), static_cast<int32_t>(this->y) }; }
 		operator v2d_generic<float>() const { return { static_cast<float>(this->x), static_cast<float>(this->y) }; }
 		operator v2d_generic<double>() const { return { static_cast<double>(this->x), static_cast<double>(this->y) }; }
+		operator bool() { return mag() != 0; }
 	};
 
 	// Note: joshinils has some good suggestions here, but they are complicated to implement at this moment, 
