@@ -31,5 +31,10 @@ inline std::string mappath()
 
 inline std::string matpath()
 {
-	return apppath() + "/pxg/material/";
+	return apppath() + "/pxg/materials/";
+}
+
+inline std::string scriptpath()
+{
+	return apppath() + "/pxg/scripts/";
 }

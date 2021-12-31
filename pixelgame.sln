@@ -15,6 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "maps", "maps", "{4FA2DFFA-1
 		build\pixelgame\pxg\map\map.xml = build\pixelgame\pxg\map\map.xml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{E9BD86C9-D274-412D-A9D6-E8E5274169B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "maps", "maps", "{49AE2169-9D7D-4110-A6D2-0144B0DECBE5}"
+	ProjectSection(SolutionItems) = preProject
+		build\pixelgame\pxg\scripts\maps\map.as = build\pixelgame\pxg\scripts\maps\map.as
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -42,6 +49,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{49AE2169-9D7D-4110-A6D2-0144B0DECBE5} = {E9BD86C9-D274-412D-A9D6-E8E5274169B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0ED298E6-794E-4FA7-A8AF-9EB1CC36B82A}

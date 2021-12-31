@@ -1,27 +1,94 @@
 #include "worldmanager.h"
 
-bool loadmap(const char* mapname, olc::GFX2D *gfx2d, olc::PixelGameEngine *pge,lua_State* L)
+bool loadmap(const char* mapname, olc::GFX2D *gfx2d, olc::PixelGameEngine *pge, asIScriptEngine* engine, CScriptBuilder* builder, asIScriptContext* ctx, asIScriptObject* map)
 {
     using xml_doc = rapidxml::xml_document<>;
     using xml_node = rapidxml::xml_node<>;
     using xml_file = rapidxml::file<>;
 
+    if(builder->GetModule() != nullptr)
+    {
+        int r;
+        asIScriptFunction* func = map->GetObjectType()->GetMethodByDecl("void BeforeMapLoad()");
+        if (func == 0) goto nobefore;
+
+        // Create our context, prepare it, and then execute
+        ctx = engine->CreateContext();
+        
+        ctx->Prepare(func);
+
+        ctx->SetObject(map);
+
+        r = ctx->Execute();
+        if (r != asEXECUTION_FINISHED)
+        {
+            if (r == asEXECUTION_EXCEPTION)
+            {
+                printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
+            }
+        }
+
+nobefore:
+        // Clean up
+        ctx->Release();
+    }
+
+
     DeleteAllGameobjects();
 
-    auto tmp = mappath() + mapname;
+    auto tmp_mappath = mappath() + mapname;
 
-    xml_file *xmlFile = new xml_file(tmp.c_str());
+    xml_file *xmlFile = new xml_file(tmp_mappath.c_str());
     xml_doc *doc = new xml_doc();
     doc->parse<0>(xmlFile->data());
-    const xml_node *root = doc->first_node("pxg");
-    const xml_node *script = root->first_node("script");
-    const xml_node *map = root->first_node("map");
-    if (script != 0)
+    xml_node *root_node = doc->first_node("pxg");
+    xml_node *script_node = root_node->first_node("script");
+    xml_node *map_node = root_node->first_node("map");
+    std::string tmp_scriptpath;
+    if (script_node != 0)
     {
-        int r = luaL_dostring(L, script->value());
-        if (r != LUA_OK) return false;
+        if (script_node->first_attribute("file") != 0)
+        {
+            tmp_scriptpath = (scriptpath() + script_node->first_attribute("file")->value());
+        }
     }
-    for(xml_node *node = map->first_node(); node; node = node->next_sibling())
+    if(!tmp_scriptpath.empty())
+    {
+        int r = builder->StartNewModule(engine, mapname);
+        if (r < 0) printf("Unrecoverable error while starting a new module.\n");
+
+        r = builder->AddSectionFromFile(tmp_scriptpath.c_str());
+        if (r < 0) printf("Please correct the errors in the script and try again.\n");
+
+        r = builder->BuildModule();
+        if (r < 0) printf("Please correct the errors in the script and try again.\n");
+
+        // Find the function that is to be called. 
+        asIScriptFunction* func = engine->GetModule(mapname)->GetFunctionByDecl("void main()");
+        if (func == 0) 
+        {
+            printf("no void main() function. skipping");
+            goto nomain;
+        }
+
+        // Create our context, prepare it, and then execute
+        ctx = engine->CreateContext();
+        ctx->Prepare(func);
+        r = ctx->Execute();
+        if (r != asEXECUTION_FINISHED)
+        {
+            if (r == asEXECUTION_EXCEPTION)
+            {
+                printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
+            }
+        }
+
+nomain:
+        // Clean up
+        ctx->Release();
+    }
+
+    for(xml_node *node = map_node->first_node(); node; node = node->next_sibling())
     {
         bool alpha = (node->first_attribute("transparency") == 0) ? false : atoi(node->first_attribute("transparency")->value());
 
@@ -46,17 +113,48 @@ bool loadmap(const char* mapname, olc::GFX2D *gfx2d, olc::PixelGameEngine *pge,l
         {
             olc::Sprite* sprite = new olc::Sprite(matpath() + node->first_attribute("image")->value());
 
-            new Sprite(l, pos, size, col, sprite, name, gfx2d, offset, alpha, pge);
+            new Sprite(l, pos, size, col, sprite, name, gfx2d, offset, alpha, true, pge);
         }
         else if (strcmp(node->name(), "object") == 0)
         {
             bool filled = (node->first_attribute("filled") == 0) ? false : atoi(node->first_attribute("filled")->value());
 
             if (filled)
-                new FilledRect(l, pos, size, col, name, offset, alpha, pge);
+                new FilledRect(l, pos, size, col, name, offset, alpha, true, pge);
             else
-                new GameObject(l, pos, size, col, name, offset, alpha, pge);
+                new GameObject(l, pos, size, col, name, offset, alpha, true, pge);
         }
     }
-    delete doc, xmlFile, root;
+
+    if (builder->GetModule() != nullptr)
+    {
+        int r;
+        asIScriptFunction* func = map->GetObjectType()->GetMethodByDecl("void AfterMapLoad()");
+        if (func == 0) goto noafter;
+
+        // Create our context, prepare it, and then execute
+        ctx = engine->CreateContext();
+
+        ctx->Prepare(func);
+
+        ctx->SetObject(map);
+
+        r = ctx->Execute();
+        if (r != asEXECUTION_FINISHED)
+        {
+            if (r == asEXECUTION_EXCEPTION)
+            {
+                printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
+            }
+        }
+
+noafter:
+        // Clean up
+        ctx->Release();
+    }
+
+    delete xmlFile, doc, root_node, script_node, map_node;
 }
+
+olc::vi2d worldoffset = olc::vi2d( 0 , 0 );
+olc::vi2d worldsize = olc::vi2d( 0 , 0 );

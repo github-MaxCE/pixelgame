@@ -13,185 +13,138 @@
     <ClCompile Include="src\worldmanager.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lapi.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_atomic.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lauxlib.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_builder.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lbaselib.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_bytecode.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lcode.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_callfunc.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lcorolib.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_callfunc_x64_gcc.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lctype.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_callfunc_x64_mingw.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\ldblib.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_callfunc_x64_msvc.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\ldebug.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_callfunc_x86.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\ldo.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_callfunc_xenon.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\ldump.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_compiler.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lfunc.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_configgroup.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lgc.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_context.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\linit.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_datatype.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\liolib.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_gc.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\llex.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_generic.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lmathlib.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_globalproperty.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lmem.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_memory.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\loadlib.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_module.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lobject.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_objecttype.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lopcodes.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_outputbuffer.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\loslib.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_parser.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lparser.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_restore.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lstate.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_scriptcode.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lstring.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_scriptengine.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lstrlib.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_scriptfunction.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\ltable.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_scriptnode.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\ltablib.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_scriptobject.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\ltm.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_string.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lundump.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_string_util.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lutf8lib.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_thread.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lvm.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_tokenizer.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
-    <ClCompile Include="include\lua\lzio.cpp">
-      <Filter>include\lua</Filter>
+    <ClCompile Include="include\angelscript\as_typeinfo.cpp">
+      <Filter>include\angelscript</Filter>
     </ClCompile>
+    <ClCompile Include="include\angelscript\as_variablescope.cpp">
+      <Filter>include\angelscript</Filter>
+    </ClCompile>
+    <ClCompile Include="include\angelscript\scriptbuilder\scriptbuilder.cpp">
+      <Filter>include\angelscript\scriptbuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="include\angelscript\scriptstdstring\scriptstdstring.cpp">
+      <Filter>include\angelscript\scriptstdstring</Filter>
+    </ClCompile>
+    <ClCompile Include="include\angelscript\scriptstdstring\scriptstdstring_utils.cpp">
+      <Filter>include\angelscript\scriptstdstring</Filter>
+    </ClCompile>
+    <ClCompile Include="include\angelscript\as_callfunc_sh4.cpp">
+      <Filter>include\angelscript</Filter>
+    </ClCompile>
+    <ClCompile Include="include\angelscript\as_callfunc_arm.cpp">
+      <Filter>include\angelscript</Filter>
+    </ClCompile>
+    <ClCompile Include="include\angelscript\as_callfunc_arm64.cpp">
+      <Filter>include\angelscript</Filter>
+    </ClCompile>
+    <ClCompile Include="include\angelscript\as_callfunc_mips.cpp">
+      <Filter>include\angelscript</Filter>
+    </ClCompile>
+    <ClCompile Include="include\angelscript\as_callfunc_ppc.cpp">
+      <Filter>include\angelscript</Filter>
+    </ClCompile>
+    <ClCompile Include="include\angelscript\as_callfunc_ppc_64.cpp">
+      <Filter>include\angelscript</Filter>
+    </ClCompile>
+    <ClCompile Include="include\angelscript\scriptarray\scriptarray.cpp">
+      <Filter>include\angelscript\scriptarray</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\lua\lapi.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lauxlib.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lcode.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lctype.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\ldebug.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\ldo.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lfunc.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lgc.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\ljumptab.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\llex.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\llimits.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lmem.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lobject.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lopcodes.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lopnames.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lparser.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lprefix.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lstate.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lstring.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\ltable.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\ltm.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lua.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\luaconf.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lualib.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lundump.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lvm.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="include\lua\lzio.h">
-      <Filter>include\lua</Filter>
-    </ClInclude>
     <ClInclude Include="include\filemanager.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -228,6 +181,129 @@
     <ClInclude Include="include\Entity.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\angelscript\angelscript.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_array.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_atomic.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_builder.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_bytecode.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_callfunc.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_compiler.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_config.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_configgroup.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_context.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_criticalsection.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_datatype.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_debug.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_gc.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_generic.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_map.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_memory.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_module.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_namespace.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_objecttype.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_outputbuffer.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_parser.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_property.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_restore.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_scriptcode.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_scriptengine.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_scriptfunction.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_scriptnode.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_scriptobject.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_string.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_string_util.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_symboltable.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_texts.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_thread.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_tokendef.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_tokenizer.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_typeinfo.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\as_variablescope.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\scriptbuilder\scriptbuilder.h">
+      <Filter>include\angelscript\scriptbuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\scriptstdstring\scriptstdstring.h">
+      <Filter>include\angelscript\scriptstdstring</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angelscript\scriptarray\scriptarray.h">
+      <Filter>include\angelscript\scriptarray</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -236,8 +312,37 @@
     <Filter Include="src">
       <UniqueIdentifier>{328f543a-95e7-4d61-8d2c-511afed8077b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\lua">
-      <UniqueIdentifier>{74b5a156-fd94-4d4f-b37c-d3ffbdb82b58}</UniqueIdentifier>
+    <Filter Include="include\angelscript">
+      <UniqueIdentifier>{6b78e25b-e949-4c92-8298-534c339ac5da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\angelscript\scriptbuilder">
+      <UniqueIdentifier>{3d05884a-641f-49a0-a749-f4620d8177e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\angelscript\scriptstdstring">
+      <UniqueIdentifier>{c5385f4d-5b91-45ff-b793-16ddf0a4dbd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\angelscript\scriptarray">
+      <UniqueIdentifier>{f8172461-b1ba-4dcf-9312-861c96ba08b9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\angelscript\as_callfunc_arm_gcc.S">
+      <Filter>include\angelscript</Filter>
+    </None>
+    <None Include="include\angelscript\as_callfunc_arm_msvc.asm">
+      <Filter>include\angelscript</Filter>
+    </None>
+    <None Include="include\angelscript\as_callfunc_arm_vita.S">
+      <Filter>include\angelscript</Filter>
+    </None>
+    <None Include="include\angelscript\as_callfunc_arm_xcode.S">
+      <Filter>include\angelscript</Filter>
+    </None>
+    <None Include="include\angelscript\as_callfunc_arm64_gcc.S">
+      <Filter>include\angelscript</Filter>
+    </None>
+    <None Include="include\angelscript\as_callfunc_arm64_msvc.asm">
+      <Filter>include\angelscript</Filter>
+    </None>
   </ItemGroup>
 </Project>

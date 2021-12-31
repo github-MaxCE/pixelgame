@@ -36,7 +36,7 @@ class SpriteEditor : public olc::PixelGameEngine
 		  int zoom = 1;
 		  olc::FrostUI ui;
 
-	public: bool OnUserUpdate(double dElapsedTime) override
+	public: bool OnUserUpdate(float fElapsedTime) override
 	{
 		Clear(olc::BLACK);
 

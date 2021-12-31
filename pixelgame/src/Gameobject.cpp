@@ -1,8 +1,5 @@
 #include "Gameobject.h"
 
-olc::vi2d worldoffset;
-olc::vi2d worldsize;
-
 std::list<GameObject*> Gameobjects[4]
 {
     std::list<GameObject*>(),
@@ -14,7 +11,7 @@ std::list<GameObject*> Gameobjects[4]
 /*			Constructors			*/
 
     /*          GameObject         */
-    GameObject::GameObject(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, olc::PixelGameEngine* pge) :
+    GameObject::GameObject(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge) :
         pos(pos),
         size(size),
         offset(offset),
@@ -32,8 +29,8 @@ std::list<GameObject*> Gameobjects[4]
             }
         }
         this->name = copy;
-        Gameobjects[layer].emplace_back(this);
         this->pge = pge;
+        if(emplace == true) Gameobjects[layer].emplace_back(this);
     }
 
     GameObject::~GameObject()
@@ -42,8 +39,8 @@ std::list<GameObject*> Gameobjects[4]
     }
 
     /*          FilledRect         */
-    FilledRect::FilledRect(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, olc::PixelGameEngine* pge) :
-        GameObject(layer, pos, size, col, name, offset, alpha, pge)
+    FilledRect::FilledRect(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge) :
+        GameObject(layer, pos, size, col, name, offset, alpha, emplace, pge)
     {
         this->pge = pge;
     }
@@ -54,8 +51,8 @@ std::list<GameObject*> Gameobjects[4]
     }
 
     /*          Sprite         */
-    Sprite::Sprite(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, olc::Sprite* sprite, std::string name, olc::GFX2D* gfx2d, bool offset, bool alpha, olc::PixelGameEngine* pge) :
-        GameObject(layer, pos, size, col, name, offset, alpha, pge),
+    Sprite::Sprite(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, olc::Sprite* sprite, std::string name, olc::GFX2D* gfx2d, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge) :
+        GameObject(layer, pos, size, col, name, offset, alpha, emplace, pge),
         sprite(sprite),
         gfx2d(gfx2d)
     {
@@ -86,7 +83,7 @@ void Sprite::Render()
     olc::GFX2D::Transform2D t;
 
     // Scale the sprite
-    t.Scale((size.x / sprite->width-1), size.y / sprite->height);
+    t.Scale(size.x / (sprite->width - 1), size.y / (sprite->height));
     // Translate to 0,100
     t.Translate(pos.x, pos.y);
 
@@ -98,11 +95,11 @@ void Sprite::Render()
     pge->SetPixelMode(olc::Pixel::NORMAL);
 }
 
-GameObject* FindGameObject(std::string name)
+GameObject* FindGameObject(std::string& name)
 {
-    for(auto a : Gameobjects)
+    for (const auto& a : Gameobjects)
     {
-        for (auto x : a)
+        for (const auto& x : a)
         {
             if (x->name == name) return x;
         }
@@ -112,12 +109,15 @@ GameObject* FindGameObject(std::string name)
 
 void DeleteAllGameobjects()
 {
-    for (auto i : Gameobjects)
+    for (auto& i : Gameobjects)
     {
-        for (auto x : i)
+        if (i.empty())
         {
-            delete x;
+            for (auto& x : i)
+            {
+                delete x;
+            }
+            i.clear();
         }
-        i.clear();
     }
 }

@@ -208,7 +208,7 @@
 		  +DrawPartialRotatedDecal() - draws a rotated decal from a subset image
 	2.06: +GetTextSize() - returns area occupied by multiline string
 		  +GetWindowSize() - returns actual window size
-		  +GetElapsedTime() - returns last calculated dElapsedTime
+		  +GetElapsedTime() - returns last calculated fElapsedTime
 		  +GetWindowMouse() - returns actual mouse location in window
 		  +DrawExplicitDecal() - bow-chikka-bow-bow
 		  +DrawPartialDecal(pos, size) - draws a partial decal to specified area
@@ -311,7 +311,7 @@ public:
 		return true;
 	}
 
-	bool OnUserUpdate(double dElapsedTime) override
+	bool OnUserUpdate(float fElapsedTime) override
 	{
 		// Called once per frame, draws random coloured pixels
 		for (int x = 0; x < ScreenWidth(); x++)
@@ -901,7 +901,7 @@ namespace olc
 		// Called once on application startup, use to load your resources
 		virtual bool OnUserCreate();
 		// Called every frame, and provides you with a time per frame value
-		virtual bool OnUserUpdate(double dElapsedTime);
+		virtual bool OnUserUpdate(float fElapsedTime);
 		// Called once on application termination, so you can be one clean coder
 		virtual bool OnUserDestroy();
 
@@ -1162,8 +1162,8 @@ namespace olc
 	protected:
 		virtual void OnBeforeUserCreate();
 		virtual void OnAfterUserCreate();
-		virtual void OnBeforeUserUpdate(double &dElapsedTime);
-		virtual void OnAfterUserUpdate(double dElapsedTime);
+		virtual void OnBeforeUserUpdate(float fElapsedTime);
+		virtual void OnAfterUserUpdate(float fElapsedTime);
 
 	protected:
 		static PixelGameEngine* pge;
@@ -2823,8 +2823,8 @@ namespace olc
 	bool PixelGameEngine::OnUserCreate()
 	{ return false;	}
 
-	bool PixelGameEngine::OnUserUpdate(double dElapsedTime)
-	{ UNUSED(dElapsedTime);  return false; }
+	bool PixelGameEngine::OnUserUpdate(float fElapsedTime)
+	{ UNUSED(fElapsedTime);  return false; }
 
 	bool PixelGameEngine::OnUserDestroy()
 	{ return true; }
@@ -2955,12 +2955,13 @@ namespace olc
 	{
 		// Handle Timing
 		m_tp2 = std::chrono::system_clock::now();
-		std::chrono::duration<float> elapsedTime = m_tp2 - m_tp1;
+		std::chrono::duration<float, std::milli> elapsedTime = m_tp2 - m_tp1;
 		m_tp1 = m_tp2;
+		
 
 		// Our time per frame coefficient
-		double dElapsedTime = elapsedTime.count();
-		fLastElapsed = dElapsedTime;
+		float fElapsedTime = elapsedTime.count();
+		fLastElapsed = fElapsedTime;
 
 		// Some platforms will need to check for events
 		platform->HandleSystemEvent();
@@ -3000,9 +3001,9 @@ namespace olc
 		//	renderer->ClearBuffer(olc::BLACK, true);
 
 		// Handle Frame Update
-		for (auto& ext : vExtensions) ext->OnBeforeUserUpdate(dElapsedTime);
-		if (!OnUserUpdate(dElapsedTime)) bAtomActive = false;
-		for (auto& ext : vExtensions) ext->OnAfterUserUpdate(dElapsedTime);
+		for (auto& ext : vExtensions) ext->OnBeforeUserUpdate(fElapsedTime);
+		if (!OnUserUpdate(fElapsedTime)) bAtomActive = false;
+		for (auto& ext : vExtensions) ext->OnAfterUserUpdate(fElapsedTime);
 
 		// Display Frame
 		renderer->UpdateViewport(vViewPos, vViewSize);
@@ -3046,7 +3047,7 @@ namespace olc
 		renderer->DisplayFrame();
 
 		// Update Title Bar
-		fFrameTimer += dElapsedTime;
+		fFrameTimer += fElapsedTime;
 		nFrameCount++;
 		if (fFrameTimer >= 1.0f)
 		{
@@ -3120,8 +3121,8 @@ namespace olc
 	PGEX::PGEX(bool bHook) { if(bHook) pge->pgex_Register(this); }
 	void PGEX::OnBeforeUserCreate() {}
 	void PGEX::OnAfterUserCreate()	{}
-	void PGEX::OnBeforeUserUpdate(double& dElapsedTime) {}
-	void PGEX::OnAfterUserUpdate(double dElapsedTime) {}
+	void PGEX::OnBeforeUserUpdate(float fElapsedTime) {}
+	void PGEX::OnAfterUserUpdate(float fElapsedTime) {}
 
 	// Need a couple of statics as these are singleton instances
 	// read from multiple locations
