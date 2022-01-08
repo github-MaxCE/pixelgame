@@ -252,6 +252,7 @@
     <ClInclude Include="include\angelscript\scriptarray\scriptarray.h" />
     <ClInclude Include="include\angelscript\scriptbuilder\scriptbuilder.h" />
     <ClInclude Include="include\angelscript\scriptstdstring\scriptstdstring.h" />
+    <ClInclude Include="include\asEntity.h" />
     <ClInclude Include="include\Entity.h" />
     <ClInclude Include="include\Gameobject.h" />
     <ClInclude Include="include\filemanager.h" />

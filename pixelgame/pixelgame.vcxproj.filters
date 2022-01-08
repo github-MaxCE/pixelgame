@@ -304,6 +304,7 @@
     <ClInclude Include="include\angelscript\scriptarray\scriptarray.h">
       <Filter>include\angelscript\scriptarray</Filter>
     </ClInclude>
+    <ClInclude Include="include\asEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

@@ -6,33 +6,31 @@ bool loadmap(const char* mapname, olc::GFX2D *gfx2d, olc::PixelGameEngine *pge, 
     using xml_node = rapidxml::xml_node<>;
     using xml_file = rapidxml::file<>;
 
-    if(builder->GetModule() != nullptr)
+    if (map != nullptr)
     {
         int r;
         asIScriptFunction* func = map->GetObjectType()->GetMethodByDecl("void BeforeMapLoad()");
-        if (func == 0) goto nobefore;
-
-        // Create our context, prepare it, and then execute
-        ctx = engine->CreateContext();
-        
-        ctx->Prepare(func);
-
-        ctx->SetObject(map);
-
-        r = ctx->Execute();
-        if (r != asEXECUTION_FINISHED)
+        if (func != 0)
         {
-            if (r == asEXECUTION_EXCEPTION)
+            // Create our context, prepare it, and then execute
+            ctx = engine->CreateContext();
+
+            ctx->Prepare(func);
+
+            ctx->SetObject(map);
+
+            r = ctx->Execute();
+            if (r != asEXECUTION_FINISHED)
             {
-                printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
+                if (r == asEXECUTION_EXCEPTION)
+                {
+                    printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
+                }
             }
+            // Clean up
+            ctx->Release();
         }
-
-nobefore:
-        // Clean up
-        ctx->Release();
     }
-
 
     DeleteAllGameobjects();
 
@@ -65,27 +63,25 @@ nobefore:
 
         // Find the function that is to be called. 
         asIScriptFunction* func = engine->GetModule(mapname)->GetFunctionByDecl("void main()");
-        if (func == 0) 
+        if (func != 0)
         {
-            printf("no void main() function. skipping");
-            goto nomain;
-        }
+            // Create our context, prepare it, and then execute
+            ctx = engine->CreateContext();
 
-        // Create our context, prepare it, and then execute
-        ctx = engine->CreateContext();
-        ctx->Prepare(func);
-        r = ctx->Execute();
-        if (r != asEXECUTION_FINISHED)
-        {
-            if (r == asEXECUTION_EXCEPTION)
+            ctx->Prepare(func);
+
+            r = ctx->Execute();
+            if (r != asEXECUTION_FINISHED)
             {
-                printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
+                if (r == asEXECUTION_EXCEPTION)
+                {
+                    printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
+                }
             }
+            // Clean up
+            ctx->Release();
         }
-
-nomain:
-        // Clean up
-        ctx->Release();
+        else printf("no void main() function. skipping");
     }
 
     for(xml_node *node = map_node->first_node(); node; node = node->next_sibling())
@@ -126,31 +122,30 @@ nomain:
         }
     }
 
-    if (builder->GetModule() != nullptr)
+    if (map != nullptr)
     {
         int r;
         asIScriptFunction* func = map->GetObjectType()->GetMethodByDecl("void AfterMapLoad()");
-        if (func == 0) goto noafter;
-
-        // Create our context, prepare it, and then execute
-        ctx = engine->CreateContext();
-
-        ctx->Prepare(func);
-
-        ctx->SetObject(map);
-
-        r = ctx->Execute();
-        if (r != asEXECUTION_FINISHED)
+        if (func != 0)
         {
-            if (r == asEXECUTION_EXCEPTION)
-            {
-                printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
-            }
-        }
+            // Create our context, prepare it, and then execute
+            ctx = engine->CreateContext();
 
-noafter:
-        // Clean up
-        ctx->Release();
+            ctx->Prepare(func);
+
+            ctx->SetObject(map);
+
+            r = ctx->Execute();
+            if (r != asEXECUTION_FINISHED)
+            {
+                if (r == asEXECUTION_EXCEPTION)
+                {
+                    printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
+                }
+            }
+            // Clean up
+            ctx->Release();
+        }
     }
 
     delete xmlFile, doc, root_node, script_node, map_node;

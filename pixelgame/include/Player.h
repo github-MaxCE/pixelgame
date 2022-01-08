@@ -53,4 +53,3 @@ private:
 			  bottom[3],
 			  vel;
 };
-

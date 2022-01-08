@@ -49,57 +49,9 @@ class pixelgame : public olc::PixelGameEngine
     float fx_fLastElapsed;
     bool gamestate = true;
 
-    // Called once at the start
-    bool OnUserCreate() override
-    {
-        int r = engine->SetMessageCallback(asFUNCTION(max::angelscript::MessageCallback), 0, asCALL_CDECL); assert(r >= 0);
-        RegisterStdString(engine);
-        r = engine->RegisterGlobalFunction("void print(const string& in)", asFUNCTION(max::angelscript::print), asCALL_CDECL); assert(r >= 0);
-
-
-        r = builder.StartNewModule(engine, "map.xml");
-        if (r < 0) printf("Unrecoverable error while starting a new module.\n");
-        // Get the object type
-
-        r = builder.AddSectionFromFile((scriptpath() + "maps/map.as").c_str());
-        if (r < 0) printf("Please correct the errors in the script and try again.\n");
-
-        r = builder.BuildModule();
-        if (r < 0) printf("Please correct the errors in the script and try again.\n");
-
-        asIScriptModule* module = builder.GetModule();
-        asITypeInfo* type = module->GetTypeInfoByDecl("map");
-
-        // Get the factory function from the object type
-        asIScriptFunction* factory = type->GetFactoryByDecl("map @map()");
-
-        ctx = engine->CreateContext();
-        // Prepare the context to call the factory function
-        ctx->Prepare(factory);
-
-        // Execute the call
-        ctx->Execute();
-
-        // Get the object that was created
-        map = *(asIScriptObject**)ctx->GetAddressOfReturnValue();
-
-        map->AddRef();
-
-        if(!loadmap("map.xml", &gfx2d, this, engine, &builder, ctx, map)) gamestate = false;
-
-
-        for (auto x : Gameobjects[1])
-            if (x->pos + x->size > worldsize)
-                worldsize = x->pos + x->size;
-
-        if (!worldsize) gamestate = false;
-
-        return gamestate;
-    }
-
     void FixedUpdate()
     {
-        while(true)
+        while (true)
         {
             if (!gamestate) break;
             // Handle Timing
@@ -116,33 +68,90 @@ class pixelgame : public olc::PixelGameEngine
                 entity->FixedUpdate(fx_fElapsedTime);
             }
 
-            if (builder.GetModule() != nullptr)
+            if (map != 0)
             {
                 asIScriptFunction* func = map->GetObjectType()->GetMethodByDecl("void OnMapFixedUpdate()");
-                if (func == 0) goto nofixed;
-
-                // Create our context, prepare it, and then execute
-                ctx = engine->CreateContext();
-
-                ctx->Prepare(func);
-
-                ctx->SetObject(map);
-
-                int r = ctx->Execute();
-                if (r != asEXECUTION_FINISHED)
+                if (func != 0)
                 {
-                    if (r == asEXECUTION_EXCEPTION)
-                    {
-                        printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
-                    }
-                }
+                    // Create our context, prepare it, and then execute
+                    ctx = engine->CreateContext();
 
-                // Clean up
-                ctx->Release();
+                    ctx->Prepare(func);
+
+                    ctx->SetObject(map);
+
+                    int r = ctx->Execute();
+                    if (r != asEXECUTION_FINISHED)
+                    {
+                        if (r == asEXECUTION_EXCEPTION)
+                        {
+                            printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
+                        }
+                    }
+
+                    // Clean up
+                    ctx->Release();
+                }
             }
-nofixed:
             std::this_thread::sleep_for(std::chrono::duration<float, std::milli>(10));
         }
+    }
+
+    // Called once at the start
+    bool OnUserCreate() override
+    {
+        int r = engine->SetMessageCallback(asFUNCTION(max::angelscript::MessageCallback), 0, asCALL_CDECL); assert(r >= 0);
+        RegisterStdString(engine);
+        r = engine->RegisterGlobalFunction("void print(const string& in)", asFUNCTION(max::angelscript::print), asCALL_CDECL); assert(r >= 0);
+
+
+        r = builder.StartNewModule(engine, "main");
+        if (r < 0) printf("Unrecoverable error while starting a new module.\n");
+        // Get the object type
+
+        r = builder.AddSectionFromFile((scriptpath() + "maps/map.as").c_str());
+        if (r < 0) printf("Please correct the errors in the script and try again.\n");
+
+        r = builder.BuildModule();
+        if (r < 0) printf("Please correct the errors in the script and try again.\n");
+
+        // Get the object type
+        asIScriptModule* module = engine->GetModule("main");
+        asITypeInfo* type = module->GetTypeInfoByDecl("map");
+        if (type != 0)
+        {
+            // Get the factory function from the object type
+            asIScriptFunction* factory = type->GetFactoryByDecl("map @map()");
+
+
+            ctx = engine->CreateContext();
+
+            // Prepare the context to call the factory function
+            ctx->Prepare(factory);
+
+            // Execute the call
+            ctx->Execute();
+
+            // Get the object that was created
+            map = *(asIScriptObject**)ctx->GetAddressOfReturnValue();
+
+            // If you're going to store the object you must increase the reference,
+            // otherwise it will be destroyed when the context is reused or destroyed.
+            map->AddRef();
+
+            ctx->Release();
+        }
+
+        if(!loadmap("map.xml", &gfx2d, this, engine, &builder, ctx, map)) gamestate = false;
+
+
+        for (auto x : Gameobjects[1])
+            if (x->pos + x->size > worldsize)
+                worldsize = x->pos + x->size;
+
+        if (!worldsize) gamestate = false;
+
+        return gamestate;
     }
 
     // called once per frame
@@ -165,7 +174,7 @@ nofixed:
     public: bool OnUserDestroy() override
     {
         gamestate = false;
-        if (builder.GetModule() != nullptr)
+        if (map != nullptr)
         {
             asIScriptFunction* func = map->GetObjectType()->GetMethodByDecl("void OnMapEnd()");
             if (func == 0) goto noend;
@@ -192,6 +201,7 @@ nofixed:
 noend:
 
         fixed.join();
+        if (map != 0)engine->ReleaseScriptObject(map, map->GetObjectType());
         engine->ShutDownAndRelease();
         return !gamestate;
     }
