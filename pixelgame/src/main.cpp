@@ -1,6 +1,6 @@
 #define OLC_PGE_APPLICATION
-#include "olcPixelGameEngine.h"
 #define OLC_PGEX_GRAPHICS2D
+#include "olcPixelGameEngine.h"
 #include "olcPGEX_Graphics2D.h"
 #include "Gameobject.h"
 #include "Entity.h"
@@ -9,26 +9,9 @@
 #include "angelscript/angelscript.h"
 #include "angelscript/scriptstdstring/scriptstdstring.h"
 #include "angelscript/scriptbuilder/scriptbuilder.h"
+#include "AngelScriptutil.h"
 #include <cassert>
 #include <thread>
-
-namespace max::angelscript
-{
-    void MessageCallback(const asSMessageInfo* msg, void* param)
-    {
-        const char* type = "ERR ";
-        if (msg->type == asMSGTYPE_WARNING)
-            type = "WARN";
-        else if (msg->type == asMSGTYPE_INFORMATION)
-            type = "INFO";
-        printf("%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, type, msg->message);
-    }
-
-    void print(const std::string& str)
-    {
-        printf("%s", str.c_str());
-    }
-}
 
 class pixelgame : public olc::PixelGameEngine
 {
@@ -42,9 +25,8 @@ class pixelgame : public olc::PixelGameEngine
     olc::GFX2D gfx2d;
     asIScriptEngine* engine = asCreateScriptEngine();
     CScriptBuilder builder;
-    asIScriptObject* map;
     asIScriptContext* ctx;
-    std::thread fixed = std::thread(&pixelgame::FixedUpdate, this);
+    std::thread fixed;
     std::chrono::time_point<std::chrono::system_clock> fx_tp1, fx_tp2;
     float fx_fLastElapsed;
     bool gamestate = true;
@@ -63,36 +45,11 @@ class pixelgame : public olc::PixelGameEngine
             float fx_fElapsedTime = elapsedTime.count();
             fx_fLastElapsed = fx_fElapsedTime;
 
-            for (const auto& entity : Entities)
+            for (auto entity : Entities)
             {
                 entity->FixedUpdate(fx_fElapsedTime);
             }
-
-            if (map != 0)
-            {
-                asIScriptFunction* func = map->GetObjectType()->GetMethodByDecl("void OnMapFixedUpdate()");
-                if (func != 0)
-                {
-                    // Create our context, prepare it, and then execute
-                    ctx = engine->CreateContext();
-
-                    ctx->Prepare(func);
-
-                    ctx->SetObject(map);
-
-                    int r = ctx->Execute();
-                    if (r != asEXECUTION_FINISHED)
-                    {
-                        if (r == asEXECUTION_EXCEPTION)
-                        {
-                            printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
-                        }
-                    }
-
-                    // Clean up
-                    ctx->Release();
-                }
-            }
+            
             std::this_thread::sleep_for(std::chrono::duration<float, std::milli>(10));
         }
     }
@@ -104,52 +61,21 @@ class pixelgame : public olc::PixelGameEngine
         RegisterStdString(engine);
         r = engine->RegisterGlobalFunction("void print(const string& in)", asFUNCTION(max::angelscript::print), asCALL_CDECL); assert(r >= 0);
 
+        new max::angelscript::asEntity("maps/map.as", "map", engine, &builder, ctx, true);
 
-        r = builder.StartNewModule(engine, "main");
-        if (r < 0) printf("Unrecoverable error while starting a new module.\n");
-        // Get the object type
+        if(!loadmap("map.xml", &gfx2d, this, engine, &builder, ctx)) gamestate = false;
 
-        r = builder.AddSectionFromFile((scriptpath() + "maps/map.as").c_str());
-        if (r < 0) printf("Please correct the errors in the script and try again.\n");
-
-        r = builder.BuildModule();
-        if (r < 0) printf("Please correct the errors in the script and try again.\n");
-
-        // Get the object type
-        asIScriptModule* module = engine->GetModule("main");
-        asITypeInfo* type = module->GetTypeInfoByDecl("map");
-        if (type != 0)
+        for (const auto& x : Gameobjects[1])
         {
-            // Get the factory function from the object type
-            asIScriptFunction* factory = type->GetFactoryByDecl("map @map()");
-
-
-            ctx = engine->CreateContext();
-
-            // Prepare the context to call the factory function
-            ctx->Prepare(factory);
-
-            // Execute the call
-            ctx->Execute();
-
-            // Get the object that was created
-            map = *(asIScriptObject**)ctx->GetAddressOfReturnValue();
-
-            // If you're going to store the object you must increase the reference,
-            // otherwise it will be destroyed when the context is reused or destroyed.
-            map->AddRef();
-
-            ctx->Release();
+            if (x->pos + x->size > worldsize)
+            {
+                worldsize = x->pos + x->size;
+            }
         }
 
-        if(!loadmap("map.xml", &gfx2d, this, engine, &builder, ctx, map)) gamestate = false;
+        if (!worldsize) return false;
 
-
-        for (auto x : Gameobjects[1])
-            if (x->pos + x->size > worldsize)
-                worldsize = x->pos + x->size;
-
-        if (!worldsize) gamestate = false;
+        else fixed = std::thread(&pixelgame::FixedUpdate, this);
 
         return gamestate;
     }
@@ -159,8 +85,7 @@ class pixelgame : public olc::PixelGameEngine
     {
         Clear(olc::BLACK);
         
-
-        for (const auto& entity : Entities)
+        for (auto entity : Entities)
         {
             entity->Update(fElapsedTime);
         }
@@ -174,34 +99,13 @@ class pixelgame : public olc::PixelGameEngine
     public: bool OnUserDestroy() override
     {
         gamestate = false;
-        if (map != nullptr)
+
+        for (auto entity : Entities)
         {
-            asIScriptFunction* func = map->GetObjectType()->GetMethodByDecl("void OnMapEnd()");
-            if (func == 0) goto noend;
-
-            // Create our context, prepare it, and then execute
-            ctx = engine->CreateContext();
-
-            ctx->Prepare(func);
-
-            ctx->SetObject(map);
-
-            int r = ctx->Execute();
-            if (r != asEXECUTION_FINISHED)
-            {
-                if (r == asEXECUTION_EXCEPTION)
-                {
-                    printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
-                }
-            }
-
-            // Clean up
-            ctx->Release();
+            entity->End();
         }
-noend:
 
         fixed.join();
-        if (map != 0)engine->ReleaseScriptObject(map, map->GetObjectType());
         engine->ShutDownAndRelease();
         return !gamestate;
     }

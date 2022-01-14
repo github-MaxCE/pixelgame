@@ -13,7 +13,9 @@ Player::Player(olc::PixelGameEngine* pge) :
 {}
 
 Player::~Player()
-{}
+{
+    delete camera;
+}
 
 bool inRange(int low, int high, int x)
 {
@@ -46,6 +48,35 @@ bool RectInsideRect(const olc::v2d_generic<T>& rect1Pos, const olc::v2d_generic<
     if (r1.y >= rect2Pos.y || r2.y >= rect1Pos.y) return false;
 
     return true;
+}
+
+//Update() called every frame, good for input
+void Player::Update(float fElapsedTime)
+{
+    top[0] = olc::vi2d(player.pos.x, player.pos.y - 1);
+    top[1] = olc::vi2d(player.pos.x + player.size.x / 2, player.pos.y - 1);
+    top[2] = olc::vi2d(player.pos.x + player.size.x, player.pos.y - 1);
+
+    bottom[0] = olc::vi2d(player.pos.x, player.pos.y + player.size.y + 1);
+    bottom[2] = olc::vi2d(player.pos.x + player.size.x / 2, player.pos.y + player.size.y + 1);
+    bottom[2] = olc::vi2d(player.pos.x + player.size.x, player.pos.y + player.size.y + 1);
+
+    edge[0][0] = olc::vi2d(player.pos.x - 1, player.pos.y + player.size.y);
+    edge[0][1] = olc::vi2d(player.pos.x - 1, player.pos.y + player.size.y / 2);
+    edge[0][2] = olc::vi2d(player.pos.x - 1, player.pos.y);
+    edge[1][0] = olc::vi2d(player.pos.x + player.size.x + 1, player.pos.y + player.size.y);
+    edge[1][1] = olc::vi2d(player.pos.x + player.size.x + 1, player.pos.y + player.size.y / 2);
+    edge[1][2] = olc::vi2d(player.pos.x + player.size.x + 1, player.pos.y);
+
+    if (pge->GetKey(olc::Q).bHeld && canWalkl)
+        vel.x -= speed;
+    if (pge->GetKey(olc::D).bHeld && canWalkr)
+        vel.x += speed;
+    if (pge->GetKey(olc::SPACE).bPressed && isGrounded)
+        vel.y -= jumpspeed;
+    //so i can change the position of the player for collision purposes
+    if (pge->GetMouse(olc::Mouse::LEFT).bPressed)
+        player.pos = pge->GetMousePos();
 }
 
 /// <summary>
@@ -112,35 +143,6 @@ void Player::FixedUpdate(float fElapsedTime)
     }
     player.pos.xclamp(0, worldsize.x - player.size.x);
     player.pos.xclamp(0, pge->ScreenWidth() - player.size.x - 1);
-}
-
-//Update() called every frame, good for input
-void Player::Update(float fElapsedTime)
-{
-    top[0]    = olc::vi2d (  player.pos.x                         , player.pos.y - 1                   );
-    top[1]    = olc::vi2d (  player.pos.x + player.size.x / 2    , player.pos.y - 1                   );
-    top[2]    = olc::vi2d (  player.pos.x + player.size.x        , player.pos.y - 1                   );
-
-    bottom[0] = olc::vi2d (  player.pos.x                         , player.pos.y + player.size.y + 1  );
-    bottom[2] = olc::vi2d (  player.pos.x + player.size.x / 2    , player.pos.y + player.size.y + 1  );
-    bottom[2] = olc::vi2d (  player.pos.x + player.size.x        , player.pos.y + player.size.y + 1  );
-
-    edge[0][0]  = olc::vi2d (  player.pos.x - 1                     , player.pos.y + player.size.y      );
-    edge[0][1]  = olc::vi2d (  player.pos.x - 1                     , player.pos.y + player.size.y / 2  );
-    edge[0][2]  = olc::vi2d (  player.pos.x - 1                     , player.pos.y                       );
-    edge[1][0]  = olc::vi2d (  player.pos.x + player.size.x + 1    , player.pos.y + player.size.y      );
-    edge[1][1]  = olc::vi2d (  player.pos.x + player.size.x + 1    , player.pos.y + player.size.y / 2  );
-    edge[1][2]  = olc::vi2d (  player.pos.x + player.size.x + 1    , player.pos.y                       );
-
-    if(pge->GetKey(olc::Q).bHeld && canWalkl)
-        vel.x -= speed;
-    if(pge->GetKey(olc::D).bHeld && canWalkr)
-        vel.x += speed;
-    if(pge->GetKey(olc::SPACE).bPressed && isGrounded)
-        vel.y -= jumpspeed;
-    //so i can change the position of the player for collision purposes
-    if(pge->GetMouse(olc::Mouse::LEFT).bPressed)
-        player.pos = pge->GetMousePos();
 }
 
 Camera::Camera(Player* player, olc::PixelGameEngine* pge) :

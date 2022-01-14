@@ -1,36 +1,13 @@
 #include "worldmanager.h"
 
-bool loadmap(const char* mapname, olc::GFX2D *gfx2d, olc::PixelGameEngine *pge, asIScriptEngine* engine, CScriptBuilder* builder, asIScriptContext* ctx, asIScriptObject* map)
+olc::vi2d worldoffset = olc::vi2d( 0 , 0 );
+olc::vi2d worldsize = olc::vi2d( 0 , 0 );
+
+bool loadmap(const char* mapname, olc::GFX2D *gfx2d, olc::PixelGameEngine *pge, asIScriptEngine* engine, CScriptBuilder* builder, asIScriptContext* ctx)
 {
     using xml_doc = rapidxml::xml_document<>;
     using xml_node = rapidxml::xml_node<>;
     using xml_file = rapidxml::file<>;
-
-    if (map != nullptr)
-    {
-        int r;
-        asIScriptFunction* func = map->GetObjectType()->GetMethodByDecl("void BeforeMapLoad()");
-        if (func != 0)
-        {
-            // Create our context, prepare it, and then execute
-            ctx = engine->CreateContext();
-
-            ctx->Prepare(func);
-
-            ctx->SetObject(map);
-
-            r = ctx->Execute();
-            if (r != asEXECUTION_FINISHED)
-            {
-                if (r == asEXECUTION_EXCEPTION)
-                {
-                    printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
-                }
-            }
-            // Clean up
-            ctx->Release();
-        }
-    }
 
     DeleteAllGameobjects();
 
@@ -63,25 +40,8 @@ bool loadmap(const char* mapname, olc::GFX2D *gfx2d, olc::PixelGameEngine *pge, 
 
         // Find the function that is to be called. 
         asIScriptFunction* func = engine->GetModule(mapname)->GetFunctionByDecl("void main()");
-        if (func != 0)
-        {
-            // Create our context, prepare it, and then execute
-            ctx = engine->CreateContext();
-
-            ctx->Prepare(func);
-
-            r = ctx->Execute();
-            if (r != asEXECUTION_FINISHED)
-            {
-                if (r == asEXECUTION_EXCEPTION)
-                {
-                    printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
-                }
-            }
-            // Clean up
-            ctx->Release();
-        }
-        else printf("no void main() function. skipping");
+        if (max::angelscript::callfunc(func, engine, ctx) == 0)
+            printf("no void main() function. skipping\n");
     }
 
     for(xml_node *node = map_node->first_node(); node; node = node->next_sibling())
@@ -122,34 +82,10 @@ bool loadmap(const char* mapname, olc::GFX2D *gfx2d, olc::PixelGameEngine *pge, 
         }
     }
 
-    if (map != nullptr)
+    for (auto entity : Entities)
     {
-        int r;
-        asIScriptFunction* func = map->GetObjectType()->GetMethodByDecl("void AfterMapLoad()");
-        if (func != 0)
-        {
-            // Create our context, prepare it, and then execute
-            ctx = engine->CreateContext();
-
-            ctx->Prepare(func);
-
-            ctx->SetObject(map);
-
-            r = ctx->Execute();
-            if (r != asEXECUTION_FINISHED)
-            {
-                if (r == asEXECUTION_EXCEPTION)
-                {
-                    printf("An exception '%s' occurred. Please correct the code and try again.\n", ctx->GetExceptionString());
-                }
-            }
-            // Clean up
-            ctx->Release();
-        }
+        entity->Start();
     }
 
     delete xmlFile, doc, root_node, script_node, map_node;
 }
-
-olc::vi2d worldoffset = olc::vi2d( 0 , 0 );
-olc::vi2d worldsize = olc::vi2d( 0 , 0 );

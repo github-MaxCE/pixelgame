@@ -14,12 +14,14 @@ extern bool PointInsideRect(const olc::v2d_generic<T>& point, const olc::v2d_gen
 
 class Player;
 
-class Camera : public Entity
+class Camera : public max::Entity
 {
 public:
 	Camera(Player* player, olc::PixelGameEngine* pge);
+	virtual void Start() override {}
 	virtual void FixedUpdate(float fElapsedTime) override;
 	virtual void Update(float fElapsedTime) override;
+	virtual void End() override {}
 
 private:
 	olc::PixelGameEngine* pge;
@@ -27,29 +29,21 @@ private:
 	Player* player;
 };
 
-class Player : public Entity
+class Player : public max::Entity
 {
 public:
 	Player(olc::PixelGameEngine* pge);
 	virtual ~Player();
+	virtual void Start() override {}
 	virtual void FixedUpdate(float fElapsedTime) override;
 	virtual void Update(float fElapsedTime) override;
+	virtual void End() override {}
 	GameObject player;
-	bool isGrounded,
-		 canWalkl,
-		 canWalkr;
-	float g,
-		  speed,
-		  jumpspeed;
+	bool isGrounded, canWalkl, canWalkr;
+	float g, speed, jumpspeed;
 
 private:
 	olc::PixelGameEngine* pge;
 	Camera* camera;
-
-
-
-	olc::vi2d top[3],
-			  edge[2][3],
-			  bottom[3],
-			  vel;
+	olc::vi2d top[3], edge[2][3], bottom[3], vel;
 };

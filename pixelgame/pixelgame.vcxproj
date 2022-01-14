@@ -197,6 +197,7 @@
     <ClCompile Include="include\angelscript\scriptbuilder\scriptbuilder.cpp" />
     <ClCompile Include="include\angelscript\scriptstdstring\scriptstdstring.cpp" />
     <ClCompile Include="include\angelscript\scriptstdstring\scriptstdstring_utils.cpp" />
+    <ClCompile Include="src\AngelScriptutil.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\Gameobject.cpp" />
     <ClCompile Include="src\main.cpp">
@@ -211,6 +212,7 @@
     <ClCompile Include="src\worldmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\AngelScriptutil.h" />
     <ClInclude Include="include\angelscript\angelscript.h" />
     <ClInclude Include="include\angelscript\as_array.h" />
     <ClInclude Include="include\angelscript\as_atomic.h" />
@@ -252,7 +254,6 @@
     <ClInclude Include="include\angelscript\scriptarray\scriptarray.h" />
     <ClInclude Include="include\angelscript\scriptbuilder\scriptbuilder.h" />
     <ClInclude Include="include\angelscript\scriptstdstring\scriptstdstring.h" />
-    <ClInclude Include="include\asEntity.h" />
     <ClInclude Include="include\Entity.h" />
     <ClInclude Include="include\Gameobject.h" />
     <ClInclude Include="include\filemanager.h" />

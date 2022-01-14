@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pixelgame", "pixelgame\pixelgame.vcxproj", "{43240421-8DF2-46EC-8A76-7DD6572EBDFC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pngeditor", "pixelgamesdk\pngeditor\pngeditor.vcxproj", "{F44D20BA-57D3-48E2-9A0F-6BCE7E53B5E7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{43240421-8DF2-46EC-8A76-7DD6572EBDFC} = {43240421-8DF2-46EC-8A76-7DD6572EBDFC}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "maps", "maps", "{4FA2DFFA-1398-41B7-A89E-FA108DD09929}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,8 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "maps", "maps", "{4FA2DFFA-1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{E9BD86C9-D274-412D-A9D6-E8E5274169B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "maps", "maps", "{53204535-1525-480B-A4B7-23E54CE44B8F}"
 	ProjectSection(SolutionItems) = preProject
-		build\pixelgame\pxg\scripts\map.as = build\pixelgame\pxg\scripts\map.as
+		build\pixelgame\pxg\scripts\maps\map.as = build\pixelgame\pxg\scripts\maps\map.as
 	EndProjectSection
 EndProject
 Global
@@ -47,6 +46,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{53204535-1525-480B-A4B7-23E54CE44B8F} = {E9BD86C9-D274-412D-A9D6-E8E5274169B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0ED298E6-794E-4FA7-A8AF-9EB1CC36B82A}

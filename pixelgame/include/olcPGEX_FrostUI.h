@@ -785,8 +785,8 @@ namespace olc
             {
                 if (window->is_focused())
                 {
-                    if (position.x + size.x > window->get_position().x&& position.x < window->get_position().x + window->get_size().x &&
-                        position.y + size.y > window->get_position().y&& position.y < window->get_position().y + window->get_size().y)
+                    if (position.x + size.x > window->get_position().x && position.x < window->get_position().x + window->get_size().x &&
+                        position.y + size.y > window->get_position().y && position.y < window->get_position().y + window->get_size().y)
                     {
                         overlapping_window = window;
                         break;
@@ -1345,7 +1345,7 @@ namespace olc
         }
         else
         {
-            auto text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text))* text_scale;
+            auto text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text)) * text_scale;
 
             // Draw the body of the button
             switch (state)
@@ -1487,7 +1487,7 @@ namespace olc
         absolute_position = get_absolute_position();
 
         // Draw the text
-        auto text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text))* text_scale;
+        auto text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text)) * text_scale;
         auto text_position = olc::vf2d{ absolute_position.x - text_size.x, absolute_position.y + (size.y / 2) - (text_size.y / 2) };
 
         if (!has_textures)
@@ -1633,7 +1633,7 @@ namespace olc
     void FUI_Dropdown::draw(olc::PixelGameEngine* pge)
     {
         absolute_position = get_absolute_position();
-        auto title_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text))* text_scale;
+        auto title_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text)) * text_scale;
 
         if (is_open)
         {
@@ -1673,7 +1673,7 @@ namespace olc
 
         if (!selected_element.second.second.empty())
         {
-            auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(selected_element.second.second))* selected_element.second.first;
+            auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(selected_element.second.second)) * selected_element.second.first;
             text_position = olc::vf2d{ absolute_position.x + (size.x / 2) - (element_text_size.x / 2),
                 absolute_position.y + (size.y / 2) - (element_text_size.y / 2) };
             pge->DrawStringPropDecal(text_position, selected_element.second.second, text_color, selected_element.second.first);
@@ -1684,7 +1684,7 @@ namespace olc
             int i = 1;
             for (int j = item_start_index - 1; j < item_start_index + max_display_items - 1; j++)
             {
-                auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(elements[j].second.second.second))* elements[j].second.second.first;
+                auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(elements[j].second.second.second)) * elements[j].second.second.first;
                 if (active_size.y >= size.y * i)
                 {
                     switch (elements[j].second.first)
@@ -1724,7 +1724,7 @@ namespace olc
             int i = 1;
             for (auto& element : elements)
             {
-                auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(element.second.second.second))* element.second.second.first;
+                auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(element.second.second.second)) * element.second.second.first;
                 if (active_size.y >= size.y * i)
                 {
                     switch (element.second.first)
@@ -1930,7 +1930,7 @@ namespace olc
     void FUI_Combolist::draw(olc::PixelGameEngine* pge)
     {
         absolute_position = get_absolute_position();
-        auto title_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text))* text_scale;
+        auto title_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text)) * text_scale;
 
         if (is_open)
         {
@@ -1968,7 +1968,7 @@ namespace olc
         if (selected_elements.size() > 1)
         {
             std::string temp_text = selected_elements[0].second.second + ", ...";
-            auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(temp_text))* selected_elements[0].second.first;
+            auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(temp_text)) * selected_elements[0].second.first;
 
             text_position = olc::vf2d{ absolute_position.x + (size.x / 2) - (element_text_size.x / 2),
                 absolute_position.y + (size.y / 2) - (element_text_size.y / 2) };
@@ -1976,7 +1976,7 @@ namespace olc
         }
         else if (selected_elements.size() > 0)
         {
-            auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(selected_elements[0].second.second))* selected_elements[0].second.first;
+            auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(selected_elements[0].second.second)) * selected_elements[0].second.first;
 
             text_position = olc::vf2d{ absolute_position.x + (size.x / 2) - (element_text_size.x / 2),
                 absolute_position.y + (size.y / 2) - (element_text_size.y / 2) };
@@ -1988,7 +1988,7 @@ namespace olc
             int i = 1;
             for (int j = item_start_index - 1; j < item_start_index + max_display_items - 1; j++)
             {
-                auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(elements[j].second.second.second))* elements[j].second.second.first;
+                auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(elements[j].second.second.second)) * elements[j].second.second.first;
                 if (active_size.y >= size.y * i)
                 {
                     switch (elements[j].second.first)
@@ -2026,7 +2026,7 @@ namespace olc
             int i = 1;
             for (auto& element : elements)
             {
-                auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(element.second.second.second))* element.second.second.first;
+                auto element_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(element.second.second.second)) * element.second.second.first;
                 if (active_size.y >= size.y * i)
                 {
                     switch (element.second.first)
@@ -2254,7 +2254,7 @@ namespace olc
     void FUI_Groupbox::draw(olc::PixelGameEngine* pge)
     {
         absolute_position = get_absolute_position();
-        auto text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text))* text_scale;
+        auto text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text)) * text_scale;
 
         pge->FillRectDecal(absolute_position, size, color_scheme.groupbox_background);
 
@@ -2466,7 +2466,7 @@ namespace olc
             break;
         }
 
-        auto text_size_title = static_cast<olc::vf2d>(pge->GetTextSizeProp(text))* text_scale;
+        auto text_size_title = static_cast<olc::vf2d>(pge->GetTextSizeProp(text)) * text_scale;
         pge->DrawStringPropDecal(olc::vf2d{ absolute_position.x - text_size_title.x, absolute_position.y + (size.y / 2) - (text_size_title.y / 2) + 1 }, text, text_color);
         // draw slider body
         switch (state)
@@ -2483,7 +2483,7 @@ namespace olc
         }
 
         // Draw text ontop of the slider body
-        auto text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(temp_text))* text_scale;
+        auto text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(temp_text)) * text_scale;
         pge->DrawStringPropDecal(olc::vf2d{ absolute_position.x + size.x / 2 - text_size.x / 2, absolute_position.y + (size.y / 2) - (text_size.y / 2) + 1 }, temp_text, text_color);
 
         // top left outline
@@ -2761,8 +2761,8 @@ namespace olc
     void FUI_Inputfield::draw(olc::PixelGameEngine* pge)
     {
         absolute_position = get_absolute_position();
-        auto title_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text))* text_scale;
-        auto display_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(displayed_text))* input_scale + olc::vf2d{ 2.f, 0.f };
+        auto title_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text)) * text_scale;
+        auto display_text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(displayed_text)) * input_scale + olc::vf2d{ 2.f, 0.f };
         // title text
         auto text_position = olc::vf2d{ absolute_position.x - title_text_size.x, absolute_position.y + (size.y / 2) - (title_text_size.y / 2) };
         auto timer = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
@@ -2820,7 +2820,7 @@ namespace olc
             auto position = text_position;
             for (int i = 1; i <= selected_chars; i++)
             {
-                auto char_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(displayed_text.substr(displayed_text.size() - i, 1)))* input_scale;
+                auto char_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(displayed_text.substr(displayed_text.size() - i, 1))) * input_scale;
                 position.x -= char_size.x;
                 pge->FillRectDecal(olc::vf2d((position.x + display_text_size.x), position.y),
                     olc::vf2d(char_size.x, display_text_size.y), color_scheme.inputfield_select_all_background);
@@ -3054,7 +3054,7 @@ namespace olc
         pge->FillRectDecal({ absolute_position.x + 1, absolute_position.y + 1 }, { size.x - 2, size.y - input_thickness - 2 }, color_scheme.console_background);
 
         // title text
-        auto title_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text))* text_scale;
+        auto title_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(text)) * text_scale;
         auto text_pos = olc::vf2d{ absolute_position.x + (size.x / 2) - (title_size.x / 2) , absolute_position.y + 1 };
         pge->DrawStringPropDecal(text_pos, text, text_color, text_scale);
         pge->FillRectDecal({ absolute_position.x, absolute_position.y + title_size.y }, { size.x, 1 }, color_scheme.console_outline);
@@ -3077,7 +3077,7 @@ namespace olc
         commands_shown = 1;
         for (int i = scroll_index; i < executed_commands.size(); i++)
         {
-            auto text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(executed_commands[i]))* text_scale;
+            auto text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(executed_commands[i])) * text_scale;
             if (title_size.y + (text_size.y * j) <= scroll_threshold)
             {
                 pge->DrawStringPropDecal({ absolute_position.x, absolute_position.y + title_size.y + 2 + (text_size.y * j) }, executed_commands[i], text_color, text_scale);
@@ -3114,11 +3114,11 @@ namespace olc
                     }
                     else
                         temp1 = get_time() + " - " + command;
-                    auto text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(temp1))* text_scale;
+                    auto text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(temp1)) * text_scale;
                     auto size_to_remove = 0.f;
                     while (text_size.x > size.x)
                     {
-                        text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(temp1))* text_scale;
+                        text_size = static_cast<olc::vf2d>(pge->GetTextSizeProp(temp1)) * text_scale;
                         size_to_remove = text_size.x - size.x;
                         size_to_remove = size_to_remove / text_size.x;
                         size_to_remove = size_to_remove * temp1.size();
@@ -3237,7 +3237,7 @@ namespace olc
             }
             for (auto& element : elements)
             {
-                if (element->get_ui_type() == FUI_Type::INPUTFIELD && j > i&& input_was_focused)
+                if (element->get_ui_type() == FUI_Type::INPUTFIELD && j > i && input_was_focused)
                 {
                     element->set_focused_status(true);
                     break;
@@ -3255,8 +3255,8 @@ namespace olc
                 continue;
             auto pos = window->get_position();
             auto size = window->get_size();
-            if (pge->GetMousePos().x > pos.x&& pge->GetMousePos().x <= pos.x + size.x)
-                if (pge->GetMousePos().y > pos.y&& pge->GetMousePos().y <= pos.y + size.y)
+            if (pge->GetMousePos().x > pos.x && pge->GetMousePos().x <= pos.x + size.x)
+                if (pge->GetMousePos().y > pos.y && pge->GetMousePos().y <= pos.y + size.y)
                     return true;
         }
         return false;
@@ -3751,7 +3751,7 @@ namespace olc
                             elements.emplace_back(std::make_shared<FUI_Slider>(identifier, window, text, position, size, range, value_holder, FUI_Slider::type::FLOAT));
                         else
                             elements.emplace_back(std::make_shared<FUI_Slider>(identifier, window, active_group.second, text, position, size, range, value_holder, FUI_Slider::type::FLOAT));
-                    
+
                         break;
                     }
                 }
@@ -3806,7 +3806,7 @@ namespace olc
                             elements.emplace_back(std::make_shared<FUI_Slider>(identifier, window, text, position, size, range, value_holder, FUI_Slider::type::INT));
                         else
                             elements.emplace_back(std::make_shared<FUI_Slider>(identifier, window, active_group.second, text, position, size, range, value_holder, FUI_Slider::type::INT));
-                    
+
                         break;
                     }
                 }
@@ -3861,7 +3861,7 @@ namespace olc
                             elements.emplace_front(std::make_shared<FUI_Button>(identifier, window, text, position, size, callback));
                         else
                             elements.emplace_front(std::make_shared<FUI_Button>(identifier, window, active_group.second, text, position, size, callback));
-                    
+
                         break;
                     }
                 }
@@ -3954,16 +3954,16 @@ namespace olc
         else
             std::cout << "Duplicate IDs found (function affected: add_inputfield, inputfield_id affected: " + identifier + ")\n";
     }
-    
+
     bool FrostUI::isanywindowopen()
     {
         int i = 0;
-        for (auto const &window : windows)
+        for (auto const& window : windows)
         {
-            if(!window->get_closed_state())
+            if (!window->get_closed_state())
                 i++;
         }
-        if(i > 0)
+        if (i > 0)
             return true;
         else
             return false;
@@ -3985,7 +3985,7 @@ namespace olc
                             elements.emplace_back(std::make_shared<FUI_Console>(identifier, window, text, position, size, inputfield_thickness));
                         else
                             elements.emplace_back(std::make_shared<FUI_Console>(identifier, window, active_group.second, text, position, size, inputfield_thickness));
-                        
+
                         break;
                     }
                 }
