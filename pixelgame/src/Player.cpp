@@ -3,27 +3,19 @@
 Player::Player(olc::PixelGameEngine* pge) :
     player(3, olc::vi2d(5, 5), olc::vi2d(20, 30), olc::CYAN, "player", false, false, true, pge),
     camera(new Camera(this, pge)),
-    isGrounded(false),
-    canWalkr(true),
-    canWalkl(true),
-    g(8.0f),
-    speed(4.5f),
-    jumpspeed(50.0f),
     pge(pge)
 {}
 
 Player::~Player()
-{
-    delete camera;
-}
+{ delete camera; }
 
 bool inRange(int low, int high, int x)
 {
     return ((unsigned)(x-low) <= (high-low));
 }
 
-template<typename T>
-bool PointInsideRect(const olc::v2d_generic<T>& point, const olc::v2d_generic<T>& rectPos, const olc::v2d_generic<T>& rectSize)
+template<class T1, class T2, class T3>
+bool PointInsideRect(const olc::v2d_generic<T1>& point, const olc::v2d_generic<T2>& rectPos, const olc::v2d_generic<T3>& rectSize)
 {
     return (point.x >= rectPos.x) &&
            (point.y >= rectPos.y) &&
@@ -31,15 +23,15 @@ bool PointInsideRect(const olc::v2d_generic<T>& point, const olc::v2d_generic<T>
            (point.y <= rectPos.y + rectSize.y);
 }
 
-template<typename T>
-bool RectInsideRect(const olc::v2d_generic<T>& rect1Pos, const olc::v2d_generic<T>& rect1Size, const olc::v2d_generic<T>& rect2Pos, const olc::v2d_generic<T>& rect2Size)
+template<class T1, class T2, class T3>
+bool RectInsideRect(const olc::v2d_generic<T1>& rect1Pos, const olc::v2d_generic<T1>& rect1Size, const olc::v2d_generic<T1>& rect2Pos, const olc::v2d_generic<T1>& rect2Size)
 {
     // To check if either rectangle is actually a line
     // For example :  l1 ={-1,0}  r1={1,1}  l2={0,-1}
     // r2={0,1}
 
-    olc::v2d_generic<T> r1 = rect1Pos + rect1Size;
-    olc::v2d_generic<T> r2 = rect2Pos + rect2Size;
+    auto r1 = rect1Pos + rect1Size;
+    auto r2 = rect2Pos + rect2Size;
 
     // If one rectangle is on left side of other
     if (r1.y <= rect2Pos.y || r2.y <= rect1Pos.y) return false;
@@ -170,6 +162,8 @@ void Camera::FixedUpdate(float fElapsedTime)
 
 void Camera::Update(float fElapsedTime)
 {
+    pge->Clear(olc::BLACK);
+
     for (const auto& i : Gameobjects)
     {
         for (const auto& x : i)

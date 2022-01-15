@@ -40,7 +40,7 @@ bool loadmap(const char* mapname, olc::GFX2D *gfx2d, olc::PixelGameEngine *pge, 
 
         // Find the function that is to be called. 
         asIScriptFunction* func = engine->GetModule(mapname)->GetFunctionByDecl("void main()");
-        if (max::angelscript::callfunc(func, engine, ctx) == 0)
+        if (max::angelscript::callfunc("void main()", engine->GetModule(mapname), engine) == 0)
             printf("no void main() function. skipping\n");
     }
 

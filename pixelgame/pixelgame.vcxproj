@@ -197,7 +197,7 @@
     <ClCompile Include="include\angelscript\scriptbuilder\scriptbuilder.cpp" />
     <ClCompile Include="include\angelscript\scriptstdstring\scriptstdstring.cpp" />
     <ClCompile Include="include\angelscript\scriptstdstring\scriptstdstring_utils.cpp" />
-    <ClCompile Include="src\AngelScriptutil.cpp" />
+    <ClCompile Include="src\asEntity.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\Gameobject.cpp" />
     <ClCompile Include="src\main.cpp">

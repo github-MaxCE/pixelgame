@@ -12,6 +12,7 @@
 #include "AngelScriptutil.h"
 #include <cassert>
 #include <thread>
+#include <chrono>
 
 class pixelgame : public olc::PixelGameEngine
 {
@@ -75,7 +76,13 @@ class pixelgame : public olc::PixelGameEngine
 
         if (!worldsize) return false;
 
-        else fixed = std::thread(&pixelgame::FixedUpdate, this);
+
+        for (auto entity : Entities)
+        {
+            entity->Start();
+        }
+
+        fixed = std::thread(&pixelgame::FixedUpdate, this);
 
         return gamestate;
     }
@@ -83,8 +90,6 @@ class pixelgame : public olc::PixelGameEngine
     // called once per frame
     bool OnUserUpdate(float fElapsedTime) override
     {
-        Clear(olc::BLACK);
-        
         for (auto entity : Entities)
         {
             entity->Update(fElapsedTime);

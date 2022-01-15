@@ -143,7 +143,7 @@
       <Filter>include\angelscript\scriptarray</Filter>
     </ClCompile>
     <ClCompile Include="src\Entity.cpp" />
-    <ClCompile Include="src\AngelScriptutil.cpp" />
+    <ClCompile Include="src\asEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\filemanager.h">

@@ -5,22 +5,22 @@ class map
         print("created\n");
     }
     
-    virtual void Start()
+    void Start()
     {
         print("Start\n");
     }
 
-    virtual void FixedUpdate(float fElapsedTime)
+    void FixedUpdate(float fElapsedTime)
     {
         print("Update\n");
     }
 
-    virtual void Update(float fElapsedTime)
+    void Update(float fElapsedTime)
     {
         print("FixedUpdate\n");
     }
 
-    virtual void End()
+    void End()
     {
         print("End\n");
     }
