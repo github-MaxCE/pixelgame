@@ -1,8 +1,8 @@
 #pragma once
-
-#if defined _WIN32
+#include <string>
+#if defined(_WIN32)
 #include <Windows.h>
-#elif defined __linux__
+#elif defined(__linux__)
 #include <linux/limits.h>
 #include <unistd.h>
 #endif

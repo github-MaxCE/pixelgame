@@ -90,7 +90,7 @@ void Player::FixedUpdate(float fElapsedTime)
     vel.clamp(-speed, speed, -jumpspeed, g);
     player.pos += vel;
     vel = {0, vel.y};
-    for (auto const& i : Gameobjects[1])
+    for (auto const& i : max::GameObjects[1])
     {
         if (inRange(top[0].x   - 200, bottom[0].x + 200, i->pos.x + worldoffset.x) ||
             inRange(edge[0][1].y - 200, edge[0][1].y  + 200, i->pos.y + worldoffset.y))
@@ -164,7 +164,7 @@ void Camera::Update(float fElapsedTime)
 {
     pge->Clear(olc::BLACK);
 
-    for (const auto& i : Gameobjects)
+    for (const auto& i : max::GameObjects)
     {
         for (const auto& x : i)
         {

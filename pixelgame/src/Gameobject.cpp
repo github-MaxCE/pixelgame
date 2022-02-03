@@ -1,17 +1,17 @@
-#include "Gameobject.h"
+#include "GameObject.h"
 
-std::list<GameObject*> Gameobjects[4]
+std::list<max::GameObject*> GameObjects[4]
 {
-    std::list<GameObject*>(),
-    std::list<GameObject*>(),
-    std::list<GameObject*>(),
-    std::list<GameObject*>()
+    std::list<max::GameObject*>(),
+    std::list<max::GameObject*>(),
+    std::list<max::GameObject*>(),
+    std::list<max::GameObject*>()
 };
 
 /*			Constructors			*/
 
-    /*          GameObject         */
-    GameObject::GameObject(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge) :
+    /*          max::GameObject         */
+    max::GameObject::GameObject(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge) :
         pos(pos),
         size(size),
         offset(offset),
@@ -19,7 +19,7 @@ std::list<GameObject*> Gameobjects[4]
     {
         std::string copy = name;
         int i = 0;
-        while (FindGameObject(copy) != nullptr)
+        while (world->FindGameObject(copy) != nullptr)
         {
             copy = name;
             i++;
@@ -30,54 +30,54 @@ std::list<GameObject*> Gameobjects[4]
         }
         this->name = copy;
         this->pge = pge;
-        if(emplace == true) Gameobjects[layer].emplace_back(this);
+        if(emplace == true) GameObjects[layer].emplace_back(this);
     }
 
-    GameObject::~GameObject()
+    max::GameObject::~GameObject()
     {
         
     }
 
-    /*          FilledRect         */
-    FilledRect::FilledRect(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge) :
-        GameObject(layer, pos, size, col, name, offset, alpha, emplace, pge)
+    /*          max::FilledRect         */
+    max::FilledRect::FilledRect(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge) :
+        max::GameObject(layer, pos, size, col, name, offset, alpha, emplace, pge)
     {
         this->pge = pge;
     }
 
-    FilledRect::~FilledRect()
+    max::FilledRect::~FilledRect()
     {
         
     }
 
     /*          Sprite         */
-    Sprite::Sprite(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, olc::Sprite* sprite, std::string name, olc::GFX2D* gfx2d, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge) :
-        GameObject(layer, pos, size, col, name, offset, alpha, emplace, pge),
+    max::Sprite::Sprite(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, olc::Sprite* sprite, std::string name, olc::GFX2D* gfx2d, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge) :
+        max::GameObject(layer, pos, size, col, name, offset, alpha, emplace, pge),
         sprite(sprite),
         gfx2d(gfx2d)
     {
         this->pge = pge;
     }
 
-    Sprite::~Sprite()
+    max::Sprite::~Sprite()
     {
         
     }
 
     /*			Drawing			*/
-void GameObject::Render()
+void max::GameObject::Render(max::Camera* camera)
 {
-    olc::vi2d pos = offset ? this->pos + worldoffset : this->pos;
+    olc::vi2d pos = offset ? this->pos + camera->worldoffset : this->pos;
     pge->DrawRect(pos, this->size, this->col);
 }
 
-void FilledRect::Render()
+void max::FilledRect::Render(max::Camera* camera)
 {
-    olc::vi2d pos = offset ? this->pos + worldoffset : this->pos;
+    olc::vi2d pos = offset ? this->pos + camera->worldoffset : this->pos;
     pge->FillRect(pos, this->size+1, this->col);
 }
 
-void Sprite::Render()
+void max::Sprite::Render(max::Camera* camera)
 {
     // Draw Sprite using extension, first create a transformation stack
     olc::GFX2D::Transform2D t;
@@ -93,31 +93,4 @@ void Sprite::Render()
     pge->FillRect(pos, this->size + 1, this->col);
 
     pge->SetPixelMode(olc::Pixel::NORMAL);
-}
-
-GameObject* FindGameObject(std::string& name)
-{
-    for (const auto& a : Gameobjects)
-    {
-        for (const auto& x : a)
-        {
-            if (x->name == name) return x;
-        }
-    }
-    return nullptr;
-}
-
-void DeleteAllGameobjects()
-{
-    for (auto& i : Gameobjects)
-    {
-        if (i.empty())
-        {
-            for (auto& x : i)
-            {
-                delete x;
-            }
-            i.clear();
-        }
-    }
 }

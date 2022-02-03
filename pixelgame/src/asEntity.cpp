@@ -2,7 +2,7 @@
 
 namespace max::angelscript
 {
-    void asEntity::Start()
+    void Entity::Start()
     {
         if (obj != nullptr)
         {
@@ -10,7 +10,7 @@ namespace max::angelscript
         }
     }
 
-    void asEntity::FixedUpdate(float fElapsedTime)
+    void Entity::FixedUpdate(float fElapsedTime)
     {
         if (obj != nullptr)
         {
@@ -18,7 +18,7 @@ namespace max::angelscript
         }
     }
 
-    void asEntity::Update(float fElapsedTime)
+    void Entity::Update(float fElapsedTime)
     {
         if (obj != nullptr)
         {
@@ -26,7 +26,7 @@ namespace max::angelscript
         }
     }
 
-    void asEntity::End()
+    void Entity::End()
     {
         if (obj != nullptr)
         {

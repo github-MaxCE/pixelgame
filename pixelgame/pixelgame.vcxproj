@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -29,26 +29,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -110,7 +110,7 @@
       <PreprocessorDefinitions>PUBLIC=public:;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>.\include\</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -205,13 +205,14 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\include\</AdditionalIncludeDirectories>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpp17</LanguageStandard>
     </ClCompile>
+    <ClCompile Include="src\map.cpp" />
     <ClCompile Include="src\Player.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include/</AdditionalIncludeDirectories>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpp17</LanguageStandard>
     </ClCompile>
-    <ClCompile Include="src\worldmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Abstractions.h" />
     <ClInclude Include="include\AngelScriptutil.h" />
     <ClInclude Include="include\angelscript\angelscript.h" />
     <ClInclude Include="include\angelscript\as_array.h" />
@@ -257,6 +258,7 @@
     <ClInclude Include="include\Entity.h" />
     <ClInclude Include="include\Gameobject.h" />
     <ClInclude Include="include\filemanager.h" />
+    <ClInclude Include="include\map.h" />
     <ClInclude Include="include\olcPGEX_FrostUI.h" />
     <ClInclude Include="include\olcPGEX_Graphics2D.h" />
     <ClInclude Include="include\olcPixelGameEngine.h" />
@@ -265,7 +267,6 @@
     <ClInclude Include="include\rapidxml_print.h" />
     <ClInclude Include="include\rapidxml_utils.h" />
     <ClInclude Include="include\stb_image_write.h" />
-    <ClInclude Include="include\worldmanager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\angelscript\as_callfunc_arm64_gcc.S" />

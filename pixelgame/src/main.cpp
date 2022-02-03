@@ -2,14 +2,14 @@
 #define OLC_PGEX_GRAPHICS2D
 #include "olcPixelGameEngine.h"
 #include "olcPGEX_Graphics2D.h"
-#include "Gameobject.h"
+#include "GameObject.h"
 #include "Entity.h"
-#include "worldmanager.h"
 #include "Player.h"
+#include "AngelScriptutil.h"
+#include "map.h"
 #include "angelscript/angelscript.h"
 #include "angelscript/scriptstdstring/scriptstdstring.h"
 #include "angelscript/scriptbuilder/scriptbuilder.h"
-#include "AngelScriptutil.h"
 #include <cassert>
 #include <thread>
 #include <chrono>
@@ -28,6 +28,7 @@ class pixelgame : public olc::PixelGameEngine
     CScriptBuilder builder;
     asIScriptContext* ctx;
     std::thread fixed;
+    max::map* world;
     std::chrono::time_point<std::chrono::system_clock> fx_tp1, fx_tp2;
     float fx_fLastElapsed;
     bool gamestate = true;
@@ -46,7 +47,7 @@ class pixelgame : public olc::PixelGameEngine
             float fx_fElapsedTime = elapsedTime.count();
             fx_fLastElapsed = fx_fElapsedTime;
 
-            for (auto entity : Entities)
+            for (auto entity : world->Entities)
             {
                 entity->FixedUpdate(fx_fElapsedTime);
             }
@@ -62,22 +63,21 @@ class pixelgame : public olc::PixelGameEngine
         RegisterStdString(engine);
         r = engine->RegisterGlobalFunction("void print(const string& in)", asFUNCTION(max::angelscript::print), asCALL_CDECL); assert(r >= 0);
 
-        new max::angelscript::asEntity("maps/map.as", "map", engine, &builder, ctx, true);
+        new max::angelscript::Entity("maps/map.as", "map", engine, &builder, ctx, true);
+        world = new max::map("map", &gfx2d, this, engine, &builder, ctx);
 
-        if(!loadmap("map.xml", &gfx2d, this, engine, &builder, ctx)) gamestate = false;
-
-        for (const auto& x : Gameobjects[1])
+        for (const auto& x : world->GameObjects[1])
         {
-            if (x->pos + x->size > worldsize)
+            if (x->pos + x->size > world->worldsize)
             {
-                worldsize = x->pos + x->size;
+                world->worldsize = x->pos + x->size;
             }
         }
 
-        if (!worldsize) return false;
+        if (!world->worldsize) return false;
 
 
-        for (auto entity : Entities)
+        for (auto entity : world->Entities)
         {
             entity->Start();
         }
@@ -90,7 +90,7 @@ class pixelgame : public olc::PixelGameEngine
     // called once per frame
     bool OnUserUpdate(float fElapsedTime) override
     {
-        for (auto entity : Entities)
+        for (auto entity : world->Entities)
         {
             entity->Update(fElapsedTime);
         }
@@ -105,7 +105,7 @@ class pixelgame : public olc::PixelGameEngine
     {
         gamestate = false;
 
-        for (auto entity : Entities)
+        for (auto entity : world->Entities)
         {
             entity->End();
         }
