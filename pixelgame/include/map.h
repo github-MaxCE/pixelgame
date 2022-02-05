@@ -19,7 +19,7 @@ namespace max
         //const char* file, const char* objdecl, asIScriptEngine* _engine, CScriptBuilder* _builder, asIScriptContext* _ctx, bool emplace = true, Args... args
         template<class... Args>
         inline map(const char* mapname, olc::GFX2D* gfx2d, olc::PixelGameEngine* pge, asIScriptEngine* engine, CScriptBuilder* builder, asIScriptContext* ctx, Args... args) :
-            max::angelscript::Entity((std::string() + "maps/" + mapname + ".as").c_str(), mapname, engine, builder, ctx, true, args)
+            max::angelscript::Entity((std::string() + "maps/" + mapname + ".as").c_str(), mapname, engine, builder, ctx, true, ...args)
         {
             DeleteAllGameObjects();
 
@@ -105,7 +105,7 @@ namespace max
         ~map();
 
         std::list<max::GameObject*> GameObjects[4];
-        olc::vi2d worldsize = olc::vi2d(0, 0);
+        olc::vi2d size = olc::vi2d(0, 0);
 
         void DeleteAllGameObjects();
 

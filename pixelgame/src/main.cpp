@@ -3,10 +3,10 @@
 #include "olcPixelGameEngine.h"
 #include "olcPGEX_Graphics2D.h"
 #include "GameObject.h"
-#include "Entity.h"
-#include "Player.h"
-#include "AngelScriptutil.h"
 #include "map.h"
+#include "Player.h"
+#include "Entity.h"
+#include "AngelScriptutil.h"
 #include "angelscript/angelscript.h"
 #include "angelscript/scriptstdstring/scriptstdstring.h"
 #include "angelscript/scriptbuilder/scriptbuilder.h"
@@ -22,7 +22,7 @@ class pixelgame : public olc::PixelGameEngine
         sAppName = "pixelgame";
     }
 
-    Player *player = new Player(this);
+    max::Player *player = new max::Player(this);
     olc::GFX2D gfx2d;
     asIScriptEngine* engine = asCreateScriptEngine();
     CScriptBuilder builder;

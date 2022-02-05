@@ -1,17 +1,19 @@
 #pragma once
 #include "olcPixelGameEngine.h"
 #include "olcPGEX_Graphics2D.h"
-#include "map.h"
-#include "Abstractions.h"
-
+#include "Player.h"
 namespace max
 {
+    class map;
+
     class GameObject
     {
-        USESPGE
-        RECT
-        INTERACTABLE
+    protected:
+        olc::PixelGameEngine* pge;
+    private:
+        max::map* world;
     public:
+        olc::vi2d size, pos;
         std::string name;
         olc::Pixel col;
         bool offset;

@@ -600,7 +600,7 @@ namespace olc
 
 
 #if !defined(OLC_IGNORE_VEC2D)
-    template <class T>
+    template<class T>
     struct v2d_generic
     {
         T x = 0;
