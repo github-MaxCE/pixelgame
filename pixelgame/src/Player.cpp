@@ -94,45 +94,45 @@ namespace max
         vel.clamp(-speed, speed, -jumpspeed, g);
         player.pos += vel;
         vel = { 0, vel.y };
-        for (auto const& i : max::GameObjects[1])
+        for (auto const& i : world->GameObjects[1])
         {
-            if (inRange(top[0].x - 200, bottom[0].x + 200, i->pos.x + worldoffset.x) ||
-                inRange(edge[0][1].y - 200, edge[0][1].y + 200, i->pos.y + worldoffset.y))
+            if (inRange(top[0].x - 200, bottom[0].x + 200, i->pos.x + camera->worldoffset.x) ||
+                inRange(edge[0][1].y - 200, edge[0][1].y + 200, i->pos.y + camera->worldoffset.y))
             {
-                if ((inRange(i->pos.x + worldoffset.x, i->pos.x + worldoffset.x + i->size.x, top[0].x) ||
-                    inRange(i->pos.x + worldoffset.x, i->pos.x + worldoffset.x + i->size.x, top[2].x)) &&
+                if ((inRange(i->pos.x + camera->worldoffset.x, i->pos.x + camera->worldoffset.x + i->size.x, top[0].x) ||
+                    inRange(i->pos.x + camera->worldoffset.x, i->pos.x + camera->worldoffset.x + i->size.x, top[2].x)) &&
 
-                    inRange(i->pos.y + worldoffset.y + i->size.y, INT32_MAX, top[0].y))
+                    inRange(i->pos.y + camera->worldoffset.y + i->size.y, INT32_MAX, top[0].y))
                 {
-                    player.pos.yclamp(i->pos.y + worldoffset.y + i->size.y + 1, INT32_MAX);
+                    player.pos.yclamp(i->pos.y + camera->worldoffset.y + i->size.y + 1, INT32_MAX);
                     vel.y = g;
                 }
 
-                if ((inRange(i->pos.x + worldoffset.x, i->pos.x + worldoffset.x + i->size.x, bottom[0].x) ||
-                    inRange(i->pos.x + worldoffset.x, i->pos.x + worldoffset.x + i->size.x, bottom[2].x)) &&
+                if ((inRange(i->pos.x + camera->worldoffset.x, i->pos.x + camera->worldoffset.x + i->size.x, bottom[0].x) ||
+                    inRange(i->pos.x + camera->worldoffset.x, i->pos.x + camera->worldoffset.x + i->size.x, bottom[2].x)) &&
 
-                    inRange(INT32_MIN, i->pos.y + worldoffset.y + 4, bottom[0].y))
+                    inRange(INT32_MIN, i->pos.y + camera->worldoffset.y + 4, bottom[0].y))
                 {
-                    if (max::PointInsideRect(bottom[0], i->pos + worldoffset, i->size) ||
-                        max::PointInsideRect(bottom[2], i->pos + worldoffset, i->size))
+                    if (max::PointInsideRect(bottom[0], i->pos + camera->worldoffset, i->size) ||
+                        max::PointInsideRect(bottom[2], i->pos + camera->worldoffset, i->size))
                     {
                         isGrounded = true;
                     }
-                    player.pos.yclamp(INT32_MIN, i->pos.y + worldoffset.y - player.size.y - 1);
+                    player.pos.yclamp(INT32_MIN, i->pos.y + camera->worldoffset.y - player.size.y - 1);
                 }
-                if (inRange(i->pos.y + worldoffset.y, i->pos.y + worldoffset.y + i->size.y, edge[1][0].y) ||
-                    inRange(i->pos.y + worldoffset.y, i->pos.y + worldoffset.y + i->size.y, edge[1][2].y))
+                if (inRange(i->pos.y + camera->worldoffset.y, i->pos.y + camera->worldoffset.y + i->size.y, edge[1][0].y) ||
+                    inRange(i->pos.y + camera->worldoffset.y, i->pos.y + camera->worldoffset.y + i->size.y, edge[1][2].y))
                 {
-                    if (max::PointInsideRect(edge[0][0], i->pos + worldoffset, i->size) || max::PointInsideRect(edge[0][1], i->pos + worldoffset, i->size) || max::PointInsideRect(edge[0][2], i->pos + worldoffset, i->size))
+                    if (max::PointInsideRect(edge[0][0], i->pos + camera->worldoffset, i->size) || max::PointInsideRect(edge[0][1], i->pos + camera->worldoffset, i->size) || max::PointInsideRect(edge[0][2], i->pos + camera->worldoffset, i->size))
                     {
                         canWalkl = false;
-                        player.pos.xclamp(i->pos.x + worldoffset.x + i->size.x + 1, INT32_MAX);
+                        player.pos.xclamp(i->pos.x + camera->worldoffset.x + i->size.x + 1, INT32_MAX);
                     }
 
-                    if (max::PointInsideRect(edge[1][0], i->pos + worldoffset, i->size) || max::PointInsideRect(edge[1][1], i->pos + worldoffset, i->size) || max::PointInsideRect(edge[1][2], i->pos + worldoffset, i->size))
+                    if (max::PointInsideRect(edge[1][0], i->pos + camera->worldoffset, i->size) || max::PointInsideRect(edge[1][1], i->pos + camera->worldoffset, i->size) || max::PointInsideRect(edge[1][2], i->pos + camera->worldoffset, i->size))
                     {
                         canWalkr = false;
-                        player.pos.xclamp(INT32_MIN, i->pos.x + worldoffset.x - player.size.x - 1);
+                        player.pos.xclamp(INT32_MIN, i->pos.x + camera->worldoffset.x - player.size.x - 1);
                     }
                 }
             }
@@ -144,7 +144,7 @@ namespace max
     Camera::Camera(Player* player, olc::PixelGameEngine* pge, max::map* world) :
         pge(pge),
         player(player),
-        world(world)
+        world(world),
         pos(0, 0)
     {}
 
@@ -154,8 +154,8 @@ namespace max
         vel.clamp(-player->speed, player->speed, -player->jumpspeed, player->g);
         worldoffset += vel;
         vel = olc::vi2d(0, vel.y);
-        worldoffset.xclamp(-(worldsize.x - pge->ScreenWidth()) - 1, 0);
-        if (-worldoffset.x + pge->ScreenWidth() <= worldsize.x)
+        worldoffset.xclamp(-(world->size.x - pge->ScreenWidth()) - 1, 0);
+        if (-worldoffset.x + pge->ScreenWidth() <= world->size.x)
         {
             player->player.pos.xclamp(0, pge->ScreenWidth() - player->player.size.x - 1 - 120);
             if (player->player.pos.x >= 259)
@@ -173,7 +173,7 @@ namespace max
         {
             for (const auto& x : i)
             {
-                x->Render();
+                x->Render(this);
             }
         }
     }
