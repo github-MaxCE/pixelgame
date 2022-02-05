@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "map.h"
+
 namespace max
 {
     Player::Player(olc::PixelGameEngine* pge, max::map* world) :

@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "Player.h"
 #include "map.h"
 
 std::list<max::GameObject*> GameObjects[4]

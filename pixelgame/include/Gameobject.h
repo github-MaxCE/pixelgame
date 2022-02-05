@@ -1,9 +1,10 @@
 #pragma once
 #include "olcPixelGameEngine.h"
 #include "olcPGEX_Graphics2D.h"
-#include "Player.h"
+
 namespace max
 {
+    class Camera;
     class map;
 
     class GameObject

@@ -94,7 +94,7 @@ namespace max
                 }
             }
 
-            for (auto entity : Entities)
+            for (auto entity : max::Entities)
             {
                 entity->Start();
             }

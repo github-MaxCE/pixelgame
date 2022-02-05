@@ -1,11 +1,11 @@
 #pragma once
 #include "olcPixelGameEngine.h"
 #include "GameObject.h"
-#include "map.h"
 #include "Entity.h"
 
 namespace max
 {
+	class map;
 	extern bool inRange(int low, int high, int x);
 
 	template<class T1 = int32_t, class T2 = int32_t, class T3 = int32_t>
