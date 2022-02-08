@@ -2,22 +2,15 @@
 #include "Player.h"
 #include "map.h"
 
-std::list<max::GameObject*> GameObjects[4]
-{
-    std::list<max::GameObject*>(),
-    std::list<max::GameObject*>(),
-    std::list<max::GameObject*>(),
-    std::list<max::GameObject*>()
-};
-
 /*			Constructors			*/
 
     /*          max::GameObject         */
-    max::GameObject::GameObject(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge) :
+    max::GameObject::GameObject(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge, max::map* world) :
         pos(pos),
         size(size),
         offset(offset),
-        col(col)
+        col(col),
+        world(world)
     {
         std::string copy = name;
         int i = 0;
@@ -32,7 +25,7 @@ std::list<max::GameObject*> GameObjects[4]
         }
         this->name = copy;
         this->pge = pge;
-        if(emplace == true) GameObjects[layer].emplace_back(this);
+        if(emplace == true) world->GameObjects[layer].emplace_back(this);
     }
 
     max::GameObject::~GameObject()
@@ -41,10 +34,9 @@ std::list<max::GameObject*> GameObjects[4]
     }
 
     /*          max::FilledRect         */
-    max::FilledRect::FilledRect(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge) :
-        max::GameObject(layer, pos, size, col, name, offset, alpha, emplace, pge)
+    max::FilledRect::FilledRect(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge, max::map* world) :
+        max::GameObject(layer, pos, size, col, name, offset, alpha, emplace, pge, world)
     {
-        this->pge = pge;
     }
 
     max::FilledRect::~FilledRect()
@@ -53,12 +45,11 @@ std::list<max::GameObject*> GameObjects[4]
     }
 
     /*          Sprite         */
-    max::Sprite::Sprite(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, olc::Sprite* sprite, std::string name, olc::GFX2D* gfx2d, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge) :
-        max::GameObject(layer, pos, size, col, name, offset, alpha, emplace, pge),
+    max::Sprite::Sprite(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, olc::Sprite* sprite, std::string name, olc::GFX2D* gfx2d, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge, max::map* world) :
+        max::GameObject(layer, pos, size, col, name, offset, alpha, emplace, pge, world),
         sprite(sprite),
         gfx2d(gfx2d)
     {
-        this->pge = pge;
     }
 
     max::Sprite::~Sprite()

@@ -2,14 +2,15 @@
 #include "angelscript/angelscript.h"
 #include "angelscript/scriptstdstring/scriptstdstring.h"
 #include "angelscript/scriptbuilder/scriptbuilder.h"
-#include "AngelScriptutil.h"
+#include "AngelScriptUtils.h"
 #include "rapidxml.h"
 #include "rapidxml_utils.h"
 #include "filemanager.h"
-#include "olcPixelGameEngine.h"
-#include "olcPGEX_Graphics2D.h"
 #include "Gameobject.h"
-#include "Entity.h"
+#include "asEntity.h"
+#include "map.h"
+#include "olcPixelGameEngine.h"
+#include "AssetManager.h"
 
 namespace max
 {
@@ -18,8 +19,9 @@ namespace max
     public:
         //const char* file, const char* objdecl, asIScriptEngine* _engine, CScriptBuilder* _builder, asIScriptContext* _ctx, bool emplace = true, Args... args
         template<class... Args>
-        inline map(const char* mapname, olc::GFX2D* gfx2d, olc::PixelGameEngine* pge, asIScriptEngine* engine, CScriptBuilder* builder, asIScriptContext* ctx, Args... args) :
-            max::angelscript::Entity((std::string() + "maps/" + mapname + ".as").c_str(), mapname, engine, builder, ctx, true, args...)
+        inline map(const char* mapname, max::AssetManager* assets, olc::GFX2D* gfx2d, olc::PixelGameEngine* pge, asIScriptEngine* engine, CScriptBuilder* builder, Args... args) :
+            max::angelscript::Entity((std::string() + "maps/" + mapname + ".as").c_str(), mapname, engine, builder, true, args...),
+            assets(assets)
         {
             DeleteAllGameObjects();
 
@@ -79,26 +81,21 @@ namespace max
 
                 if (strcmp(node->name(), "image") == 0)
                 {
-                    olc::Sprite* sprite = new olc::Sprite(matpath() + node->first_attribute("image")->value());
+                    olc::Sprite* sprite = assets->Load(matpath() + node->first_attribute("image")->value());
 
-                    new Sprite(l, pos, size, col, sprite, name, gfx2d, offset, alpha, true, pge);
+                    new Sprite(l, pos, size, col, sprite, name, gfx2d, offset, alpha, true, pge, this);
                 }
                 else if (strcmp(node->name(), "object") == 0)
                 {
                     bool filled = (node->first_attribute("filled") == 0) ? false : atoi(node->first_attribute("filled")->value());
 
                     if (filled)
-                        new max::FilledRect(l, pos, size, col, name, offset, alpha, true, pge);
+                        new max::FilledRect(l, pos, size, col, name, offset, alpha, true, pge, this);
                     else
-                        new max::GameObject(l, pos, size, col, name, offset, alpha, true, pge);
+                        new max::GameObject(l, pos, size, col, name, offset, alpha, true, pge, this);
                 }
             }
-
-            for (auto entity : max::Entities)
-            {
-                entity->Start();
-            }
-
+            
             delete xmlFile, doc, root_node, script_node, map_node;
         }
 
@@ -106,6 +103,7 @@ namespace max
 
         std::list<max::GameObject*> GameObjects[4];
         olc::vi2d size = olc::vi2d(0, 0);
+        max::AssetManager* assets;
 
         void DeleteAllGameObjects();
 

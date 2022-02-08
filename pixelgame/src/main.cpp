@@ -1,18 +1,17 @@
-#define OLC_PGE_APPLICATION
-#define OLC_PGEX_GRAPHICS2D
 #include "olcPixelGameEngine.h"
 #include "olcPGEX_Graphics2D.h"
 #include "GameObject.h"
 #include "map.h"
 #include "Player.h"
 #include "Entity.h"
-#include "AngelScriptutil.h"
+#include "AngelScriptUtils.h"
 #include "angelscript/angelscript.h"
 #include "angelscript/scriptstdstring/scriptstdstring.h"
 #include "angelscript/scriptbuilder/scriptbuilder.h"
 #include <cassert>
 #include <thread>
 #include <chrono>
+#include "AssetManager.h"
 
 class pixelgame : public olc::PixelGameEngine
 {
@@ -22,22 +21,20 @@ class pixelgame : public olc::PixelGameEngine
         sAppName = "pixelgame";
     }
 
-    max::Player *player = new max::Player(this);
+    max::AssetManager assets;
+    max::map* world;
     olc::GFX2D gfx2d;
     asIScriptEngine* engine = asCreateScriptEngine();
     CScriptBuilder builder;
-    asIScriptContext* ctx;
     std::thread fixed;
-    max::map* world;
     std::chrono::time_point<std::chrono::system_clock> fx_tp1, fx_tp2;
     float fx_fLastElapsed;
     bool gamestate = true;
 
     void FixedUpdate()
     {
-        while (true)
+        while (gamestate)
         {
-            if (!gamestate) break;
             // Handle Timing
             fx_tp2 = std::chrono::system_clock::now();
             std::chrono::duration<float> elapsedTime = fx_tp2 - fx_tp1;
@@ -47,7 +44,7 @@ class pixelgame : public olc::PixelGameEngine
             float fx_fElapsedTime = elapsedTime.count();
             fx_fLastElapsed = fx_fElapsedTime;
 
-            for (auto entity : world->Entities)
+            for (auto entity : max::Entities)
             {
                 entity->FixedUpdate(fx_fElapsedTime);
             }
@@ -63,21 +60,21 @@ class pixelgame : public olc::PixelGameEngine
         RegisterStdString(engine);
         r = engine->RegisterGlobalFunction("void print(const string& in)", asFUNCTION(max::angelscript::print), asCALL_CDECL); assert(r >= 0);
 
-        new max::angelscript::Entity("maps/map.as", "map", engine, &builder, ctx, true);
-        world = new max::map("map", &gfx2d, this, engine, &builder, ctx);
+        world = new max::map("map", &assets, &gfx2d, this, engine, &builder);
+        new max::Player(this, world);
 
         for (const auto& x : world->GameObjects[1])
         {
-            if (x->pos + x->size > world->worldsize)
+            if (x->pos + x->size > world->size)
             {
-                world->worldsize = x->pos + x->size;
+                world->size = x->pos + x->size;
             }
         }
 
-        if (!world->worldsize) return false;
+        if (!world->size) return false;
 
 
-        for (auto entity : world->Entities)
+        for (auto entity : max::Entities)
         {
             entity->Start();
         }
@@ -90,7 +87,7 @@ class pixelgame : public olc::PixelGameEngine
     // called once per frame
     bool OnUserUpdate(float fElapsedTime) override
     {
-        for (auto entity : world->Entities)
+        for (auto& entity : max::Entities)
         {
             entity->Update(fElapsedTime);
         }
@@ -101,21 +98,21 @@ class pixelgame : public olc::PixelGameEngine
 
         return gamestate;
     }
-    public: bool OnUserDestroy() override
+    
+    bool OnUserDestroy() override
     {
         gamestate = false;
+        fixed.join();
 
-        for (auto entity : world->Entities)
+        for (auto entity : max::Entities)
         {
             entity->End();
         }
-
-        fixed.join();
+        
         engine->ShutDownAndRelease();
-        return !gamestate;
+        return gamestate == false;
     }
 };
-
 
 int main()
 {

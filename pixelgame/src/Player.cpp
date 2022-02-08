@@ -6,7 +6,8 @@ namespace max
     Player::Player(olc::PixelGameEngine* pge, max::map* world) :
         pge(pge),
         world(world),
-        player(3, olc::vi2d(5, 5), olc::vi2d(20, 30), olc::CYAN, "player", false, false, true, pge),
+        max::Entity(true),
+        player(3, olc::vi2d(5, 5), olc::vi2d(20, 30), olc::CYAN, "player", false, false, true, pge, world),
         camera(new max::Camera(this, pge, world))
     {}
 
@@ -145,6 +146,7 @@ namespace max
 
     Camera::Camera(Player* player, olc::PixelGameEngine* pge, max::map* world) :
         pge(pge),
+        max::Entity(true),
         player(player),
         world(world),
         pos(0, 0)

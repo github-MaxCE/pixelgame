@@ -4,7 +4,7 @@ class map
     {
         print("created\n");
     }
-    
+
     void Start()
     {
         print("Start\n");
@@ -12,12 +12,12 @@ class map
 
     void FixedUpdate(float fElapsedTime)
     {
-        print("Update\n");
+        print("FixedUpdate\n");
     }
 
     void Update(float fElapsedTime)
     {
-        print("FixedUpdate\n");
+        print("Update\n");
     }
 
     void End()

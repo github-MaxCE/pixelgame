@@ -600,6 +600,11 @@ namespace olc
 
 
 #if !defined(OLC_IGNORE_VEC2D)
+#pragma push_macro("min")
+#undef min
+#pragma push_macro("max")
+#undef max
+
     template<class T>
     struct v2d_generic
     {
@@ -692,6 +697,9 @@ namespace olc
     typedef v2d_generic<uint32_t> vu2d;
     typedef v2d_generic<float> vf2d;
     typedef v2d_generic<double> vd2d;
+
+#pragma pop_macro("min")
+#pragma pop_macro("max")
 #endif
 
 

@@ -1,12 +1,16 @@
-#include "Entity.h"
+#include "asEntity.h"
 
 namespace max::angelscript
 {
+    Entity::~Entity()
+    {
+    }
+
     void Entity::Start()
     {
         if (obj != nullptr)
         {
-            max::angelscript::callmethod("void Start()", obj, engine);
+            max::angelscript::callmethod("void Start()", obj, type, engine);
         }
     }
 
@@ -14,7 +18,7 @@ namespace max::angelscript
     {
         if (obj != nullptr)
         {
-            max::angelscript::callmethod("void FixedUpdate(float fElapsedTime)", obj, engine, fElapsedTime);
+            max::angelscript::callmethod("void FixedUpdate(float fElapsedTime)", obj, type, engine, fElapsedTime);
         }
     }
 
@@ -22,7 +26,7 @@ namespace max::angelscript
     {
         if (obj != nullptr)
         {
-            max::angelscript::callmethod("void Update(float fElapsedTime)", obj, engine, fElapsedTime);
+            max::angelscript::callmethod("void Update(float fElapsedTime)", obj, type, engine, fElapsedTime);
         }
     }
 
@@ -30,8 +34,8 @@ namespace max::angelscript
     {
         if (obj != nullptr)
         {
-            max::angelscript::callmethod("void End()", obj, engine);
-            engine->ReleaseScriptObject(obj, type);
+            max::angelscript::callmethod("void End()", obj, type, engine);
         }
+        engine->ReleaseScriptObject(obj, obj->GetObjectType());
     }
 }
