@@ -31,10 +31,11 @@ class pixelgame : public olc::PixelGameEngine
     std::thread fixed;
     std::chrono::time_point<std::chrono::system_clock> fx_tp1, fx_tp2;
     float fx_fLastElapsed;
-    std::atomic<bool> gamestate = true;
+    std::atomic<bool> gamestate = false;
 
     void FixedUpdate()
     {
+        while(!gamestate) {}
         while (gamestate)
         {
             // Handle Timing
@@ -83,7 +84,7 @@ class pixelgame : public olc::PixelGameEngine
 
         fixed = std::thread(&pixelgame::FixedUpdate, this);
 
-        return gamestate;
+        return true;
     }
 
     // called once per frame
@@ -93,6 +94,8 @@ class pixelgame : public olc::PixelGameEngine
         {
             entity->Update(fElapsedTime);
         }
+
+        gamestate = true;
         
         if (GetKey( (olc::Key)0 ).bHeld)
             if (GetKey( olc::Key::F4 ).bPressed)
