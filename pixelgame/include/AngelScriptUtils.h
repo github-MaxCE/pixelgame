@@ -164,7 +164,7 @@ namespace max::angelscript
 
     inline void MessageCallback(const asSMessageInfo* msg, void* param)
     {
-        const char* type = "ERR ";
+        const char* type = "ERR";
         if (msg->type == asEMsgType::asMSGTYPE_WARNING)
             type = "WARN";
         else if (msg->type == asEMsgType::asMSGTYPE_INFORMATION)
@@ -178,4 +178,4 @@ namespace max::angelscript
     }
 }
 
-#undef _SetArg(Type, val)
+#undef _SetArg

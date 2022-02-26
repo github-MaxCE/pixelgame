@@ -1,4 +1,5 @@
 #include "olcPixelGameEngine.h"
+#define OLC_PGEX_GRAPHICS2D
 #include "olcPGEX_Graphics2D.h"
 #include "GameObject.h"
 #include "map.h"
@@ -10,6 +11,7 @@
 #include "angelscript/scriptbuilder/scriptbuilder.h"
 #include <cassert>
 #include <thread>
+#include <atomic>
 #include <chrono>
 #include "AssetManager.h"
 
@@ -29,7 +31,7 @@ class pixelgame : public olc::PixelGameEngine
     std::thread fixed;
     std::chrono::time_point<std::chrono::system_clock> fx_tp1, fx_tp2;
     float fx_fLastElapsed;
-    bool gamestate = true;
+    std::atomic<bool> gamestate = true;
 
     void FixedUpdate()
     {
@@ -94,7 +96,10 @@ class pixelgame : public olc::PixelGameEngine
         
         if (GetKey( (olc::Key)0 ).bHeld)
             if (GetKey( olc::Key::F4 ).bPressed)
+            {
                 gamestate = false;
+                fixed.join();
+            }
 
         return gamestate;
     }
@@ -102,7 +107,6 @@ class pixelgame : public olc::PixelGameEngine
     bool OnUserDestroy() override
     {
         gamestate = false;
-        fixed.join();
 
         for (auto entity : max::Entities)
         {
@@ -117,7 +121,7 @@ class pixelgame : public olc::PixelGameEngine
 int main()
 {
     pixelgame pge;
-    if (pge.Construct(400, 180, 2, 2, false, false))
+    if (pge.Construct(400, 180, 2, 2))
         pge.Start();
 
     return 0;

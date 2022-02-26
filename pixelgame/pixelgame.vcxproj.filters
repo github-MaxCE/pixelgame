@@ -146,9 +146,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\map.cpp" />
-    <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\filemanager.cpp" />
     <ClCompile Include="src\AngelScriptUtils.cpp" />
+    <ClCompile Include="src\olcPixelGameEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\filemanager.h">
