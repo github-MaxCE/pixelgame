@@ -14,6 +14,7 @@
 #include <atomic>
 #include <chrono>
 #include "AssetManager.h"
+#include "EventSystem.h"
 
 class pixelgame : public olc::PixelGameEngine
 {
@@ -23,6 +24,16 @@ class pixelgame : public olc::PixelGameEngine
         sAppName = "pixelgame";
     }
 
+    virtual ~pixelgame()
+    {
+        events.End();
+        fixed.join();
+        max::DeleteAllEntities();
+
+        engine->ShutDownAndRelease();
+    }
+
+    max::EventSystem events = max::EventSystem(this);
     max::AssetManager assets;
     max::map* world;
     olc::GFX2D gfx2d;
@@ -52,7 +63,9 @@ class pixelgame : public olc::PixelGameEngine
                 entity->FixedUpdate(fx_fElapsedTime);
             }
             
-            std::this_thread::sleep_for(std::chrono::duration<float, std::milli>(10));
+            events.Start();
+
+            std::this_thread::sleep_for(std::chrono::duration<int, std::milli>(10));
         }
     }
 
@@ -64,7 +77,7 @@ class pixelgame : public olc::PixelGameEngine
         r = engine->RegisterGlobalFunction("void print(const string& in)", asFUNCTION(max::angelscript::print), asCALL_CDECL); assert(r >= 0);
 
         world = new max::map("map", &assets, &gfx2d, this, engine, &builder);
-        new max::Player(this, world);
+        new max::Player(this, world, &events);
 
         for (const auto& x : world->GameObjects[1])
         {
@@ -101,7 +114,6 @@ class pixelgame : public olc::PixelGameEngine
             if (GetKey( olc::Key::F4 ).bPressed)
             {
                 gamestate = false;
-                fixed.join();
             }
 
         return gamestate;
@@ -115,17 +127,16 @@ class pixelgame : public olc::PixelGameEngine
         {
             entity->End();
         }
-        
-        engine->ShutDownAndRelease();
         return gamestate == false;
     }
 };
 
 int main()
 {
-    pixelgame pge;
-    if (pge.Construct(400, 180, 2, 2))
-        pge.Start();
-
+    {
+        pixelgame pge;
+        if (pge.Construct(400, 180, 2, 2))
+            pge.Start();
+    }
     return 0;
 }

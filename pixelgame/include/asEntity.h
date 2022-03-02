@@ -38,8 +38,6 @@ namespace max::angelscript
             mod = max::angelscript::BuildScript(filename, builder, engine);
             type = max::angelscript::GetType(mod, objdecl);
             obj = max::angelscript::callfactory(objdecl, type, engine, args...);
-    
-            if (emplace == true) Entities.emplace_back(this);
         }
     
         ~Entity();

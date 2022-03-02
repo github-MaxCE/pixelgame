@@ -8,4 +8,16 @@ namespace max
     }
 
     std::list<max::Entity*> Entities;
+
+    void DeleteAllEntities()
+    {
+        if (!Entities.empty())
+        {
+            for (auto& x : Entities)
+            {
+                delete x;
+            }
+            Entities.clear();
+        }
+    }
 }

@@ -149,6 +149,7 @@
     <ClCompile Include="src\filemanager.cpp" />
     <ClCompile Include="src\AngelScriptUtils.cpp" />
     <ClCompile Include="src\olcPixelGameEngine.cpp" />
+    <ClCompile Include="src\EventSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\filemanager.h">
@@ -314,6 +315,7 @@
     <ClInclude Include="include\Abstractions.h" />
     <ClInclude Include="include\AssetManager.h" />
     <ClInclude Include="include\asEntity.h" />
+    <ClInclude Include="include\EventSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

@@ -5,6 +5,11 @@ class map
         print("created\n");
     }
 
+    ~map()
+    {
+        print("destructed\n");
+    }
+
     void Start()
     {
         print("Start\n");

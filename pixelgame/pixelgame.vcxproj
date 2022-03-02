@@ -200,6 +200,7 @@
     <ClCompile Include="src\AngelScriptUtils.cpp" />
     <ClCompile Include="src\asEntity.cpp" />
     <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\EventSystem.cpp" />
     <ClCompile Include="src\filemanager.cpp" />
     <ClCompile Include="src\Gameobject.cpp" />
     <ClCompile Include="src\main.cpp">
@@ -261,6 +262,7 @@
     <ClInclude Include="include\asEntity.h" />
     <ClInclude Include="include\AssetManager.h" />
     <ClInclude Include="include\Entity.h" />
+    <ClInclude Include="include\EventSystem.h" />
     <ClInclude Include="include\Gameobject.h" />
     <ClInclude Include="include\filemanager.h" />
     <ClInclude Include="include\map.h" />

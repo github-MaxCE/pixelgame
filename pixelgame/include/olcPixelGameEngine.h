@@ -566,11 +566,13 @@ namespace olc
         CAPS_LOCK, ENUM_END
     };
 
-    namespace Mouse
+    enum Mouse
     {
-        static constexpr int32_t LEFT = 0;
-        static constexpr int32_t RIGHT = 1;
-        static constexpr int32_t MIDDLE = 2;
+        M_LEFT,
+        M_RIGHT,
+        M_MIDDLE,
+        M_KEY4,
+        M_KEY5
     };
 
     // O------------------------------------------------------------------------------O
@@ -582,7 +584,6 @@ namespace olc
         bool bReleased = false;	// Set once during the frame the event occurs
         bool bHeld = false;		// Set true for all frames between pressed and released events
     };
-
 
 #if !defined(OLC_IGNORE_VEC2D)
 #pragma push_macro("min")
@@ -686,11 +687,6 @@ namespace olc
 #pragma pop_macro("min")
 #pragma pop_macro("max")
 #endif
-
-
-
-
-
 
     // O------------------------------------------------------------------------------O
     // | olc::ResourcePack - A virtual scrambled filesystem to pack your assets into  |
@@ -925,7 +921,7 @@ namespace olc
         // Get the state of a specific keyboard button
         HWButton GetKey(Key k) const;
         // Get the state of a specific mouse button
-        HWButton GetMouse(uint32_t b) const;
+        HWButton GetMouse(Mouse b) const;
         // Get Mouse X coordinate in "pixel" space
         int32_t GetMouseX() const;
         // Get Mouse Y coordinate in "pixel" space

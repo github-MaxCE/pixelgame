@@ -3,13 +3,20 @@
 
 namespace max
 {
-    Player::Player(olc::PixelGameEngine* pge, max::map* world) :
+    Player::Player(olc::PixelGameEngine* pge, max::map* world, max::EventSystem* events) :
         pge(pge),
         world(world),
         max::Entity(true),
         player(3, olc::vi2d(5, 5), olc::vi2d(20, 30), olc::CYAN, "player", false, false, true, pge, world),
-        camera(new max::Camera(this, pge, world))
-    {}
+        camera(new max::Camera(this, pge, world)),
+        max::EventSubscriber(events)
+    {
+        events->Add                (&Player::Right      , this, olc::Key::D       , 0, 2);
+        events->Add                (&Player::Left       , this, olc::Key::Q       , 0, 2);
+        events->Add                (&Player::Jump       , this, olc::Key::SPACE   , 1, 2);
+        events->Add<max::HW::MOUSE>(&Player::OnMouseLeft, this, olc::Mouse::M_LEFT, 1, 0);
+        
+    }
 
     Player::~Player()
     {
@@ -49,6 +56,11 @@ namespace max
         return true;
     }
 
+    void Player::Left(float fElapsedTime) { if (canWalkl) vel.x -= curspeed * fElapsedTime; }
+    void Player::Right(float fElapsedTime) { if (canWalkr) vel.x += curspeed * fElapsedTime; }
+    void Player::Jump(float fElapsedTime) { if (isGrounded) vel.y -= jumpspeed * fElapsedTime; }
+    void Player::OnMouseLeft(float fElapsedTime) { player.pos = pge->GetMousePos(); }
+
     //Update() called every frame, good for input
     void Player::Update(float fElapsedTime)
     {
@@ -67,26 +79,22 @@ namespace max
         edge[1][1] = olc::vi2d(player.pos.x + player.size.x + 1, player.pos.y + player.size.y / 2);
         edge[1][2] = olc::vi2d(player.pos.x + player.size.x + 1, player.pos.y);
 
-        if (pge->GetKey(olc::Q).bHeld && canWalkl)
-            vel.x -= speed;
-        if (pge->GetKey(olc::D).bHeld && canWalkr)
-            vel.x += speed;
-        if (pge->GetKey(olc::SPACE).bPressed && isGrounded)
-            vel.y -= jumpspeed;
-        //so i can change the position of the player for collision purposes
-        if (pge->GetMouse(olc::Mouse::LEFT).bPressed)
-            player.pos = pge->GetMousePos();
+        auto CTRL = pge->GetKey(olc::CTRL);
+        auto C = pge->GetKey(olc::C);
+
+        curspeed = CTRL.bHeld || C.bReleased ? speed / 2 : speed;
+
+        if (CTRL.bHeld && C.bHeld)
+        {
+            curspeed = speed * 2 / 5;
+        }
+
+        if ((C.bReleased && CTRL.bHeld && CTRL.bReleased) || CTRL.bReleased)
+        {
+            curspeed = speed;
+        }
     }
 
-    /// <summary>
-    /// Player::FixedUpdate() : called 60 times a second, good for physics
-    /// </summary>
-    /// <param name="fElapsedTime">
-    /// : the time in seconds between the last and current frame
-    /// </param>
-    /// <param name="pge">
-    /// : pointer to the main game class to access pge functions
-    /// </param>
     void Player::FixedUpdate(float fElapsedTime)
     {
         isGrounded = false;
@@ -94,7 +102,7 @@ namespace max
         canWalkl = true;
 
         vel.y += g;
-        vel.clamp(-speed, speed, -jumpspeed, g);
+        vel.clamp(-curspeed, curspeed, -jumpspeed, g);
         player.pos += vel;
         vel = { 0, vel.y };
         for (auto const& i : world->GameObjects[1])
@@ -154,17 +162,16 @@ namespace max
 
     void Camera::FixedUpdate(float fElapsedTime)
     {
-        player->player.pos.xclamp(0, pge->ScreenWidth() - player->player.size.x - 1);
-        vel.clamp(-player->speed, player->speed, -player->jumpspeed, player->g);
+        vel.clamp(-player->curspeed, player->curspeed, -player->jumpspeed, player->g);
         worldoffset += vel;
-        vel = olc::vi2d(0, vel.y);
+        vel.x = 0;
         worldoffset.xclamp(-(world->size.x - pge->ScreenWidth()) - 1, 0);
         if (-worldoffset.x + pge->ScreenWidth() <= world->size.x)
         {
             player->player.pos.xclamp(0, pge->ScreenWidth() - player->player.size.x - 1 - 120);
             if (player->player.pos.x >= 259)
             {
-                if (pge->GetKey(olc::D).bHeld && player->canWalkr) vel.x -= player->speed;
+                if (pge->GetKey(olc::D).bHeld && player->canWalkr) vel.x -= player->curspeed;
             }
         }
     }

@@ -2,6 +2,7 @@
 #include "olcPixelGameEngine.h"
 #include "GameObject.h"
 #include "Entity.h"
+#include "EventSystem.h"
 
 namespace max
 {
@@ -32,21 +33,28 @@ namespace max
 		virtual void End() override {}
 	};
 
-	class Player : public max::Entity
+	class Player : public max::Entity, public max::EventSubscriber
 	{
 	private:
 		olc::PixelGameEngine* pge;
 		max::map* world;
 	public:
-		Player(olc::PixelGameEngine* pge, max::map* world);
+		Player(olc::PixelGameEngine* pge, max::map* world, max::EventSystem* events);
 		virtual ~Player();
 		virtual void Start() override {}
 		virtual void FixedUpdate(float fElapsedTime) override;
 		virtual void Update(float fElapsedTime) override;
+		void Left(float fElapsedTime);
+		void Right(float fElapsedTime);
+		void Jump(float fElapsedTime);
+		void OnMouseLeft(float fElapsedTime);
 		virtual void End() override {}
 		max::GameObject player;
 		bool isGrounded = false, canWalkl = true, canWalkr = true;
-		float g = 8.0f, speed = 4.5f, jumpspeed = 50.0f;
+		float g = 8.0f;
+		const float speed = 1200.0f;
+		float curspeed = speed;
+		float jumpspeed = 50.0f;
 	private:
 		Camera* camera;
 		olc::vi2d top[3], edge[2][3], bottom[3], vel = olc::vi2d(0, 0);

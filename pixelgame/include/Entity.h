@@ -20,4 +20,6 @@ namespace max
     };
 
     extern std::list<max::Entity*> Entities;
+
+    extern void DeleteAllEntities();
 }

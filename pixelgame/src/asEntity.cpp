@@ -4,6 +4,7 @@ namespace max::angelscript
 {
     Entity::~Entity()
     {
+        engine->ReleaseScriptObject(obj, obj->GetObjectType());
     }
 
     void Entity::Start()
@@ -36,6 +37,5 @@ namespace max::angelscript
         {
             max::angelscript::callmethod("void End()", obj, type, engine);
         }
-        engine->ReleaseScriptObject(obj, obj->GetObjectType());
     }
 }
