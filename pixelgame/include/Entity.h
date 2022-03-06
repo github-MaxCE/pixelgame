@@ -1,7 +1,6 @@
 #pragma once
 #include <list>
 #include "filemanager.h"
-#include "AngelScriptUtils.h"
 #include "angelscript/angelscript.h"
 #include "angelscript/scriptstdstring/scriptstdstring.h"
 #include "angelscript/scriptbuilder/scriptbuilder.h"

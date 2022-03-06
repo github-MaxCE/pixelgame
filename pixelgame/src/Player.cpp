@@ -11,10 +11,10 @@ namespace max
         camera(new max::Camera(this, pge, world)),
         max::EventSubscriber(events)
     {
-        events->Add                (&Player::Right      , this, olc::Key::D       , 0, 2);
-        events->Add                (&Player::Left       , this, olc::Key::Q       , 0, 2);
-        events->Add                (&Player::Jump       , this, olc::Key::SPACE   , 1, 2);
-        events->Add<max::HW::MOUSE>(&Player::OnMouseLeft, this, olc::Mouse::M_LEFT, 1, 0);
+        events->Add(&Player::Right      , this, olc::Key::D       , 0, 0);
+        events->Add(&Player::Left       , this, olc::Key::Q       , 0, 2);
+        events->Add(&Player::Jump       , this, olc::Key::SPACE   , 1, 2);
+        events->Add(&Player::OnMouseLeft, this, olc::Mouse::M_LEFT, 1, 0, max::HW::MOUSE   );
         
     }
 

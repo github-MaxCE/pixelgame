@@ -5,16 +5,13 @@
 #include "map.h"
 #include "Player.h"
 #include "Entity.h"
-#include "AngelScriptUtils.h"
-#include "angelscript/angelscript.h"
-#include "angelscript/scriptstdstring/scriptstdstring.h"
-#include "angelscript/scriptbuilder/scriptbuilder.h"
 #include <cassert>
 #include <thread>
 #include <atomic>
 #include <chrono>
 #include "AssetManager.h"
 #include "EventSystem.h"
+#include "AngelScriptEngine.h"
 
 class pixelgame : public olc::PixelGameEngine
 {
@@ -29,16 +26,12 @@ class pixelgame : public olc::PixelGameEngine
         events.End();
         fixed.join();
         max::DeleteAllEntities();
-
-        engine->ShutDownAndRelease();
     }
 
     max::EventSystem events = max::EventSystem(this);
     max::AssetManager assets;
     max::map* world;
     olc::GFX2D gfx2d;
-    asIScriptEngine* engine = asCreateScriptEngine();
-    CScriptBuilder builder;
     std::thread fixed;
     std::chrono::time_point<std::chrono::system_clock> fx_tp1, fx_tp2;
     float fx_fLastElapsed;
@@ -72,11 +65,7 @@ class pixelgame : public olc::PixelGameEngine
     // Called once at the start
     bool OnUserCreate() override
     {
-        int r = engine->SetMessageCallback(asFUNCTION(max::angelscript::MessageCallback), 0, asCALL_CDECL); assert(r >= 0);
-        RegisterStdString(engine);
-        r = engine->RegisterGlobalFunction("void print(const string& in)", asFUNCTION(max::angelscript::print), asCALL_CDECL); assert(r >= 0);
-
-        world = new max::map("map", &assets, &gfx2d, this, engine, &builder);
+        world = new max::map("map", &assets, &gfx2d, this);
         new max::Player(this, world, &events);
 
         for (const auto& x : world->GameObjects[1])
@@ -138,5 +127,6 @@ int main()
         if (pge.Construct(400, 180, 2, 2))
             pge.Start();
     }
+
     return 0;
 }

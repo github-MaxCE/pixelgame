@@ -9,6 +9,7 @@
 
 #include "rapidxml.h"
 #include <string>
+#include <vector>
 #include <fstream>
 #include <stdexcept>
 

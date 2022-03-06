@@ -2,40 +2,23 @@
 
 namespace max::angelscript
 {
-    Entity::~Entity()
-    {
-        engine->ReleaseScriptObject(obj, obj->GetObjectType());
-    }
-
     void Entity::Start()
     {
-        if (obj != nullptr)
-        {
-            max::angelscript::callmethod("void Start()", obj, type, engine);
-        }
+        call("void Start()");
     }
 
     void Entity::FixedUpdate(float fElapsedTime)
     {
-        if (obj != nullptr)
-        {
-            max::angelscript::callmethod("void FixedUpdate(float fElapsedTime)", obj, type, engine, fElapsedTime);
-        }
+        call("void FixedUpdate(float fElapsedTime)", fElapsedTime);
     }
 
     void Entity::Update(float fElapsedTime)
     {
-        if (obj != nullptr)
-        {
-            max::angelscript::callmethod("void Update(float fElapsedTime)", obj, type, engine, fElapsedTime);
-        }
+        call("void Update(float fElapsedTime)", fElapsedTime);
     }
 
     void Entity::End()
     {
-        if (obj != nullptr)
-        {
-            max::angelscript::callmethod("void End()", obj, type, engine);
-        }
+        call("void End()");
     }
 }

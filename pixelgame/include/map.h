@@ -1,8 +1,4 @@
 #pragma once
-#include "angelscript/angelscript.h"
-#include "angelscript/scriptstdstring/scriptstdstring.h"
-#include "angelscript/scriptbuilder/scriptbuilder.h"
-#include "AngelScriptUtils.h"
 #include "rapidxml.h"
 #include "rapidxml_utils.h"
 #include "filemanager.h"
@@ -11,6 +7,7 @@
 #include "map.h"
 #include "olcPixelGameEngine.h"
 #include "AssetManager.h"
+#include "AngelScriptEngine.h"
 
 namespace max
 {
@@ -19,44 +16,25 @@ namespace max
     public:
         //const char* file, const char* objdecl, asIScriptEngine* _engine, CScriptBuilder* _builder, asIScriptContext* _ctx, bool emplace = true, Args... args
         template<class... Args>
-        inline map(const char* mapname, max::AssetManager* assets, olc::GFX2D* gfx2d, olc::PixelGameEngine* pge, asIScriptEngine* engine, CScriptBuilder* builder, Args... args) :
-            max::angelscript::Entity((std::string() + "maps/" + mapname + ".as").c_str(), mapname, engine, builder, true, args...),
+        inline map(const char* mapname, max::AssetManager* assets, olc::GFX2D* gfx2d, olc::PixelGameEngine* pge, Args... args) :
+            max::angelscript::Entity(mapname, (std::string() + "maps/" + mapname + ".as").c_str(), true, args...),
             assets(assets)
         {
             DeleteAllGameObjects();
 
             auto tmp_mappath = mappath() + mapname + ".xml";
 
-            rapidxml::file<>* xmlFile = new rapidxml::file<>(tmp_mappath.c_str());
+            rapidxml::file<char>* xmlFile = new rapidxml::file<char>(tmp_mappath.c_str());
             rapidxml::xml_document<>* doc = new rapidxml::xml_document<>();
             doc->parse<0>(xmlFile->data());
             rapidxml::xml_node<>* root_node = doc->first_node("pxg");
             rapidxml::xml_node<>* script_node = root_node->first_node("script");
             rapidxml::xml_node<>* map_node = root_node->first_node("map");
-            std::string tmp_scriptpath;
-            if (script_node != 0)
-            {
-                if (script_node->first_attribute("file") != 0)
-                {
-                    tmp_scriptpath = (scriptpath() + script_node->first_attribute("file")->value());
-                }
-            }
-            if (!tmp_scriptpath.empty())
-            {
-                int r = builder->StartNewModule(engine, mapname);
-                if (r < 0) printf("Unrecoverable error while starting a new module.\n");
-
-                r = builder->AddSectionFromFile(tmp_scriptpath.c_str());
-                if (r < 0) printf("Please correct the errors in the script and try again.\n");
-
-                r = builder->BuildModule();
-                if (r < 0) printf("Please correct the errors in the script and try again.\n");
-
-                // Find the function that is to be called. 
-                asIScriptFunction* func = engine->GetModule(mapname)->GetFunctionByDecl("void main()");
-                if (max::angelscript::callfunc("void main()", engine->GetModule(mapname), engine) == 0)
-                    printf("no void main() function. skipping\n");
-            }
+            std::string tmp_scriptpath = std::string() + "maps/" + mapname + ".as";
+            if (script_node != 0 && script_node->first_attribute("file") != 0)
+                tmp_scriptpath = (scriptpath() + script_node->first_attribute("file")->value());
+            
+            max::angelscript::Engine::callfunc("void main()", tmp_scriptpath.c_str());
 
             for (rapidxml::xml_node<>* node = map_node->first_node(); node; node = node->next_sibling())
             {

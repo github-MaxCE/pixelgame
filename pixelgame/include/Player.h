@@ -4,6 +4,8 @@
 #include "Entity.h"
 #include "EventSystem.h"
 
+static constexpr float operator"" f(unsigned long long v) { return float(v); }
+
 namespace max
 {
 	class map;
@@ -52,9 +54,9 @@ namespace max
 		max::GameObject player;
 		bool isGrounded = false, canWalkl = true, canWalkr = true;
 		float g = 8.0f;
-		const float speed = 1200.0f;
+		const float speed = 24f;
 		float curspeed = speed;
-		float jumpspeed = 50.0f;
+		float jumpspeed = 50f;
 	private:
 		Camera* camera;
 		olc::vi2d top[3], edge[2][3], bottom[3], vel = olc::vi2d(0, 0);

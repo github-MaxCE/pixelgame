@@ -197,7 +197,8 @@
     <ClCompile Include="include\angelscript\scriptbuilder\scriptbuilder.cpp" />
     <ClCompile Include="include\angelscript\scriptstdstring\scriptstdstring.cpp" />
     <ClCompile Include="include\angelscript\scriptstdstring\scriptstdstring_utils.cpp" />
-    <ClCompile Include="src\AngelScriptUtils.cpp" />
+    <ClCompile Include="src\AngelScriptObject.cpp" />
+    <ClCompile Include="src\AngelScriptEngine.cpp" />
     <ClCompile Include="src\asEntity.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\EventSystem.cpp" />
@@ -217,7 +218,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Abstractions.h" />
-    <ClInclude Include="include\AngelScriptUtils.h" />
+    <ClInclude Include="include\AngelScriptEngine.h" />
+    <ClInclude Include="include\AngelScriptObject.h" />
     <ClInclude Include="include\angelscript\angelscript.h" />
     <ClInclude Include="include\angelscript\as_array.h" />
     <ClInclude Include="include\angelscript\as_atomic.h" />

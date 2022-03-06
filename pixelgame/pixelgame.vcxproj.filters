@@ -147,9 +147,10 @@
     </ClCompile>
     <ClCompile Include="src\map.cpp" />
     <ClCompile Include="src\filemanager.cpp" />
-    <ClCompile Include="src\AngelScriptUtils.cpp" />
+    <ClCompile Include="src\AngelScriptEngine.cpp" />
     <ClCompile Include="src\olcPixelGameEngine.cpp" />
     <ClCompile Include="src\EventSystem.cpp" />
+    <ClCompile Include="src\AngelScriptObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\filemanager.h">
@@ -308,14 +309,13 @@
     <ClInclude Include="include\angelscript\scriptarray\scriptarray.h">
       <Filter>include\angelscript\scriptarray</Filter>
     </ClInclude>
-    <ClInclude Include="include\AngelScriptUtils.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\map.h" />
     <ClInclude Include="include\Abstractions.h" />
     <ClInclude Include="include\AssetManager.h" />
     <ClInclude Include="include\asEntity.h" />
     <ClInclude Include="include\EventSystem.h" />
+    <ClInclude Include="include\AngelScriptEngine.h" />
+    <ClInclude Include="include\AngelScriptObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
