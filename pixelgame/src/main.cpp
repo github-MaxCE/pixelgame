@@ -33,32 +33,33 @@ class pixelgame : public olc::PixelGameEngine
     max::map* world;
     olc::GFX2D gfx2d;
     std::thread fixed;
-    std::chrono::time_point<std::chrono::system_clock> fx_tp1, fx_tp2;
     float fx_fLastElapsed;
     std::atomic<bool> gamestate = false;
 
     void FixedUpdate()
     {
+        using namespace std::chrono_literals;
+
+        std::chrono::time_point<std::chrono::system_clock> tp1, tp2;
+
         while(!gamestate) {}
         while (gamestate)
         {
             // Handle Timing
-            fx_tp2 = std::chrono::system_clock::now();
-            std::chrono::duration<float> elapsedTime = fx_tp2 - fx_tp1;
-            fx_tp1 = fx_tp2;
+            tp2 = std::chrono::system_clock::now();
+            std::chrono::duration<float> elapsedTime = tp2 - tp1;
+            tp1 = tp2;
 
             // Our time per frame coefficient
-            float fx_fElapsedTime = elapsedTime.count();
-            fx_fLastElapsed = fx_fElapsedTime;
+            float fElapsedTime = elapsedTime.count();
+            fx_fLastElapsed = fElapsedTime;
 
             for (auto entity : max::Entities)
             {
-                entity->FixedUpdate(fx_fElapsedTime);
+                entity->FixedUpdate(fElapsedTime);
             }
-            
-            events.Start();
 
-            std::this_thread::sleep_for(std::chrono::duration<int, std::milli>(10));
+            std::this_thread::sleep_for(10ms);
         }
     }
 
@@ -85,6 +86,8 @@ class pixelgame : public olc::PixelGameEngine
         }
 
         fixed = std::thread(&pixelgame::FixedUpdate, this);
+
+        events.Start();
 
         return true;
     }

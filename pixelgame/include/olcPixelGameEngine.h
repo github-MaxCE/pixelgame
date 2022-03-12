@@ -639,7 +639,7 @@ namespace olc
         operator v2d_generic<int32_t>() const { return { static_cast<int32_t>(this->x), static_cast<int32_t>(this->y) }; }
         operator v2d_generic<float>() const { return { static_cast<float>(this->x), static_cast<float>(this->y) }; }
         operator v2d_generic<double>() const { return { static_cast<double>(this->x), static_cast<double>(this->y) }; }
-        operator bool() { return mag() != 0; }
+        operator bool() const { return mag() != 0; }
     };
 
     // Note: joshinils has some good suggestions here, but they are complicated to implement at this moment, 
@@ -808,7 +808,7 @@ namespace olc
     {
     public:
         Renderable() = default;
-        Renderable(Renderable&& r) : pSprite(std::move(r.pSprite)), pDecal(std::move(r.pDecal)) {}
+        Renderable(Renderable&& r) noexcept : pSprite(std::move(r.pSprite)), pDecal(std::move(r.pDecal)) {}
         Renderable(const Renderable&) = delete;
         olc::rcode Load(const std::string& sFile, ResourcePack* pack = nullptr, bool filter = false, bool clamp = true);
         void Create(uint32_t width, uint32_t height, bool filter = false, bool clamp = true);
@@ -881,7 +881,7 @@ namespace olc
         virtual olc::rcode ThreadStartUp() = 0;
         virtual olc::rcode ThreadCleanUp() = 0;
         virtual olc::rcode CreateGraphics(bool bFullScreen, bool bEnableVSYNC, const olc::vi2d& vViewPos, const olc::vi2d& vViewSize) = 0;
-        virtual olc::rcode CreateWindowPane(const olc::vi2d& vWindowPos, olc::vi2d& vWindowSize, bool bFullScreen) = 0;
+        virtual olc::rcode CreateWindowPane(const olc::vu2d& vWindowPos, olc::vu2d& vWindowSize, bool bFullScreen) = 0;
         virtual olc::rcode SetWindowTitle(const std::string& s) = 0;
         virtual olc::rcode StartSystemEventLoop() = 0;
         virtual olc::rcode HandleSystemEvent() = 0;
@@ -904,7 +904,7 @@ namespace olc
         PixelGameEngine();
         virtual ~PixelGameEngine();
     public:
-        olc::rcode Construct(int32_t screen_w, int32_t screen_h, int32_t pixel_w, int32_t pixel_h, uint8_t flags = 0b000);
+        olc::rcode Construct(uint32_t screen_w, uint32_t screen_h, uint32_t pixel_w, uint32_t pixel_h, uint8_t flags = 0b000);
         olc::rcode Start();
 
     public: // User Override Interfaces
@@ -932,6 +932,8 @@ namespace olc
         const olc::vi2d& GetWindowMouse() const;
         // Gets the mouse as a vector to keep Tarriest happy
         const olc::vi2d& GetMousePos() const;
+        // Gets the mouse as the distance it traveled 0 if the mouse has stayed frozen
+        // const olc::vi2d& GetMousePosDelta() const;
 
         static const std::map<size_t, uint8_t>& GetKeyMap() { return mapKeys; }
 
@@ -948,7 +950,7 @@ namespace olc
         // Returns the currently active draw target
         olc::Sprite* GetDrawTarget() const;
         // Resize the primary screen sprite
-        void SetScreenSize(int w, int h);
+        void SetScreenSize(uint32_t w, uint32_t h);
         // Specify which Sprite should be the target of drawing functions, use nullptr
         // to specify the primary screen
         void SetDrawTarget(Sprite* target);
@@ -1111,18 +1113,19 @@ namespace olc
         olc::Sprite* pDrawTarget = nullptr;
         Pixel::Mode	nPixelMode = Pixel::NORMAL;
         float		fBlendFactor = 1.0f;
-        olc::vi2d	vScreenSize = { 256, 240 };
+        olc::vu2d	vScreenSize = { 256, 240 };
         olc::vf2d	vInvScreenSize = { 1.0f / 256.0f, 1.0f / 240.0f };
-        olc::vi2d	vPixelSize = { 4, 4 };
-        olc::vi2d   vScreenPixelSize = { 4, 4 };
-        olc::vi2d	vMousePos = { 0, 0 };
+        olc::vu2d	vPixelSize = { 4, 4 };
+        olc::vu2d   vScreenPixelSize = { 4, 4 };
+        olc::vu2d	vMousePos = { 0, 0 };
+mutable olc::vu2d	vMousePosDelta = { 0, 0 };
         int32_t		nMouseWheelDelta = 0;
-        olc::vi2d	vMousePosCache = { 0, 0 };
-        olc::vi2d   vMouseWindowPos = { 0, 0 };
+        olc::vu2d	vMousePosCache = { 0, 0 };
+        olc::vu2d   vMouseWindowPos = { 0, 0 };
         int32_t		nMouseWheelDeltaCache = 0;
-        olc::vi2d	vWindowSize = { 0, 0 };
+        olc::vu2d	vWindowSize = { 0, 0 };
         olc::vi2d	vViewPos = { 0, 0 };
-        olc::vi2d	vViewSize = { 0,0 };
+        olc::vu2d	vViewSize = { 0,0 };
         bool		bFullScreen = false;
         olc::vf2d	vPixel = { 1.0f, 1.0f };
         bool		bHasInputFocus = false;
@@ -1163,9 +1166,9 @@ namespace olc
 
     public:
         // "Break In" Functions
-        void olc_UpdateMouse(int32_t x, int32_t y);
+        void olc_UpdateMouse(uint32_t x, uint32_t y);
         void olc_UpdateMouseWheel(int32_t delta);
-        void olc_UpdateWindowSize(int32_t x, int32_t y);
+        void olc_UpdateWindowSize(uint32_t x, uint32_t y);
         void olc_UpdateViewport();
         void olc_ConstructFontSheet();
         void olc_CoreUpdate();

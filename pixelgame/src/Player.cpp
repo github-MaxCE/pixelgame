@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "map.h"
 
+constexpr float operator""f(unsigned long long v) { return v; }
+
 namespace max
 {
     Player::Player(olc::PixelGameEngine* pge, max::map* world, max::EventSystem* events) :
@@ -9,13 +11,15 @@ namespace max
         max::Entity(true),
         player(3, olc::vi2d(5, 5), olc::vi2d(20, 30), olc::CYAN, "player", false, false, true, pge, world),
         camera(new max::Camera(this, pge, world)),
-        max::EventSubscriber(events)
+        events(events)
     {
-        events->Add(&Player::Right      , this, olc::Key::D       , 0, 0);
-        events->Add(&Player::Left       , this, olc::Key::Q       , 0, 2);
-        events->Add(&Player::Jump       , this, olc::Key::SPACE   , 1, 2);
-        events->Add(&Player::OnMouseLeft, this, olc::Mouse::M_LEFT, 1, 0, max::HW::MOUSE   );
-        
+        events->Add(&Player::Right, this, olc::Key::D, 0);
+        events->Add(&Player::Left, this, olc::Key::Q, 0);
+        events->Add(&Player::Jump, this, olc::Key::SPACE, 1, 500);
+        events->Add(&Player::OnCTRL, this, olc::Key::CTRL, 0);
+        events->Add(&Player::OnC, this, olc::Key::C, 0);
+        events->Add(&Player::OnMouseLeft, this, olc::Mouse::M_LEFT);
+        events->Add(&Player::ResetSpeedMultiplier, this, olc::Key::CTRL, 2);
     }
 
     Player::~Player()
@@ -56,10 +60,13 @@ namespace max
         return true;
     }
 
-    void Player::Left(float fElapsedTime) { if (canWalkl) vel.x -= curspeed * fElapsedTime; }
-    void Player::Right(float fElapsedTime) { if (canWalkr) vel.x += curspeed * fElapsedTime; }
-    void Player::Jump(float fElapsedTime) { if (isGrounded) vel.y -= jumpspeed * fElapsedTime; }
-    void Player::OnMouseLeft(float fElapsedTime) { player.pos = pge->GetMousePos(); }
+    void Player::Left() { if (canWalkl) vel.x -= curspeed * 100f; }
+    void Player::Right() { if (canWalkr) vel.x += curspeed * 100f; }
+    void Player::Jump() { if (isGrounded) vel.y -= jumpspeed * 5f; }
+    void Player::OnMouseLeft() { player.pos = pge->GetMousePos(); }
+    void Player::OnCTRL() { curspeed = curspeed == speed ? speed / 2f : speed; }
+    void Player::OnC() { curspeed = curspeed == speed ? speed : (curspeed == speed / 2 ? speed / 4 : speed / 2); }
+    void Player::ResetSpeedMultiplier() { curspeed = 1f; }
 
     //Update() called every frame, good for input
     void Player::Update(float fElapsedTime)
@@ -78,21 +85,6 @@ namespace max
         edge[1][0] = olc::vi2d(player.pos.x + player.size.x + 1, player.pos.y + player.size.y);
         edge[1][1] = olc::vi2d(player.pos.x + player.size.x + 1, player.pos.y + player.size.y / 2);
         edge[1][2] = olc::vi2d(player.pos.x + player.size.x + 1, player.pos.y);
-
-        auto CTRL = pge->GetKey(olc::CTRL);
-        auto C = pge->GetKey(olc::C);
-
-        curspeed = CTRL.bHeld || C.bReleased ? speed / 2 : speed;
-
-        if (CTRL.bHeld && C.bHeld)
-        {
-            curspeed = speed * 2 / 5;
-        }
-
-        if ((C.bReleased && CTRL.bHeld && CTRL.bReleased) || CTRL.bReleased)
-        {
-            curspeed = speed;
-        }
     }
 
     void Player::FixedUpdate(float fElapsedTime)
@@ -103,7 +95,7 @@ namespace max
 
         vel.y += g;
         vel.clamp(-curspeed, curspeed, -jumpspeed, g);
-        player.pos += vel;
+        player.pos += vel * 100f * fElapsedTime;
         vel = { 0, vel.y };
         for (auto const& i : world->GameObjects[1])
         {

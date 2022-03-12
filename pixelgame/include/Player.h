@@ -4,7 +4,7 @@
 #include "Entity.h"
 #include "EventSystem.h"
 
-static constexpr float operator"" f(unsigned long long v) { return float(v); }
+extern constexpr float operator""f(unsigned long long);
 
 namespace max
 {
@@ -35,30 +35,33 @@ namespace max
 		virtual void End() override {}
 	};
 
-	class Player : public max::Entity, public max::EventSubscriber
+	class Player : public max::Entity
 	{
-	private:
 		olc::PixelGameEngine* pge;
+		max::EventSystem* events;
 		max::map* world;
+		Camera* camera;
+		olc::vi2d top[3], edge[2][3], bottom[3];
+		olc::vf2d vel{0, 0};
 	public:
-		Player(olc::PixelGameEngine* pge, max::map* world, max::EventSystem* events);
+		Player(olc::PixelGameEngine*, max::map*, max::EventSystem*);
 		virtual ~Player();
 		virtual void Start() override {}
-		virtual void FixedUpdate(float fElapsedTime) override;
-		virtual void Update(float fElapsedTime) override;
-		void Left(float fElapsedTime);
-		void Right(float fElapsedTime);
-		void Jump(float fElapsedTime);
-		void OnMouseLeft(float fElapsedTime);
+		virtual void FixedUpdate(float) override;
+		virtual void Update(float) override;
+		void Left();
+		void Right();
+		void Jump();
+		void OnMouseLeft();
+		void OnCTRL();
+		void OnC();
+		void ResetSpeedMultiplier();
 		virtual void End() override {}
 		max::GameObject player;
 		bool isGrounded = false, canWalkl = true, canWalkr = true;
-		float g = 8.0f;
-		const float speed = 24f;
+		float g = 8f;
+		const float speed = 5f;
 		float curspeed = speed;
-		float jumpspeed = 50f;
-	private:
-		Camera* camera;
-		olc::vi2d top[3], edge[2][3], bottom[3], vel = olc::vi2d(0, 0);
+		float jumpspeed = 28f;
 	};
 }
