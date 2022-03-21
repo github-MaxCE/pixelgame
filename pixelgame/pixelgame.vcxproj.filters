@@ -149,7 +149,6 @@
     <ClCompile Include="src\filemanager.cpp" />
     <ClCompile Include="src\AngelScriptEngine.cpp" />
     <ClCompile Include="src\olcPixelGameEngine.cpp" />
-    <ClCompile Include="src\EventSystem.cpp" />
     <ClCompile Include="src\AngelScriptObject.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -313,7 +312,6 @@
     <ClInclude Include="include\Abstractions.h" />
     <ClInclude Include="include\AssetManager.h" />
     <ClInclude Include="include\asEntity.h" />
-    <ClInclude Include="include\EventSystem.h" />
     <ClInclude Include="include\AngelScriptEngine.h" />
     <ClInclude Include="include\AngelScriptObject.h" />
   </ItemGroup>

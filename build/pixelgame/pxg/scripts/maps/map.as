@@ -1,5 +1,7 @@
 class map
 {
+    olc::vi2d aa = olc::vi2d(5, 9);
+
     map()
     {
         print("created\n");

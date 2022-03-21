@@ -2,7 +2,6 @@
 #include "olcPixelGameEngine.h"
 #include "GameObject.h"
 #include "Entity.h"
-#include "EventSystem.h"
 
 extern constexpr float operator""f(unsigned long long);
 
@@ -38,13 +37,12 @@ namespace max
 	class Player : public max::Entity
 	{
 		olc::PixelGameEngine* pge;
-		max::EventSystem* events;
 		max::map* world;
 		Camera* camera;
 		olc::vi2d top[3], edge[2][3], bottom[3];
 		olc::vf2d vel{0, 0};
 	public:
-		Player(olc::PixelGameEngine*, max::map*, max::EventSystem*);
+		Player(olc::PixelGameEngine*, max::map*);
 		virtual ~Player();
 		virtual void Start() override {}
 		virtual void FixedUpdate(float) override;
@@ -53,9 +51,9 @@ namespace max
 		void Right();
 		void Jump();
 		void OnMouseLeft();
-		void OnCTRL();
-		void OnC();
-		void ResetSpeedMultiplier();
+		void Crouch();
+		void Prone();
+		void ResetSpeed();
 		virtual void End() override {}
 		max::GameObject player;
 		bool isGrounded = false, canWalkl = true, canWalkr = true;

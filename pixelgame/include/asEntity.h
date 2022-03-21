@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#include <utility>
 #include "filemanager.h"
 #include "angelscript/angelscript.h"
 #include "angelscript/scriptstdstring/scriptstdstring.h"
@@ -13,9 +14,9 @@ namespace max::angelscript
     {
     public:
         template<class... Args>
-        inline Entity(const char* typedecl, const char* filename, bool emplace = true, Args... args) :
+        inline Entity(const char* typedecl, const char* filename, bool emplace = true, Args&& ...args) :
             max::Entity(emplace),
-            max::angelscript::object(typedecl, filename, args...)
+            max::angelscript::object(typedecl, filename, std::forward<Args>(args)...)
         {}
 
         virtual ~Entity() = default;

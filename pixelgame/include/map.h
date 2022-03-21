@@ -1,4 +1,5 @@
 #pragma once
+#include <utility>
 #include "rapidxml.h"
 #include "rapidxml_utils.h"
 #include "filemanager.h"
@@ -16,8 +17,8 @@ namespace max
     public:
         //const char* file, const char* objdecl, asIScriptEngine* _engine, CScriptBuilder* _builder, asIScriptContext* _ctx, bool emplace = true, Args... args
         template<class... Args>
-        inline map(const char* mapname, max::AssetManager* assets, olc::GFX2D* gfx2d, olc::PixelGameEngine* pge, Args... args) :
-            max::angelscript::Entity(mapname, (std::string() + "maps/" + mapname + ".as").c_str(), true, args...),
+        inline map(const char* mapname, max::AssetManager* assets, olc::GFX2D* gfx2d, olc::PixelGameEngine* pge, Args&& ...args) :
+            max::angelscript::Entity(mapname, (std::string() + "maps/" + mapname + ".as").c_str(), true, std::forward<Args>(args)...),
             assets(assets)
         {
             DeleteAllGameObjects();

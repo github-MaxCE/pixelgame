@@ -10,7 +10,6 @@
 #include <atomic>
 #include <chrono>
 #include "AssetManager.h"
-#include "EventSystem.h"
 #include "AngelScriptEngine.h"
 
 class pixelgame : public olc::PixelGameEngine
@@ -23,17 +22,14 @@ class pixelgame : public olc::PixelGameEngine
 
     virtual ~pixelgame()
     {
-        events.End();
         fixed.join();
         max::DeleteAllEntities();
     }
 
-    max::EventSystem events = max::EventSystem(this);
     max::AssetManager assets;
     max::map* world;
     olc::GFX2D gfx2d;
     std::thread fixed;
-    float fx_fLastElapsed;
     std::atomic<bool> gamestate = false;
 
     void FixedUpdate()
@@ -41,6 +37,7 @@ class pixelgame : public olc::PixelGameEngine
         using namespace std::chrono_literals;
 
         std::chrono::time_point<std::chrono::system_clock> tp1, tp2;
+        float fLastElapsed;
 
         while(!gamestate) {}
         while (gamestate)
@@ -52,7 +49,7 @@ class pixelgame : public olc::PixelGameEngine
 
             // Our time per frame coefficient
             float fElapsedTime = elapsedTime.count();
-            fx_fLastElapsed = fElapsedTime;
+            fLastElapsed = fElapsedTime;
 
             for (auto entity : max::Entities)
             {
@@ -67,7 +64,7 @@ class pixelgame : public olc::PixelGameEngine
     bool OnUserCreate() override
     {
         world = new max::map("map", &assets, &gfx2d, this);
-        new max::Player(this, world, &events);
+        new max::Player(this, world);
 
         for (const auto& x : world->GameObjects[1])
         {
@@ -86,8 +83,6 @@ class pixelgame : public olc::PixelGameEngine
         }
 
         fixed = std::thread(&pixelgame::FixedUpdate, this);
-
-        events.Start();
 
         return true;
     }

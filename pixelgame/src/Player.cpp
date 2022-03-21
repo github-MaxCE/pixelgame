@@ -5,21 +5,13 @@ constexpr float operator""f(unsigned long long v) { return v; }
 
 namespace max
 {
-    Player::Player(olc::PixelGameEngine* pge, max::map* world, max::EventSystem* events) :
+    Player::Player(olc::PixelGameEngine* pge, max::map* world) :
         pge(pge),
         world(world),
         max::Entity(true),
         player(3, olc::vi2d(5, 5), olc::vi2d(20, 30), olc::CYAN, "player", false, false, true, pge, world),
-        camera(new max::Camera(this, pge, world)),
-        events(events)
+        camera(new max::Camera(this, pge, world))
     {
-        events->Add(&Player::Right, this, olc::Key::D, 0);
-        events->Add(&Player::Left, this, olc::Key::Q, 0);
-        events->Add(&Player::Jump, this, olc::Key::SPACE, 1, 500);
-        events->Add(&Player::OnCTRL, this, olc::Key::CTRL, 0);
-        events->Add(&Player::OnC, this, olc::Key::C, 0);
-        events->Add(&Player::OnMouseLeft, this, olc::Mouse::M_LEFT);
-        events->Add(&Player::ResetSpeedMultiplier, this, olc::Key::CTRL, 2);
     }
 
     Player::~Player()
@@ -64,9 +56,9 @@ namespace max
     void Player::Right() { if (canWalkr) vel.x += curspeed * 100f; }
     void Player::Jump() { if (isGrounded) vel.y -= jumpspeed * 5f; }
     void Player::OnMouseLeft() { player.pos = pge->GetMousePos(); }
-    void Player::OnCTRL() { curspeed = curspeed == speed ? speed / 2f : speed; }
-    void Player::OnC() { curspeed = curspeed == speed ? speed : (curspeed == speed / 2 ? speed / 4 : speed / 2); }
-    void Player::ResetSpeedMultiplier() { curspeed = 1f; }
+    void Player::Crouch() { curspeed = curspeed == speed ? speed / 2f : speed; }
+    void Player::Prone() { curspeed = curspeed == speed ? speed : (curspeed == speed / 2 ? speed / 4 : speed / 2); }
+    void Player::ResetSpeed() { curspeed = speed; }
 
     //Update() called every frame, good for input
     void Player::Update(float fElapsedTime)
@@ -85,6 +77,14 @@ namespace max
         edge[1][0] = olc::vi2d(player.pos.x + player.size.x + 1, player.pos.y + player.size.y);
         edge[1][1] = olc::vi2d(player.pos.x + player.size.x + 1, player.pos.y + player.size.y / 2);
         edge[1][2] = olc::vi2d(player.pos.x + player.size.x + 1, player.pos.y);
+
+        if (pge->GetKey(olc::Key::Q).bHeld) Left();
+        if (pge->GetKey(olc::Key::D).bHeld) Right();
+        if (pge->GetKey(olc::Key::SPACE).bPressed) Jump();
+        if (pge->GetMouse(olc::Mouse::M_LEFT).bPressed) OnMouseLeft();
+        if (pge->GetKey(olc::Key::CTRL).bPressed) Crouch();
+        if (pge->GetKey(olc::Key::C).bPressed) Prone();
+        if (pge->GetKey(olc::Key::CTRL).bReleased) ResetSpeed();
     }
 
     void Player::FixedUpdate(float fElapsedTime)
