@@ -5,27 +5,21 @@ namespace max::angelscript
     std::unordered_map<const char*, asITypeInfo*> Engine::types;
 
     template<typename T>
-    static void v2d_Constructor_def(olc::v2d_generic<T>* self)
+    static void Constructor_def(void* self)
     {
-        new(self) olc::v2d_generic<T>();
+        new(self) T();
     }
 
     template<typename T>
-    static void v2d_Constructor_copy(const olc::v2d_generic<T>& other, olc::v2d_generic<T>* self)
+    static void Constructor_copy(void* self, const T& other)
     {
-        new(self) olc::v2d_generic<T>(other);
+        new(self) T(other);
     }
 
-    template<typename T>
-    static void v2d_Constructor(const T& x, const T& y, olc::v2d_generic<T>* self)
+    template<typename T, typename... Args>
+    static void Constructor(void* self, const Args&... args)
     {
-        new(self) olc::v2d_generic<T>(x, y);
-    }
-
-    template<typename T>
-    static void v2d_Destructor(olc::v2d_generic<T>* self)
-    {
-        delete self;
+        new(self) T(args...);
     }
 
     Engine::~Engine()
@@ -121,25 +115,21 @@ namespace max::angelscript
         r = engine->RegisterObjectProperty("vd2d", "double y", asOFFSET(olc::vd2d, y)); assert(r >= 0);
 
         // Register the constructors
-        r = engine->RegisterObjectBehaviour("vi2d", asBEHAVE_CONSTRUCT, "void f()",                               asFUNCTION(v2d_Constructor_def<int32_t>), asCALL_CDECL_OBJLAST); assert(r >= 0);
-        r = engine->RegisterObjectBehaviour("vi2d", asBEHAVE_CONSTRUCT, "void f(const vi2d&in)",                  asFUNCTION(v2d_Constructor_copy<int32_t>), asCALL_CDECL_OBJLAST); assert(r >= 0);
-        r = engine->RegisterObjectBehaviour("vi2d", asBEHAVE_CONSTRUCT, "void f(const int32&in, const int32&in)", asFUNCTION(v2d_Constructor<int32_t>), asCALL_CDECL_OBJLAST); assert(r >= 0);
-        r = engine->RegisterObjectBehaviour("vi2d", asBEHAVE_DESTRUCT,  "void f()",                               asFUNCTION(v2d_Destructor<int32_t>), asCALL_CDECL_OBJLAST); assert(r >= 0);
+        r = engine->RegisterObjectBehaviour("vi2d", asBEHAVE_CONSTRUCT, "void f()",                               asFUNCTION(v2d_Constructor_def<olc::vi2d>), asCALL_CDECL_OBJFIRST); assert(r >= 0);
+        r = engine->RegisterObjectBehaviour("vi2d", asBEHAVE_CONSTRUCT, "void f(const vi2d&in)",                  asFUNCTION(v2d_Constructor_copy<olc::vi2d>), asCALL_CDECL_OBJFIRST); assert(r >= 0);
+        r = engine->RegisterObjectBehaviour("vi2d", asBEHAVE_CONSTRUCT, "void f(const int32&in, const int32&in)", asFUNCTION(v2d_Constructor<olc::vi2d, int32_t, int32_t>), asCALL_CDECL_OBJFIRST); assert(r >= 0);
 
-        r = engine->RegisterObjectBehaviour("vu2d", asBEHAVE_CONSTRUCT, "void f()",                                 asFUNCTION(v2d_Constructor_def<uint32_t>), asCALL_CDECL_OBJLAST); assert(r >= 0);
-        r = engine->RegisterObjectBehaviour("vu2d", asBEHAVE_CONSTRUCT, "void f(const olc::vu2d&in)",               asFUNCTION(v2d_Constructor_copy<uint32_t>), asCALL_CDECL_OBJLAST); assert(r >= 0);
-        r = engine->RegisterObjectBehaviour("vu2d", asBEHAVE_CONSTRUCT, "void f(const uint32&in, const uint32&in)", asFUNCTION(v2d_Constructor<uint32_t>), asCALL_CDECL_OBJLAST); assert(r >= 0);
-        r = engine->RegisterObjectBehaviour("vu2d", asBEHAVE_DESTRUCT,  "void f()",                                 asFUNCTION(v2d_Destructor<uint32_t>), asCALL_CDECL_OBJLAST); assert(r >= 0);
+        r = engine->RegisterObjectBehaviour("vu2d", asBEHAVE_CONSTRUCT, "void f()",                                 asFUNCTION(v2d_Constructor_def<olc::vu2d>), asCALL_CDECL_OBJFIRST); assert(r >= 0);
+        r = engine->RegisterObjectBehaviour("vu2d", asBEHAVE_CONSTRUCT, "void f(const olc::vu2d&in)",               asFUNCTION(v2d_Constructor_copy<olc::vu2d>), asCALL_CDECL_OBJFIRST); assert(r >= 0);
+        r = engine->RegisterObjectBehaviour("vu2d", asBEHAVE_CONSTRUCT, "void f(const uint32&in, const uint32&in)", asFUNCTION(v2d_Constructor<olc::vu2d, uint32_t, uint32_t>), asCALL_CDECL_OBJFIRST); assert(r >= 0);
 
-        r = engine->RegisterObjectBehaviour("vf2d", asBEHAVE_CONSTRUCT, "void f()",                               asFUNCTION(v2d_Constructor_def<double>), asCALL_CDECL_OBJLAST); assert(r >= 0);
-        r = engine->RegisterObjectBehaviour("vf2d", asBEHAVE_CONSTRUCT, "void f(const olc::vf2d&in)",             asFUNCTION(v2d_Constructor_copy<double>), asCALL_CDECL_OBJLAST); assert(r >= 0);
-        r = engine->RegisterObjectBehaviour("vf2d", asBEHAVE_CONSTRUCT, "void f(const float&in, const float&in)", asFUNCTION(v2d_Constructor<double>), asCALL_CDECL_OBJLAST); assert(r >= 0);
-        r = engine->RegisterObjectBehaviour("vf2d", asBEHAVE_DESTRUCT,  "void f()",                               asFUNCTION(v2d_Destructor<double>), asCALL_CDECL_OBJLAST); assert(r >= 0);
+        r = engine->RegisterObjectBehaviour("vf2d", asBEHAVE_CONSTRUCT, "void f()",                               asFUNCTION(v2d_Constructor_def<olc::vd2d>), asCALL_CDECL_OBJFIRST); assert(r >= 0);
+        r = engine->RegisterObjectBehaviour("vf2d", asBEHAVE_CONSTRUCT, "void f(const olc::vf2d&in)",             asFUNCTION(v2d_Constructor_copy<olc::vd2d>), asCALL_CDECL_OBJFIRST); assert(r >= 0);
+        r = engine->RegisterObjectBehaviour("vf2d", asBEHAVE_CONSTRUCT, "void f(const float&in, const float&in)", asFUNCTION(v2d_Constructor<olc::vd2d, double, double>), asCALL_CDECL_OBJFIRST); assert(r >= 0);
 
-        r = engine->RegisterObjectBehaviour("vd2d", asBEHAVE_CONSTRUCT, "void f()",                                 asFUNCTION(v2d_Constructor_def<float>), asCALL_CDECL_OBJLAST); assert(r >= 0);
-        r = engine->RegisterObjectBehaviour("vd2d", asBEHAVE_CONSTRUCT, "void f(const olc::vd2d&in)",               asFUNCTION(v2d_Constructor_copy<float>), asCALL_CDECL_OBJLAST); assert(r >= 0);
-        r = engine->RegisterObjectBehaviour("vd2d", asBEHAVE_CONSTRUCT, "void f(const double&in, const double&in)", asFUNCTION(v2d_Constructor<float>), asCALL_CDECL_OBJLAST); assert(r >= 0);
-        r = engine->RegisterObjectBehaviour("vd2d", asBEHAVE_DESTRUCT,  "void f()",                                 asFUNCTION(v2d_Destructor<float>), asCALL_CDECL_OBJLAST); assert(r >= 0);
+        r = engine->RegisterObjectBehaviour("vd2d", asBEHAVE_CONSTRUCT, "void f()",                                 asFUNCTION(v2d_Constructor_def<olc::vf2d>), asCALL_CDECL_OBJFIRST); assert(r >= 0);
+        r = engine->RegisterObjectBehaviour("vd2d", asBEHAVE_CONSTRUCT, "void f(const olc::vd2d&in)",               asFUNCTION(v2d_Constructor_copy<olc::vf2d>), asCALL_CDECL_OBJFIRST); assert(r >= 0);
+        r = engine->RegisterObjectBehaviour("vd2d", asBEHAVE_CONSTRUCT, "void f(const double&in, const double&in)", asFUNCTION(v2d_Constructor<olc::vf2d, float, float>), asCALL_CDECL_OBJFIRST); assert(r >= 0);
         
         // Registering the operators
         engine->RegisterObjectMethod("vi2d", "olc::vi2d  opImplConv ()                                const", asMETHODPR  (olc::vi2d, operator olc::vi2d, ()                 const,            olc::vi2d),   asCALL_THISCALL);
