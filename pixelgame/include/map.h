@@ -4,21 +4,21 @@
 #include "rapidxml_utils.h"
 #include "filemanager.h"
 #include "Gameobject.h"
-#include "asEntity.h"
+#include "ScriptEntity.h"
 #include "map.h"
 #include "olcPixelGameEngine.h"
 #include "AssetManager.h"
-#include "AngelScriptEngine.h"
+#include "ScriptEngine.h"
 
 namespace max
 {
-    class map : public max::angelscript::Entity
+    class map : public script::Entity
     {
     public:
         //const char* file, const char* objdecl, asIScriptEngine* _engine, CScriptBuilder* _builder, asIScriptContext* _ctx, bool emplace = true, Args... args
         template<class... Args>
-        inline map(const char* mapname, max::AssetManager* assets, olc::GFX2D* gfx2d, olc::PixelGameEngine* pge, Args&& ...args) :
-            max::angelscript::Entity(mapname, (std::string() + "maps/" + mapname + ".as").c_str(), true, std::forward<Args>(args)...),
+        inline map(const char* mapname, olc::GFX2D* gfx2d, olc::PixelGameEngine* pge, Args&& ...args) :
+            script::Entity(mapname, (std::string() + "maps/" + mapname + ".as").c_str(), true, std::forward<Args>(args)...),
             assets(assets)
         {
             DeleteAllGameObjects();
@@ -35,7 +35,7 @@ namespace max
             if (script_node != 0 && script_node->first_attribute("file") != 0)
                 tmp_scriptpath = (scriptpath() + script_node->first_attribute("file")->value());
             
-            max::angelscript::Engine::callfunc("void main()", tmp_scriptpath.c_str());
+            script::Engine::callfunc("void main()", tmp_scriptpath.c_str());
 
             for (rapidxml::xml_node<>* node = map_node->first_node(); node; node = node->next_sibling())
             {
@@ -60,7 +60,7 @@ namespace max
 
                 if (strcmp(node->name(), "image") == 0)
                 {
-                    olc::Sprite* sprite = assets->Load(matpath() + node->first_attribute("image")->value());
+                    olc::Sprite* sprite = AssetManager::Load(matpath() + node->first_attribute("image")->value());
 
                     new Sprite(l, pos, size, col, sprite, name, gfx2d, offset, alpha, true, pge, this);
                 }

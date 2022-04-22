@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{fc3ae394-40f5-4357-962e-a5a77152670b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\angelscript">
+      <UniqueIdentifier>{80a1a9dd-1577-4c11-a114-af2e381ff812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\angelscript\scriptarray">
+      <UniqueIdentifier>{92c62b72-38f9-47c5-a0a8-0783bf652f95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\angelscript\scriptstdstring">
+      <UniqueIdentifier>{320d8ee9-d37f-493c-a508-63ad6a7d11c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\angelscript\scriptbuilder">
+      <UniqueIdentifier>{3ebe97c3-f13c-4ada-9c89-0628f91b47a3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)olcPixelGameEngine.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)olcPGEX_FrostUI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)olcPGEX_Graphics2D.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)angelscript\angelscript.h">
+      <Filter>include\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)angelscript\scriptarray\scriptarray.h">
+      <Filter>include\angelscript\scriptarray</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)angelscript\scriptbuilder\scriptbuilder.h">
+      <Filter>include\angelscript\scriptbuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)angelscript\scriptstdstring\scriptstdstring.h">
+      <Filter>include\angelscript\scriptstdstring</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

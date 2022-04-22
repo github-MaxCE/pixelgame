@@ -1,6 +1,4 @@
 #include "olcPixelGameEngine.h"
-#define OLC_PGEX_GRAPHICS2D
-#include "olcPGEX_Graphics2D.h"
 #include "GameObject.h"
 #include "map.h"
 #include "Player.h"
@@ -10,7 +8,27 @@
 #include <atomic>
 #include <chrono>
 #include "AssetManager.h"
-#include "AngelScriptEngine.h"
+#include "ScriptEngine.h"
+
+constexpr static uint64_t _stoi(const char* str, size_t size)
+{
+    uint64_t res = 0;
+    for (size_t i = 0; i < size; i++)
+    {
+        res += str[i];
+    }
+    return res;
+}
+
+static uint64_t _stoi(const char* str)
+{
+    return _stoi(str, strlen(str));
+}
+
+constexpr static uint64_t operator""_stoi(const char* str, size_t size)
+{
+    return _stoi(str, size);
+}
 
 class pixelgame : public olc::PixelGameEngine
 {
@@ -24,9 +42,9 @@ class pixelgame : public olc::PixelGameEngine
     {
         fixed.join();
         max::DeleteAllEntities();
+        delete world;
     }
 
-    max::AssetManager assets;
     max::map* world;
     olc::GFX2D gfx2d;
     std::thread fixed;
@@ -40,7 +58,7 @@ class pixelgame : public olc::PixelGameEngine
         float fLastElapsed;
 
         while(!gamestate) {}
-        while (gamestate)
+        while(gamestate)
         {
             // Handle Timing
             tp2 = std::chrono::system_clock::now();
@@ -63,7 +81,7 @@ class pixelgame : public olc::PixelGameEngine
     // Called once at the start
     bool OnUserCreate() override
     {
-        world = new max::map("map", &assets, &gfx2d, this);
+        world = new max::map("map", &gfx2d, this);
         new max::Player(this, world);
 
         for (const auto& x : world->GameObjects[1])
@@ -118,11 +136,27 @@ class pixelgame : public olc::PixelGameEngine
     }
 };
 
-int main()
+int main(int argc, const char** argv)
 {
+    uint8_t flags = 0;
+    const char* map = "map";
+
+    if (argc > 0)
+        for (int curarg = 0; curarg < argc; ++curarg)
+            switch (_stoi(argv[curarg]))
+            {
+            case "-fs"_stoi:case "-fullscreen"_stoi: flags |= olc::FLAGS::FULLSCREEN;
+            break;
+            case "-vs"_stoi:case "-vsync"_stoi:      flags |= olc::FLAGS::VSYNC;
+            break;
+            case "-map"_stoi:
+                map = argv[++curarg];
+                break;
+            }
+
     {
         pixelgame pge;
-        if (pge.Construct(400, 180, 2, 2))
+        if (pge.Construct(400, 180, 2, 2, flags))
             pge.Start();
     }
 
