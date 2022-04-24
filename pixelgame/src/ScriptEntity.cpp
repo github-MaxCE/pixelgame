@@ -2,6 +2,9 @@
 
 namespace max::script
 {
+    Entity::~Entity()
+    {}
+
     void Entity::Start()
     {
         call("void Start()");

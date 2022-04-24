@@ -4,6 +4,6 @@ namespace max::script
 {
     object::~object()
     {
-        Engine::ReleaseObject(obj);
+        Engine::ReleaseObject(obj, type);
     }
 }

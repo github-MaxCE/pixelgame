@@ -3,8 +3,8 @@
 
 namespace max
 {
-	extern inline std::string apppath();
-	extern inline std::string mappath();
-	extern inline std::string matpath();
-	extern inline std::string scriptpath();
+	extern std::string apppath();
+	extern std::string mappath();
+	extern std::string matpath();
+	extern std::string scriptpath();
 }

@@ -18,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{E9BD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "maps", "maps", "{53204535-1525-480B-A4B7-23E54CE44B8F}"
 	ProjectSection(SolutionItems) = preProject
-		build\pxg\scripts\maps\map.as = build\pxg\scripts\maps\map.as
+		build\common\pxg\scripts\maps\map.as = build\common\pxg\scripts\maps\map.as
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "include", "include\include.vcxitems", "{AD5B42C6-A1B8-4ECB-997E-032FDB5C3FAC}"

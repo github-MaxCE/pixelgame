@@ -1,12 +1,13 @@
 class map
 {
-    olc::vi2d aa = olc::vi2d(5, 9);
+    olc::vi2d aa;
 
     map()
     {
+        aa = olc::vi2d(5, 9);
         print("created\n");
     }
-
+    
     ~map()
     {
         print("destructed\n");

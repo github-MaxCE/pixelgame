@@ -19,7 +19,7 @@ namespace max::script
             object(typedecl, filename, std::forward<Args>(args)...)
         {}
 
-        virtual ~Entity() = default;
+        virtual ~Entity();
     
         virtual void Start() override;
         virtual void FixedUpdate(float fElapsedTime) override;

@@ -42,7 +42,6 @@ class pixelgame : public olc::PixelGameEngine
     {
         fixed.join();
         max::DeleteAllEntities();
-        delete world;
     }
 
     max::map* world;

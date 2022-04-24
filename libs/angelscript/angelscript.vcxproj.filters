@@ -93,14 +93,15 @@
     <ClCompile Include="src\scriptarray\scriptarray.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\as_callfunc_x64_msvc_asm.asm" />
+    <None Include="src\as_callfunc_arm64_gcc.S" />
     <None Include="src\as_callfunc_arm_gcc.S" />
     <None Include="src\as_callfunc_arm_vita.S" />
     <None Include="src\as_callfunc_arm_xcode.S" />
-    <None Include="src\as_callfunc_arm64_gcc.S" />
+    <None Include="src\as_callfunc_arm_msvc.asm" />
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="src\as_callfunc_arm_msvc.asm" />
-    <MASM Include="src\as_callfunc_arm64_msvc.asm" />
+    <CustomBuild Include="src\as_callfunc_x64_msvc_asm.asm" />
+    <CustomBuild Include="src\as_callfunc_arm64_msvc.asm" />
+    <CustomBuild Include="sourc\as_callfunc_arm_msvc.asm" />
   </ItemGroup>
 </Project>

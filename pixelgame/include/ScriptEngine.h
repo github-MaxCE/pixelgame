@@ -60,7 +60,6 @@ namespace max::script
     {
         asIScriptEngine* engine = asCreateScriptEngine();
         CScriptBuilder builder;
-        static std::unordered_map<const char*, asITypeInfo*> types;
 
         Engine();
         virtual ~Engine();
@@ -75,7 +74,8 @@ namespace max::script
 
         asIScriptContext* I_CreateContext();
         asIScriptModule* I_GetModule(const char*);
-        void I_ReleaseObject(asIScriptObject*);
+        asITypeInfo* I_GetType(const char*, asIScriptModule*);
+        void I_ReleaseObject(asIScriptObject*, asITypeInfo*);
         template<class... Args>
         inline int I_callfunc(const char* funcdecl, asIScriptModule* mod, Args&&... args)
         {
@@ -84,7 +84,6 @@ namespace max::script
 
             asIScriptFunction* func = mod->GetFunctionByDecl(funcdecl);
             if(func == 0) printf("%s %s %s", "no", funcdecl, "function. skipping\n");
-            assert(func != 0);
 
             ctx->Prepare(func);
 
@@ -110,16 +109,18 @@ namespace max::script
         }
 
         template<typename T>
-        void Registerv2d(const char* t, std::string ast, const char* ns = "");
+        void Registerv2d_t(const char* t, std::string ast);
+        template<typename T>
+        void Registerv2d(const char* t, std::string ast);
+        void Registerallv2d();
 
         static Engine& Get();
     public:
 
         static asIScriptContext* CreateContext();
-        static asITypeInfo* GetType(const char*, asIScriptModule*);
         static asITypeInfo* GetType(const char*, const char*);
         static asIScriptModule* GetModule(const char*);
-        static void ReleaseObject(asIScriptObject*);
+        static void ReleaseObject(asIScriptObject*, asITypeInfo*);
 
         template<class... Args>
         static inline int callfunc(const char* funcdecl, const char* filename, Args&&... args) { return Get().I_callfunc(funcdecl, GetModule(filename), std::forward<Args>(args)...); }

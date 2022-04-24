@@ -103,15 +103,25 @@
     <ClCompile Include="src\scriptstdstring\scriptstdstring_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\as_callfunc_arm64_gcc.S" />
-    <None Include="src\as_callfunc_arm_gcc.S" />
-    <None Include="src\as_callfunc_arm_vita.S" />
-    <None Include="src\as_callfunc_arm_xcode.S" />
-    <None Include="src\as_callfunc_x64_msvc_asm.asm" />
+    <CustomBuild Include="src\as_callfunc_x64_msvc_asm.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ml64.exe /c  /nologo /Fo"$(Configuration)\as_callfunc_x64_msvc_asm.obj" /W3 /Zi /Ta "%(RootDir)%(Directory)\%(Filename)%(Extension)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Configuration)\as_callfunc_x64_msvc_asm.obj;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ml64.exe /c  /nologo /Fo"$(Configuration)\as_callfunc_x64_msvc_asm.obj" /W3 /Zi /Ta "%(RootDir)%(Directory)\%(Filename)%(Extension)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Configuration)\as_callfunc_x64_msvc_asm.obj;%(Outputs)</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="src\as_callfunc_arm64_msvc.asm" />
-    <MASM Include="src\as_callfunc_arm_msvc.asm" />
+    <CustomBuild Include="src\as_callfunc_arm64_msvc.asm">
+      <FileType>Document</FileType>
+    </CustomBuild>
+    <None Include="src\as_callfunc_arm64_gcc.S" />
+    <None Include="src\as_callfunc_arm_gcc.S" />
+    <CustomBuild Include="sourc\as_callfunc_arm_msvc.asm">
+      <FileType>Document</FileType>
+    </CustomBuild>
+    <None Include="src\as_callfunc_arm_vita.S" />
+    <None Include="src\as_callfunc_arm_xcode.S" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -150,7 +160,6 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -273,6 +282,5 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
   </ImportGroup>
 </Project>

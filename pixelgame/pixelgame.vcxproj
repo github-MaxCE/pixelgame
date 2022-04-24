@@ -102,7 +102,7 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);$(SolutionDir)build\x86\libs\olcPGE_static.lib;$(SolutionDir)build\x86\libs\angelscript.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)build\common\pxg\*" "$(SolutionDir)build\x86\pixelgame\pxg" \q \s \e \t \r \k \h \d \y</Command>
+      <Command>xcopy "C:\Users\hp\Desktop\projects\pixelgame\build\common\pxg\*" "C:\Users\hp\Desktop\projects\pixelgame\build\x86\pixelgame\pxg" /q /e /h /i /d /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -125,7 +125,7 @@
       <AdditionalDependencies>$(SolutionDir)build\x86\libs\olcPGE_static.lib;$(SolutionDir)build\x86\libs\angelscript.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)build\pxg\*" "$(SolutionDir)build\x86\pixelgame\pxg" \q \s \e \t \r \k \h \d \y</Command>
+      <Command>xcopy "C:\Users\hp\Desktop\projects\pixelgame\build\common\pxg\*" "C:\Users\hp\Desktop\projects\pixelgame\build\x86\pixelgame\pxg" /q /e /h /i /d /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -144,7 +144,7 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);$(SolutionDir)build\x64\libs\olcPGE_static.lib;$(SolutionDir)build\x64\libs\angelscript.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)build\pxg\*" "$(SolutionDir)build\x64\pixelgame\pxg" \q \s \e \t \r \k \h \d \y</Command>
+      <Command>xcopy "C:\Users\hp\Desktop\projects\pixelgame\build\common\pxg\*" "C:\Users\hp\Desktop\projects\pixelgame\build\x64\pixelgame\pxg" /q /e /h /i /d /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -167,7 +167,7 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);$(SolutionDir)build\x64\libs\olcPGE_static.lib;$(SolutionDir)build\x64\libs\angelscript.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)build\pxg\*" "$(SolutionDir)build\x64\pixelgame\pxg" \q \s \e \t \r \k \h \d \y</Command>
+      <Command>xcopy "C:\Users\hp\Desktop\projects\pixelgame\build\common\pxg\*" "C:\Users\hp\Desktop\projects\pixelgame\build\x64\pixelgame\pxg" /q /e /h /i /d /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
