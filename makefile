@@ -18,7 +18,7 @@ all: angelscript olcPGE_static pixelgame
 $(BUILDDIR)/%:
 	$(MKDIR) $(subst /,\,$@)
 
-angelscript: $(AS_PATH)/makefile #$(BUILDDIR)/libs
+angelscript: $(AS_PATH)/makefile $(BUILDDIR)/libs
 	@echo ----------- Building AngelScript Scripting static library -----------
 	@$(MAKE) -C $(AS_PATH)
 

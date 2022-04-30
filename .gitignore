@@ -13,3 +13,5 @@
 
 build/x86/
 build/x64/
+
+**/obj/
