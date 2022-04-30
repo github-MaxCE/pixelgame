@@ -20,3 +20,4 @@ ROOTINCDIR = $(ROOTDIR)include
 COMMONDIR = $(ROOTDIR)build/common
 BUILDDIR = $(ROOTDIR)build/$(ARCH)
 LIBDIR = $(BUILDDIR)/libs
+PXGDIR = $(BUILDDIR)/pixelgame

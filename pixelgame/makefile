@@ -20,7 +20,7 @@ main.cpp
 
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRCNAMES:.cpp=.o)))
 INCDIR := $(addprefix -I, $(INCDIR))
-BIN = $(BUILDDIR)/pixelgame/pixelgame$(EXE)
+BIN = $(PXGDIR)/pixelgame$(EXE)
 all: $(BIN)
 
 $(BIN): $(OBJ)
