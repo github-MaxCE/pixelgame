@@ -25,7 +25,7 @@ all: $(BIN)
 
 $(BIN): $(OBJ)
 	@echo -----------          Linking Pixel Game          -----------
-	@$(LD) $(LIBDIR)/angelscript.a $(LIBDIR)/olcPGE_static.a -o $@
+	@$(CXX) $(LIBDIR)/angelscript.a $(LIBDIR)/olcPGE_static.a -o $@
 
 $(OBJDIR):
 	@-$(MKDIR) $(subst /,\,$(OBJDIR))
