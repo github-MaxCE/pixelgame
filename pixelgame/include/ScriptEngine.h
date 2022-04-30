@@ -1,9 +1,8 @@
 #pragma once
 #include <cassert>
 #include <unordered_map>
-#include <angelscript/angelscript.h>
-#include <angelscript/scriptstdstring/scriptstdstring.h>
-#include <angelscript/scriptbuilder/scriptbuilder.h>
+#include <angelscript.h>
+#include <scriptbuilder/scriptbuilder.h>
 #include <olcPixelGameEngine.h>
 #include "filemanager.h"
 
@@ -12,10 +11,7 @@
 namespace max::script
 {
     template<class T>
-    inline int SetArg(asIScriptContext*, uint32_t, T)
-    {
-        static_assert(1);
-    }
+    inline int SetArg(asIScriptContext*, uint32_t, T);
 
     template<>
     inline int SetArg<void*>(asIScriptContext* ctx, uint32_t num, void* value)
@@ -83,7 +79,11 @@ namespace max::script
             asIScriptContext* ctx = CreateContext();
 
             asIScriptFunction* func = mod->GetFunctionByDecl(funcdecl);
-            if(func == 0) printf("%s %s %s", "no", funcdecl, "function. skipping\n");
+            if(func == 0)
+            {
+                printf("%s %s %s", "no", funcdecl, "function. skipping\n");
+                return 0;
+            }
 
             ctx->Prepare(func);
 
@@ -105,7 +105,7 @@ namespace max::script
 
             // Clean up
             ctx->Release();
-            return 0;
+            return 1;
         }
 
         template<typename T>

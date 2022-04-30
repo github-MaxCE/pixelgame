@@ -11,25 +11,24 @@ namespace max
     {
     protected:
         olc::PixelGameEngine* pge;
-    private:
-        max::map* world;
     public:
-        olc::vi2d size, pos;
+        olc::vu2d size;
+        olc::vi2d pos;
         std::string name;
         olc::Pixel col;
         bool offset;
         bool alpha;
-        GameObject(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge, max::map* world);
+        GameObject(olc::vi2d, olc::vu2d, olc::Pixel, const char*, bool, bool, olc::PixelGameEngine*, max::map*);
         virtual ~GameObject();
-        virtual void Render(max::Camera* camera);
+        virtual void Render(max::Camera*);
     };
 
     class FilledRect : public max::GameObject
     {
     public:
-        FilledRect(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, std::string name, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge, max::map* world);
-        virtual ~FilledRect() override;
-        virtual void Render(max::Camera* camera) override;
+        FilledRect(olc::vi2d, olc::vu2d, olc::Pixel, const char*, bool, bool, olc::PixelGameEngine*, max::map*);
+        virtual ~FilledRect();
+        virtual void Render(max::Camera*) override;
     };
 
     class Sprite : public max::GameObject
@@ -37,8 +36,8 @@ namespace max
     public:
         olc::Sprite* sprite;
         olc::GFX2D* gfx2d;
-        Sprite(int layer, olc::vi2d pos, olc::vi2d size, olc::Pixel col, olc::Sprite* sprite, std::string name, olc::GFX2D* gfx2d, bool offset, bool alpha, bool emplace, olc::PixelGameEngine* pge, max::map* world);
-        virtual ~Sprite() override;
-        virtual void Render(max::Camera* camera) override;
+        Sprite(olc::vi2d, olc::vu2d, olc::Pixel, olc::Sprite*, const char*, olc::GFX2D*, bool, bool, olc::PixelGameEngine*, max::map*);
+        virtual ~Sprite();
+        virtual void Render(max::Camera*) override;
     };
 }

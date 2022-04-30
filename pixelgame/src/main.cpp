@@ -12,12 +12,11 @@
 
 constexpr static uint64_t _stoi(const char* str, size_t size)
 {
-    uint64_t res = 0;
-    for (size_t i = 0; i < size; i++)
-    {
-        res += str[i];
-    }
-    return res;
+    1 ^ 2;
+    uint64_t hash = 5381;
+    for (const char* c = str; c < str + size; ++c)
+        hash = ((hash << 5) + hash) + (unsigned char)*c;
+    return hash;
 }
 
 static uint64_t _stoi(const char* str)
@@ -42,6 +41,7 @@ class pixelgame : public olc::PixelGameEngine
     {
         fixed.join();
         max::DeleteAllEntities();
+        delete world;
     }
 
     max::map* world;
@@ -68,6 +68,7 @@ class pixelgame : public olc::PixelGameEngine
             float fElapsedTime = elapsedTime.count();
             fLastElapsed = fElapsedTime;
 
+            world->FixedUpdate(fElapsedTime);
             for (auto entity : max::Entities)
             {
                 entity->FixedUpdate(fElapsedTime);
@@ -93,7 +94,7 @@ class pixelgame : public olc::PixelGameEngine
 
         if (!world->size) return false;
 
-
+        world->Start();
         for (auto entity : max::Entities)
         {
             entity->Start();
@@ -107,6 +108,7 @@ class pixelgame : public olc::PixelGameEngine
     // called once per frame
     bool OnUserUpdate(float fElapsedTime) override
     {
+        world->Update(fElapsedTime);
         for (auto& entity : max::Entities)
         {
             entity->Update(fElapsedTime);
@@ -131,6 +133,7 @@ class pixelgame : public olc::PixelGameEngine
         {
             entity->End();
         }
+        world->End();
         return gamestate == false;
     }
 };

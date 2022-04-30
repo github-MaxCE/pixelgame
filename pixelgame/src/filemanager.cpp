@@ -29,7 +29,7 @@ namespace max
 
 	std::string mappath()
 	{
-		return apppath() + "/pxg/map/";
+		return apppath() + "/pxg/maps/";
 	}
 
 	std::string matpath()

@@ -618,7 +618,7 @@ namespace olc
         v2d_generic  yclamp(const T& ylo, const T& yhi) const { return { this->x, std::clamp(this->y, ylo, yhi) }; }
         T dot(const v2d_generic& rhs) const { return this->x * rhs.x + this->y * rhs.y; }
         T cross(const v2d_generic& rhs) const { return this->x * rhs.y - this->y * rhs.x; }
-        std::string str() const { return std::string("(") + std::to_string(this->x) + "," + std::to_string(this->y) + ")"; }
+        std::string str() const { return std::string("{ ") + std::to_string(this->x) + ", " + std::to_string(this->y) + " }"; }
         v2d_generic  operator +  (const v2d_generic& rhs) const { return v2d_generic(this->x + rhs.x, this->y + rhs.y); }
         v2d_generic  operator -  (const v2d_generic& rhs) const { return v2d_generic(this->x - rhs.x, this->y - rhs.y); }
         v2d_generic  operator +  (const T& rhs) const { return v2d_generic(this->x + rhs, this->y + rhs); }
@@ -912,15 +912,15 @@ namespace olc
         HWButton GetMouse(Mouse b) const;
         HWButton GetMouse(int b) const;
         // Get Mouse X coordinate in "pixel" space
-        int32_t GetMouseX() const;
+        uint32_t GetMouseX() const;
         // Get Mouse Y coordinate in "pixel" space
-        int32_t GetMouseY() const;
+        uint32_t GetMouseY() const;
         // Get Mouse Wheel Delta
         int32_t GetMouseWheel() const;
         // Get the mouse in window space
-        const olc::vi2d& GetWindowMouse() const;
+        const olc::vu2d& GetWindowMouse() const;
         // Gets the mouse as a vector to keep Tarriest happy
-        const olc::vi2d& GetMousePos() const;
+        const olc::vu2d& GetMousePos() const;
         // Gets the mouse as the distance it traveled 0 if the mouse has stayed frozen
         // const olc::vi2d& GetMousePosDelta() const;
 
@@ -928,10 +928,10 @@ namespace olc
 
     public: // Utility
         // Returns the width of the screen in "pixels"
-        int32_t ScreenWidth() const;
+        uint32_t ScreenWidth() const;
         // Returns the height of the screen in "pixels"
-        int32_t ScreenHeight() const;
-        olc::vi2d ScreenSize() const;
+        uint32_t ScreenHeight() const;
+        vu2d ScreenSize() const;
         // Returns the width of the currently selected drawing target in "pixels"
         int32_t GetDrawTargetWidth() const;
         // Returns the height of the currently selected drawing target in "pixels"
@@ -948,11 +948,11 @@ namespace olc
         // Gets last update of elapsed time
         float GetElapsedTime() const;
         // Gets Actual Window size
-        const olc::vi2d& GetWindowSize() const;
+        const vu2d& GetWindowSize() const;
         // Gets pixel scale
-        const olc::vi2d& GetPixelSize() const;
+        const vu2d& GetPixelSize() const;
         // Gets actual pixel scale
-        const olc::vi2d& GetScreenPixelSize() const;
+        const vu2d& GetScreenPixelSize() const;
 
     public: // CONFIGURATION ROUTINES
         // Layer targeting functions

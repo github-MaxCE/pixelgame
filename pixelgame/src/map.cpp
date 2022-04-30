@@ -11,9 +11,9 @@ namespace max
     {
         for (auto& i : GameObjects)
         {
-            if (i.empty())
+            if (!i.empty())
             {
-                for (auto& x : i)
+                for (const auto& x : i)
                 {
                     delete x;
                 }
@@ -22,7 +22,7 @@ namespace max
         }
     }
 
-    max::GameObject* map::FindGameObject(std::string& name)
+    max::GameObject* map::FindGameObject(std::string name)
     {
         for (const auto& a : GameObjects)
         {
@@ -32,5 +32,10 @@ namespace max
             }
         }
         return nullptr;
+    }
+
+    GameObject* map::Add(int layer, GameObject* obj)
+    {
+        return GameObjects[layer].emplace_back(obj);
     }
 }

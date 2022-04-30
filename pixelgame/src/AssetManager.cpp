@@ -1,4 +1,5 @@
 #include "AssetManager.h"
+#include "filemanager.h"
 
 namespace max
 {
@@ -8,7 +9,7 @@ namespace max
 		return inst;
 	}
 
-	olc::Sprite* AssetManager::I_Load(std::string& name)
+	olc::Sprite* AssetManager::I_Load(std::string name)
 	{
 		if (sprites.find(name) == sprites.end())
 			sprites.insert(std::pair(name, new olc::Sprite(name)));
@@ -18,6 +19,6 @@ namespace max
 
 	olc::Sprite* AssetManager::Load(std::string name)
 	{
-		return Get().I_Load(name);
+		return Get().I_Load((matpath() + name));
 	}
 }

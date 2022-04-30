@@ -16,7 +16,7 @@ namespace max
 
 		std::unordered_map<std::string, olc::Sprite*> sprites;
 
-		olc::Sprite* I_Load(std::string& name);
+		olc::Sprite* I_Load(std::string name);
 
 		static AssetManager& Get();
 	public:

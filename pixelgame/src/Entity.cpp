@@ -7,13 +7,13 @@ namespace max
         if (emplace == true) Entities.emplace_back(this);
     }
 
-    std::list<max::Entity*> Entities;
+    std::vector<max::Entity*> Entities{};
 
     void DeleteAllEntities()
     {
         if (!Entities.empty())
         {
-            for (auto& x : Entities)
+            for (auto&& x : Entities)
             {
                 delete x;
             }

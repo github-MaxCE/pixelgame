@@ -1,23 +1,25 @@
 #include "ScriptEngine.h"
+#include "mathutils.h"
+#include <scriptstdstring/scriptstdstring.h>
 
 namespace max::script
 {
     template<typename T>
     static void Constructor_def(void* self)
     {
-        new(self) T();
+        ::new(self) T();
     }
 
     template<typename T>
     static void Constructor_copy(void* self, const T& other)
     {
-        new(self) T(other);
+        ::new(self) T(other);
     }
 
     template<typename T, typename... Args>
     static void Constructor(void* self, Args&&... args)
     {
-        new(self) T(std::forward<Args>(args)...);
+        ::new(self) T(std::forward<Args>(args)...);
     }
 
     Engine::~Engine()
@@ -89,8 +91,9 @@ namespace max::script
     template<typename T>
     void Engine::Registerv2d_t(const char* t, std::string ast)
     {
+        const char* ns = engine->GetDefaultNamespace();
         std::string type;
-        type = type + engine->GetDefaultNamespace() + "::" + t;
+        type = type + ns + "::" + t;
 
         // Register a primitive type, that doesn't need any special management of the content
         int r = engine->RegisterObjectType(t, sizeof(olc::v2d_generic<T>), asOBJ_VALUE | asOBJ_POD | asGetTypeTraits<olc::v2d_generic<T>>()); assert(r >= 0);
@@ -188,6 +191,13 @@ namespace max::script
         r = engine->RegisterGlobalFunction("void print(const string&in)", asFUNCTION(print), asCALL_CDECL); assert(r >= 0);
 
         Registerallv2d();
+
+        engine->SetDefaultNamespace("max");
+
+        r = engine->RegisterGlobalFunction("bool inRange(const int&in, const int&in, const int&in)", asFUNCTION(inRange), asCALL_CDECL); assert(r >= 0);
+
+        engine->SetDefaultNamespace("");
+
     }
 
     Engine& Engine::Get()

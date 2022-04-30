@@ -689,17 +689,17 @@ namespace olc
         return pMouseState[b];
     }
 
-    int32_t PixelGameEngine::GetMouseX() const
+    uint32_t PixelGameEngine::GetMouseX() const
     {
         return vMousePos.x;
     }
 
-    int32_t PixelGameEngine::GetMouseY() const
+    uint32_t PixelGameEngine::GetMouseY() const
     {
         return vMousePos.y;
     }
 
-    const olc::vi2d& PixelGameEngine::GetMousePos() const
+    const olc::vu2d& PixelGameEngine::GetMousePos() const
     {
         return vMousePos;
     }
@@ -709,17 +709,17 @@ namespace olc
         return nMouseWheelDelta;
     }
 
-    int32_t PixelGameEngine::ScreenWidth() const
+    uint32_t PixelGameEngine::ScreenWidth() const
     {
         return vScreenSize.x;
     }
 
-    int32_t PixelGameEngine::ScreenHeight() const
+    uint32_t PixelGameEngine::ScreenHeight() const
     {
         return vScreenSize.y;
     }
 
-    olc::vi2d PixelGameEngine::ScreenSize() const
+    olc::vu2d PixelGameEngine::ScreenSize() const
     {
         return vScreenSize;
     }
@@ -729,22 +729,22 @@ namespace olc
         return fLastElapsed;
     }
 
-    const olc::vi2d& PixelGameEngine::GetWindowSize() const
+    const olc::vu2d& PixelGameEngine::GetWindowSize() const
     {
         return vWindowSize;
     }
 
-    const olc::vi2d& PixelGameEngine::GetPixelSize() const
+    const olc::vu2d& PixelGameEngine::GetPixelSize() const
     {
         return vPixelSize;
     }
 
-    const olc::vi2d& PixelGameEngine::GetScreenPixelSize() const
+    const olc::vu2d& PixelGameEngine::GetScreenPixelSize() const
     {
         return vScreenPixelSize;
     }
 
-    const olc::vi2d& PixelGameEngine::GetWindowMouse() const
+    const olc::vu2d& PixelGameEngine::GetWindowMouse() const
     {
         return vMouseWindowPos;
     }

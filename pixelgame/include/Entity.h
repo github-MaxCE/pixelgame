@@ -1,9 +1,5 @@
 #pragma once
-#include <list>
-#include "filemanager.h"
-#include <angelscript/angelscript.h>
-#include <angelscript/scriptstdstring/scriptstdstring.h>
-#include <angelscript/scriptbuilder/scriptbuilder.h>
+#include <vector>
 
 namespace max
 {
@@ -18,7 +14,7 @@ namespace max
         virtual void End() = 0;
     };
 
-    extern std::list<max::Entity*> Entities;
+    extern std::vector<max::Entity*> Entities;
 
     extern void DeleteAllEntities();
 }
