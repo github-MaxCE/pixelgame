@@ -1,3 +1,5 @@
+#define OLC_IMAGE_STB
+#define OLC_GFX_OPENGL33
 #include "olcPixelGameEngine.h"
 
 // O------------------------------------------------------------------------------O

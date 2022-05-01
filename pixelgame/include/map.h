@@ -18,8 +18,7 @@ namespace max
         //const char* file, const char* objdecl, asIScriptEngine* _engine, CScriptBuilder* _builder, asIScriptContext* _ctx, bool emplace = true, Args... args
         template<class... Args>
         inline map(const char* mapname, olc::GFX2D* gfx2d, olc::PixelGameEngine* pge, Args&& ...args) :
-            script::Entity(mapname, (std::string() + "maps/" + mapname + ".as").c_str(), false, std::forward<Args>(args)...),
-            assets(assets)
+            script::Entity(mapname, (std::string() + "maps/" + mapname + ".as").c_str(), false, std::forward<Args>(args)...)
         {
             DeleteAllGameObjects();
 
@@ -79,14 +78,17 @@ namespace max
                 GameObjects[l].emplace_back(obj);
             }
             
-            delete xmlFile, doc, root_node, script_node, map_node;
+            delete xmlFile;
+            delete doc;
+            delete root_node;
+            delete script_node;
+            delete map_node;
         }
 
         ~map();
 
         std::vector<max::GameObject*> GameObjects[4];
         olc::vi2d size{0, 0};
-        max::AssetManager* assets;
 
         void DeleteAllGameObjects();
 

@@ -359,6 +359,7 @@ int main()
 #include <algorithm>
 #include <array>
 #include <cstring>
+#include <filesystem>
 #pragma endregion
 
 #define PGE_VER 217
@@ -368,7 +369,6 @@ int main()
 // O------------------------------------------------------------------------------O
 #pragma region compiler_config
 
-#include <filesystem>
 namespace _gfs = std::filesystem;
 
 #if defined(UNICODE) || defined(_UNICODE)

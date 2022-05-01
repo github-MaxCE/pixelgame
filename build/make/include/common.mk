@@ -3,9 +3,9 @@ EXE = .exe
 DEL = del /f /q
 DELDIR = rmdir /s /q
 MKDIR = mkdir
-COPY = xcopy /h /e /c /i /d
+COPY = xcopy /h/e/c/i/d/y
 COPYDIR := $(COPY)
-PGEFLAGS = -luser32 -lgdi32 -lgdiplus -lShlwapi -ldwmapi -lopengl32
+PGEFLAGS = -luser32 -lShlwapi -ldwmapi -lopengl32
 else
 EXE = 
 DEL = rm -f
@@ -15,7 +15,10 @@ COPY = cp
 COPYDIR = cp -r
 PGEFLAGS = 
 endif
-ROOTFLAG := $(subst x,-m,$(ARCH)) $(PGEFLAGS) -Wall -lstdc++ -lc++fs -std=c++20
+ARCHFLAG = $(subst 86,32,$(subst x,-m,$(ARCH)))
+ROOTFLAGS := -Wall -Wno-unknown-pragmas -Wno-switch -Wno-sign-compare -Wno-reorder
+CXXFLAGS = $(ROOTFLAGS) -lstdc++ -lstdc++fs -std=c++20
+CFLAGS = $(ROOTFLAGS)
 ROOTINCDIR = $(ROOTDIR)include
 COMMONDIR = $(ROOTDIR)build/common
 BUILDDIR = $(ROOTDIR)build/$(ARCH)

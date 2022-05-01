@@ -1,21 +1,21 @@
 include $(MKINCDIR)/common.mk
 
-CXXFLAGS = $(ROOTFLAGS) -O3
+CXXFLAGS += $(PGEFLAGS) -O3
 OBJDIR = obj
 SRCDIR = src
-INCDIR = $(ROOTINCDIR)
+INCDIR = $(ROOTINCDIR) \
+$(ROOTINCDIR)/stb_image
+LIBDEPS = stb_image.a
 SRCNAMES = olcPixelGameEngine.cpp \
-olcPGEX_Graphics2D.cpp \
-olcPGEX_FrostUI.cpp
-
+olcPGEX_Graphics2D.cpp
 
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRCNAMES:.cpp=.o)))
 INCDIR := $(addprefix -I, $(INCDIR))
-BIN = $(LIBDIR)/olcPGE_static.a
+BIN = $(LIBDIR)/olcPGE.a
 all: $(BIN)
 
 $(BIN): $(OBJ)
-	@echo -----------     Archiving PGE static Library     -----------
+	@echo -----------       Archiving olcPGE Library       -----------
 	@$(AR) -rcs $@ $?
 
 $(OBJDIR):
@@ -23,7 +23,7 @@ $(OBJDIR):
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(OBJDIR)
 	@echo ^> $(notdir $<)
-	@$(CXX) $(INCDIR) $(CXXFLAGS) -c $< -o $@
+	@$(CXX) $(INCDIR) $(CXXFLAGS) -c $< -o $@ -l$(addprefix $(LIBDIR),$(LIBDEPS))
 
 clean:
 	@-$(DELDIR) $(subst /,\,$(OBJDIR))

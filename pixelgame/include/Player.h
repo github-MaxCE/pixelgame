@@ -18,6 +18,7 @@ namespace max
 	public:
 		olc::vi2d worldoffset;
 		Camera(Player*, olc::PixelGameEngine*, max::map*);
+		virtual ~Camera();
 		virtual void Start() override {}
 		virtual void FixedUpdate(float) override;
 		virtual void Update(float) override;
@@ -29,7 +30,7 @@ namespace max
 		max::map* world;
 		Camera* camera;
 		olc::vi2d top[3], edge[2][3], bottom[3];
-		olc::vf2d vel{0, 0};
+		olc::vf2d vel;
 		std::atomic<bool> endupdate{false};
 	public:
 		Player(olc::PixelGameEngine*, max::map*);

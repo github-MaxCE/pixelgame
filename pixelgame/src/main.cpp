@@ -12,7 +12,6 @@
 
 constexpr static uint64_t _stoi(const char* str, size_t size)
 {
-    1 ^ 2;
     uint64_t hash = 5381;
     for (const char* c = str; c < str + size; ++c)
         hash = ((hash << 5) + hash) + (unsigned char)*c;
@@ -54,7 +53,6 @@ class pixelgame : public olc::PixelGameEngine
         using namespace std::chrono_literals;
 
         std::chrono::time_point<std::chrono::system_clock> tp1, tp2;
-        float fLastElapsed;
 
         while(!gamestate) {}
         while(gamestate)
@@ -66,7 +64,6 @@ class pixelgame : public olc::PixelGameEngine
 
             // Our time per frame coefficient
             float fElapsedTime = elapsedTime.count();
-            fLastElapsed = fElapsedTime;
 
             world->FixedUpdate(fElapsedTime);
             for (auto entity : max::Entities)
@@ -141,19 +138,23 @@ class pixelgame : public olc::PixelGameEngine
 int main(int argc, const char** argv)
 {
     uint8_t flags = 0;
-    const char* map = "map";
+    //const char* map = "map";
 
     if (argc > 0)
         for (int curarg = 0; curarg < argc; ++curarg)
             switch (_stoi(argv[curarg]))
             {
-            case "-fs"_stoi:case "-fullscreen"_stoi: flags |= olc::FLAGS::FULLSCREEN;
-            break;
-            case "-vs"_stoi:case "-vsync"_stoi:      flags |= olc::FLAGS::VSYNC;
-            break;
-            case "-map"_stoi:
-                map = argv[++curarg];
+            case "-fs"_stoi:
+            case "--fullscreen"_stoi:
+                flags |= olc::FLAGS::FULLSCREEN;
                 break;
+            case "-vs"_stoi:
+            case "--vsync"_stoi:
+                flags |= olc::FLAGS::VSYNC;
+                break;
+            //case "-map"_stoi:
+            //    map = argv[++curarg];
+            //    break;
             }
 
     {

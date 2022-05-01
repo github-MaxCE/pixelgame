@@ -5,7 +5,7 @@ include $(MKINCDIR)/common.mk
 # Release flags: -O2
 #  to exclude the script compiler: -DAS_NO_COMPILER
 #  to use only generic calling convention: -DAS_MAX_PORTABILITY
-CXXFLAGS = $(ROOTFLAGS) -O3 -DANGELSCRIPT_EXPORT
+CXXFLAGS += -O0 -fno-strict-aliasing -DANGELSCRIPT_EXPORT
 SRCDIR = src
 INCDIR = include \
 $(ROOTINCDIR)/angelscript
@@ -51,7 +51,7 @@ BIN = $(LIBDIR)/angelscript.a
 all: $(BIN)
 
 $(BIN): $(OBJ)
-	@echo ----------- Archiving AngelScript static Library -----------
+	@echo ----------- Archiving AngelScript Language Scripting Library -----------
 	@$(AR) -rcs $@ $?
 
 $(OBJDIR):

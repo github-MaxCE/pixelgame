@@ -1,34 +1,39 @@
-export ARCH ?= x86
-export CXX ?= gcc
-export AR ?= ar
-export LD ?= ld
+export ARCH = x86
+export CXX = g++ $(subst 86,32,$(subst x,-m,$(ARCH)))
+export CC = gcc $(subst 86,32,$(subst x,-m,$(ARCH)))
+export AR = ar
+export LD = ld
 
 THIS_PATH := $(abspath makefile)
 export ROOTDIR := $(dir $(THIS_PATH))
 export MKINCDIR := $(ROOTDIR)build/make/include
 include $(MKINCDIR)/common.mk
 
-AS_PATH = libs/angelscript/
-PGE_PATH = libs/olcPGE_static
-PXG_PATH = pixelgame
+angelscript = libs/angelscript
+olcPGE = libs/olcPGE
+stb_image = libs/stb_image
+pixelgame = pixelgame
 
-
-all: angelscript olcPGE_static pixelgame
+all: angelscript stb_image olcPGE pixelgame
 
 $(BUILDDIR)/%:
 	$(MKDIR) $(subst /,\,$@)
 
-angelscript: $(AS_PATH)/makefile $(BUILDDIR)/libs
+angelscript: $(angelscript)/makefile $(LIBDIR)
 	@echo ----------- Building AngelScript Scripting static library -----------
-	@$(MAKE) -C $(AS_PATH)
+	@$(MAKE) -C $(angelscript)
 
-olcPGE_static: $(PGE_PATH)/makefile $(BUILDDIR)/libs
+stb_image: $(stb_image)/makefile $(LIBDIR)
+	@echo -----------           Building STBimage Library           -----------
+	@$(MAKE) -C $(stb_image)
+
+olcPGE: $(olcPGE)/makefile $(LIBDIR)
 	@echo -----------        Building olc PGE static library        -----------
-	@$(MAKE) -C $(PGE_PATH)
+	@$(MAKE) -C $(olcPGE)
 
-pixelgame: $(PXG_PATH)/makefile $(BUILDDIR)/pixelgame pxgdata
+pixelgame: $(pixelgame)/makefile $(PXGDIR) pxgdata
 	@echo -----------              Building Pixel Game              -----------
-	@$(MAKE) -C $(PXG_PATH)
+	@$(MAKE) -C $(pixelgame)
 
 pxgdata:
 	@$(COPYDIR) $(subst /,\,"$(COMMONDIR)/pxg" "$(BUILDDIR)/pixelgame/pxg")
@@ -36,11 +41,13 @@ pxgdata:
 clean:
 	@-$(DELDIR) build\x86
 	@-$(DELDIR) build\x64
-	@echo ----------- Cleaning AngelScript static Library -----------
-	@$(MAKE) -C $(AS_PATH) clean
-	@echo -----------   Cleaning olc PGE static Library   -----------
-	@$(MAKE) -C $(PGE_PATH) clean
-	@echo -----------         Cleaning Pixel Game         -----------
-	@$(MAKE) -C $(PXG_PATH) clean
+	@echo ----------- Cleaning AngelScript Language Scripting Library -----------
+	@$(MAKE) -C $(angelscript) clean
+	@echo -----------             Cleaning olcPGE Library             -----------
+	@$(MAKE) -C $(olcPGE) clean
+	@echo -----------               Cleaning Pixel Game               -----------
+	@$(MAKE) -C $(pixelgame) clean
+	@echo -----------            Cleaning STBimage Library            -----------
+	@$(MAKE) -C $(stb_image) clean
 
 .PHONY: angelscript olcPGE_static pixelgame clean

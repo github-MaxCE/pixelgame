@@ -5,16 +5,19 @@
             "includePath": [
                 "${workspaceFolder}/include",
                 "${workspaceFolder}/include/angelscript",
+                "${workspaceFolder}/include/stb_image",
                 "${workspaceFolder}/libs/angelscript/include",
                 "${workspaceFolder}/pixelgame/include"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
-                "_UNICODE"
+                "_UNICODE",
+                "ANGELSCRIPT_EXPORT",
+                "OLC_GFX_OPENGL33",
+                "OLC_IMAGE_STB"
             ],
-            "windowsSdkVersion": "10.0.19041.0",
-            "compilerPath": "C:/msys64/mingw64/bin/gcc.exe",
+            "compilerPath": "C:/msys64/mingw64/bin/g++.exe",
             "cStandard": "c17",
             "intelliSenseMode": "${default}",
             "cppStandard": "c++20"

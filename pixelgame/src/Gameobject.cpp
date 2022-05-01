@@ -19,7 +19,7 @@ namespace max
             i++;
             if (i != 0)
             {
-                copy += (" (", i, ")");
+                copy += " (" + std::to_string(i) + ")";
             }
         }
         this->name = copy;
@@ -31,8 +31,7 @@ namespace max
 
     FilledRect::FilledRect(olc::vi2d pos, olc::vu2d size, olc::Pixel col, const char* name, bool offset, bool alpha, olc::PixelGameEngine* pge, map* world) :
         GameObject(pos, size, col, name, offset, alpha, pge, world)
-    {
-    }
+    {}
 
     FilledRect::~FilledRect()
     {}
@@ -41,13 +40,10 @@ namespace max
         GameObject(pos, size, col, name, offset, alpha, pge, world),
         sprite(sprite),
         gfx2d(gfx2d)
-    {
-    }
+    {}
 
     Sprite::~Sprite()
-    {
-
-    }
+    {}
 
     void GameObject::Render(Camera* camera)
     {

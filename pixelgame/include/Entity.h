@@ -7,7 +7,8 @@ namespace max
     {
     public:
         Entity(bool emplace = true);
-
+        virtual ~Entity() = default;
+        
         virtual void Start() = 0;
         virtual void FixedUpdate(float fElapsedTime) = 0;
         virtual void Update(float fElapsedTime) = 0;

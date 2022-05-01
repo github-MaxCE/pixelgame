@@ -1,22 +1,25 @@
 include $(MKINCDIR)/common.mk
 
-CXXFLAGS = $(EXEFLAGS) $(PGEFLAGS) -O3
+CXXFLAGS += -O3
 SRCDIR = src
 INCDIR = include \
 $(ROOTINCDIR) \
 $(ROOTINCDIR)/angelscript
 OBJDIR = obj
-SRCNAMES = ScriptEngine.cpp \
-AssetManager.cpp \
-filemanager.cpp \
-mathutils.cpp \
-Gameobject.cpp \
+LIBDEPS = angelscript.a \
+olcPGE.a
+
+SRCNAMES = AssetManager.cpp \
 Entity.cpp \
-Player.cpp \
-ScriptObject.cpp \
-ScriptEntity.cpp \
+filemanager.cpp \
+Gameobject.cpp \
+main.cpp \
 map.cpp \
-main.cpp
+mathutils.cpp \
+Player.cpp \
+ScriptEngine.cpp \
+ScriptEntity.cpp \
+ScriptObject.cpp
 
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRCNAMES:.cpp=.o)))
 INCDIR := $(addprefix -I, $(INCDIR))
@@ -24,8 +27,8 @@ BIN = $(PXGDIR)/pixelgame$(EXE)
 all: $(BIN)
 
 $(BIN): $(OBJ)
-	@echo -----------          Linking Pixel Game          -----------
-	@$(CXX) $^ $(LIBDIR)/angelscript.a $(LIBDIR)/olcPGE_static.a -o $@
+	@echo -----------                Linking Pixel Game                -----------
+	$(CXX) $^ $(addprefix $(LIBDIR)/, $(LIBDEPS)) -o $@
 
 $(OBJDIR):
 	@-$(MKDIR) $(subst /,\,$(OBJDIR))

@@ -5,9 +5,9 @@
 namespace max
 {
     Player::Player(olc::PixelGameEngine* pge, max::map* world) :
-        world(world),
         Entity(true),
         GameObject({5, 5}, {20, 30}, olc::CYAN, "player", false, false, pge, world),
+        world(world),
         camera(new max::Camera(this, pge, world))
     {
         world->Add(3, this);
@@ -123,8 +123,10 @@ namespace max
         Entity(true),
         pge(pge),
         player(player),
-        world(world),
-        pos(0, 0)
+        world(world)
+    {}
+
+    Camera::~Camera()
     {}
 
     void Camera::FixedUpdate(float fElapsedTime)
