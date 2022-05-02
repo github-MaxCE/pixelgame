@@ -1,3 +1,4 @@
+OBJDIR = obj
 include $(MKINCDIR)/common.mk
 
 CXXFLAGS += -O3
@@ -5,7 +6,6 @@ SRCDIR = src
 INCDIR = include \
 $(ROOTINCDIR) \
 $(ROOTINCDIR)/angelscript
-OBJDIR = obj
 LIBDEPS = angelscript.a \
 olcPGE.a
 
@@ -23,17 +23,14 @@ ScriptObject.cpp
 
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRCNAMES:.cpp=.o)))
 INCDIR := $(addprefix -I, $(INCDIR))
-BIN = $(PXGDIR)/pixelgame$(EXE)
-all: $(BIN)
+EXE = $(PXGDIR)/pixelgame$(EXEext)
+all: $(OBJDIR) $(EXE)
 
-$(BIN): $(OBJ)
+$(EXE): $(OBJ)
 	@echo -----------                Linking Pixel Game                -----------
-	$(CXX) $^ $(addprefix $(LIBDIR)/, $(LIBDEPS)) -o $@
+	@$(CXX) $^ $(addprefix $(LIBDIR)/, $(LIBDEPS)) -o $@
 
-$(OBJDIR):
-	@-$(MKDIR) $(subst /,\,$(OBJDIR))
-
-$(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(OBJDIR)
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@echo ^> $(notdir $<)
 	@$(CXX) $(INCDIR) $(CXXFLAGS) -c $< -o $@
 

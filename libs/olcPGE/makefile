@@ -1,7 +1,7 @@
+OBJDIR = obj
 include $(MKINCDIR)/common.mk
 
 CXXFLAGS += $(PGEFLAGS) -O3
-OBJDIR = obj
 SRCDIR = src
 INCDIR = $(ROOTINCDIR) \
 $(ROOTINCDIR)/stb_image
@@ -12,18 +12,15 @@ olcPGEX_Graphics2D.cpp
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRCNAMES:.cpp=.o)))
 INCDIR := $(addprefix -I, $(INCDIR))
 BIN = $(LIBDIR)/olcPGE.a
-all: $(BIN)
+all: $(OBJDIR) $(BIN)
 
 $(BIN): $(OBJ)
 	@echo -----------       Archiving olcPGE Library       -----------
-	@$(AR) -rcs $@ $?
+	@$(AR) $@ $? $(addprefix $(LIBDIR)/,$(LIBDEPS))
 
-$(OBJDIR):
-	@-$(MKDIR) $(subst /,\,$(OBJDIR))
-
-$(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(OBJDIR)
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@echo ^> $(notdir $<)
-	@$(CXX) $(INCDIR) $(CXXFLAGS) -c $< -o $@ -l$(addprefix $(LIBDIR),$(LIBDEPS))
+	@$(CXX) $(INCDIR) $(CXXFLAGS) -c $< -o $@
 
 clean:
 	@-$(DELDIR) $(subst /,\,$(OBJDIR))

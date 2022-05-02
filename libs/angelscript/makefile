@@ -1,4 +1,5 @@
 # Angelscript MingW makefile
+OBJDIR = obj
 include $(MKINCDIR)/common.mk
 
 # Debug flags: -ggdb -DAS_DEBUG
@@ -9,8 +10,8 @@ CXXFLAGS += -O0 -fno-strict-aliasing -DANGELSCRIPT_EXPORT
 SRCDIR = src
 INCDIR = include \
 $(ROOTINCDIR)/angelscript
-OBJDIR = obj
-SRCNAMES = as_atomic.cpp \
+SRCNAMES = add_ons.cpp \
+as_atomic.cpp \
 as_builder.cpp \
 as_bytecode.cpp \
 as_callfunc.cpp \
@@ -45,20 +46,17 @@ as_tokenizer.cpp \
 as_typeinfo.cpp \
 as_variablescope.cpp
 
-OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRCNAMES:.cpp=.o)))
+OBJ = $(addprefix $(OBJDIR)/, $(SRCNAMES:.cpp=.o))
 INCDIR := $(addprefix -I, $(INCDIR))
 BIN = $(LIBDIR)/angelscript.a
-all: $(BIN)
+all: $(OBJDIR) $(BIN)
 
 $(BIN): $(OBJ)
 	@echo ----------- Archiving AngelScript Language Scripting Library -----------
-	@$(AR) -rcs $@ $?
+	@$(AR) $@ $?
 
-$(OBJDIR):
-	@-$(MKDIR) $(subst /,\,$(OBJDIR))
-
-$(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(OBJDIR)
-	@echo ^> $(notdir $<)
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	@echo ^> $(subst $(SRCDIR)/,,$<)
 	@$(CXX) $(INCDIR) $(CXXFLAGS) -c $< -o $@
 
 clean:
